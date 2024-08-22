@@ -158,6 +158,32 @@
 
 
 
+//$grades=["vinay"=>92,"prem"=>96,"other"=>80];
+// echo $grades["prem"];
+//print_r(asort($grades));
+//print_r($grades);
+
+
+//$list=[2,4,6,7,8,4];
+//print_r($list);
+
+//print_r(array_reverse($list));
+
+
+
+
+//$a=10;
+//do{
+//    echo "something\n";
+//    $a++;
+//}while($a<20);
+
+
+//foreach($list as $iter){
+//    echo $iter."\n";
+//}
+
+
 
 /* Traits :- reusable pieces of code that can be included in multiple classes, providing a way to achieve multiple inheritances */
 
