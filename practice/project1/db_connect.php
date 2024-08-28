@@ -3,6 +3,7 @@
 $servername="localhost";
 $username="root";
 $password="";
+// $password="root";
 $dbname="project1_db";
 
 
