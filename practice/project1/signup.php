@@ -145,31 +145,53 @@
         $firstName=$_POST['firstName'];
         $lastName=$_POST['lastName'];
         $email=$_POST['email'];
-        $password1=$_POST['password'];
+        // $password1=$_POST['password'];
+$password1=password_hash($_POST['password'],PASSWORD_DEFAULT);
 
 
-
-        $servername="localhost";
-        $username="root";
-        $password="root";
-        $dbname="project1_db";
+     include_once 'db_connect.php';
     
-    
-        $conn=new mysqli($servername,$username,$password,$dbname);
-    
-        if($conn->connect_error){
-            die("connection failed : ".$conn->connect_error);
-        }
+      
     
         $stmt=$conn->prepare("INSERT INTO signup (firstName,lastName,email,password) VALUES (?,?,?,?)");
         $stmt->bind_param("ssss",$firstName,$lastName,$email,$password1);
     
     
+     
         if($stmt->execute()){
-            echo "Inserted successfully";
+            // echo "Inserted successfully";
+            // header("Location : login.php");
+            // exit();
+           
+
+
+
+
+            echo "<!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Success</title>
+                <script>
+                    window.onload = function() {
+                        alert('Signup successful!');
+                        setTimeout(function() {
+                            window.location.href = 'login.php';
+                        }, 500); 
+                    };
+                </script>
+            </head>
+            <body>
+            </body>
+            </html>";
+         header("Location: login.php"); // Redirect to a success page
+        exit();
+    
         }else{
             echo "error while inserting the records: ".$stmt->error;
         }
+     
     
         $stmt->close();
         $conn->close();
@@ -178,15 +200,9 @@
 
    
 
-    // create table signup(
-    //     id int AUTO_INCREMENT PRIMARY KEY,
-    //     firstName varchar(50),
-    //     lastName varchar(50),
-    //     email varchar(70) UNIQUE,
-    //     password varchar(70));
+  
 
-    // INSERT INTO `signup` (`firstName`, `lastName`, `email`, `password`) VALUES ('bala', 'malla', 'bala@eg.com', 'bala1234');
-
+    
 
   
     

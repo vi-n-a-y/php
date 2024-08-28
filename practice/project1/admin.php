@@ -16,6 +16,9 @@
 
 
         }
+
+
+
         form{
             border:1px solid black;
             padding:20px 40px;
@@ -81,19 +84,57 @@
                 
                 <tr>
                     <td>
-                        <label for="password">password</label>
+                        <label for="adminPassword">password</label>
                     </td>
-                    <td><input type="password" name="Password" id="Password" placeholder="Enter your password">
+                    <td><input type="password" name="adminPassword" id="adminPassword" placeholder="Enter your password">
 
                     </td>
                 </tr>
             </table>
             <div class="button-gap">
-                <button>Submit</button>
+                <button name="submit" >Submit</button>
             </div>
 
         </form>
     </div>
+
+
+    <?php  
+    
+    session_start();
+    if($_SERVER['REQUEST_METHOD']==='POST'){
+        $adminMail=$_POST['adminMail'];
+        $adminPassword=$_POST['adminPassword'];
+
+
+        include_once 'db_connect.php';
+        $stmt=$conn->prepare("SELECT adminMail,adminPassword FROM admin WHERE adminMail=?");
+        $stmt->bind_param("s",$adminMail);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if($stmt->num_rows >0){
+            $stmt->bind_result($databaseMail,$databasePassword);
+            $stmt->fetch();
+
+            if($databasePassword===$adminPassword){
+                $_SESSION['adminMail']=$databaseMail;
+                header("Location: adminHome.php");
+                exit();
+            }else{
+                
+                echo "Invalid Password";
+            }
+
+        }else{
+            echo "Invalid email or password";
+        }
+
+        $stmt->close();
+        $conn->close();
+    }
+    
+    ?>
 </body>
 
 </html>

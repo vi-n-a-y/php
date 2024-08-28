@@ -81,17 +81,82 @@
                     <td>
                         <label for="password">password</label>
                     </td>
-                    <td><input type="password" name="Password" id="Password" placeholder="Enter your password">
+                    <td><input type="password" name="password" id="password" placeholder="Enter your password">
 
                     </td>
                 </tr>
             </table>
             <div class="button-gap">
-                <button>Submit</button>
+                <button name="submit">Submit</button>
             </div>
 
 
         </form>
     </div>
+
+    <?php
+
+if(isset($_POST['submit'])){
+    $email=$_POST['email'];
+    $password1=$_POST['password'];
+    if (!empty($email)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // echo "Valid email";
+        } else {
+            echo "Invalid Email address<br>";
+        }
+    } else {
+        echo "Please enter your email<br>";
+    }
+
+ if(!empty($password1)){
+    
+    if(preg_match("/^[a-zA-Z0-9$@_]*$/",$password1)){
+        // echo "correct format";
+    }else{
+        echo "invalid password<br>";
+    }
+ }else{
+    echo "please enter your password<br>";
+ }
+
+
+ include_once 'db_connect.php';
+
+
+ $stmt=$conn->prepare("SELECT firstName,lastName,password FROM signup WHERE email=?");
+ $stmt->bind_param("s",$email);
+ $stmt->execute();
+ $stmt->store_result();
+
+ if($stmt->num_rows>0){
+    $stmt->bind_result($firstName,$lastName,$hashedPassword);
+    $stmt->fetch();
+
+
+ if(password_verify($password1,$hashedPassword)){
+    echo "successfull ";
+
+$firstNameEncoded=urlencode($firstName);
+$lastNameEncoded=urlencode($lastName);
+
+
+
+    header("Location: home.php?firstName={$firstNameEncoded}&lastName={$lastNameEncoded}");
+    exit();
+ }else{
+    echo "Invalid password<br>";
+
+ }
+
+}else{
+    echo "inncorrect email address<br>";
+}
+$stmt->close();
+$conn->close();
+}
+
+
+?>
 </body>
 </html>
