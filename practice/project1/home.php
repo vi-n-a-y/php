@@ -1,3 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['dbId'])) {
+    header("Location: login.php");
+    exit();
+} else {
+    $dpId =$_SESSION['dbId'];
+    // echo $dpId;
+    
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,7 +69,7 @@
                     <a href="#">Services</a>
                 </li>
                 <li>
-                    <a href="#">About Us</a>
+                    <a href="updateProfile.php">Update Profile</a>
                 </li>
                 <li>
                     <a href="login.php">Logout</a>
@@ -66,6 +80,9 @@
 
 
     <?php
+
+
+
     if (isset($_GET['firstName']) && isset($_GET['lastName'])) {
         $firstName = ucfirst($_GET['firstName']);
         $lastName = ucfirst($_GET['lastName']);
@@ -73,6 +90,8 @@
         echo " <h1>Hello, {$firstName} {$lastName} </h1>";
     }
     ?>
+
+
 
 
 </body>

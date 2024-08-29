@@ -25,6 +25,7 @@
     </div>
 
     <?php
+     session_start();
 
     if (isset($_POST['submit'])) {
         $email = $_POST['email'];
@@ -54,13 +55,13 @@
         include_once 'db_connect.php';
 
 
-        $stmt = $conn->prepare("SELECT firstName,lastName,password FROM signup WHERE email=?");
+        $stmt = $conn->prepare("SELECT id,firstName,lastName,password FROM signup WHERE email=?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($firstName, $lastName, $hashedPassword);
+            $stmt->bind_result($dbId,$firstName, $lastName, $hashedPassword);
             $stmt->fetch();
 
 
@@ -69,6 +70,8 @@
 
                 $firstNameEncoded = urlencode($firstName);
                 $lastNameEncoded = urlencode($lastName);
+
+                $_SESSION['dbId'] = $dbId;
 
 
 
