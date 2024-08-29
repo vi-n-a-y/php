@@ -19,6 +19,7 @@ if($row){
     $dbFirstName=$row['firstName'];
     $dbLastName=$row['lastName'];
     $dbEmail=$row['email'];
+    $dbContact=$row['contact'];
 
 }else{
     header('location:admin.php');
@@ -36,9 +37,10 @@ if($row){
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
         $email = $_POST['email'];
+        $contact=$_POST['contact'];
 
         
-        $stmt =$conn->prepare("update `signup` set  firstName=?,lastName=?,email=? where id=?");
+        $stmt =$conn->prepare("update `signup` set  firstName=?,lastName=?,email=?,contact=? where id=?");
       
         // $sql ="update `signup` set  firstName='$firstName',lastName='$lastName',email='$email' where id='$updateId'";
         // $result=mysqli_query($conn,$sql);
@@ -51,7 +53,7 @@ if($row){
 
 
 
-        $stmt->bind_param("sssi", $firstName, $lastName, $email, $updateId);
+        $stmt->bind_param("ssssi", $firstName, $lastName, $email,$contact, $updateId);
         // print_r( $stmt);
         if ($stmt->execute()) {
             // echo "updated successfully";
@@ -88,6 +90,7 @@ exit();
             <input type="text" name="firstName" id="firstName" placeholder="your First Name" value="<?php echo $dbFirstName; ?>" required>
             <input type="text" name="lastName" id="lastName" placeholder="your Last Name"  value="<?php echo $dbLastName; ?>"  required>
             <input type="email" name="email" id="email" placeholder="your Email"  value="<?php echo $dbEmail; ?>"  required>
+            <input type="number" name="contact" id="contact" placeholder="your Email"  value="<?php echo $dbContact; ?>"  required>
            
            
             

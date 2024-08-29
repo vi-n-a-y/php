@@ -17,13 +17,14 @@
             <input type="text" name="firstName" id="firstName" placeholder="Enter your First Name" required>
             <input type="text" name="lastName" id="lastName" placeholder="Enter your Last Name" required>
             <input type="email" name="email" id="email" placeholder="Enter your Email" required>
+            <input type="number" name="contact" id="contact" placeholder="Enter your Contact" required>
             <input type="password" name="password" id="Password" placeholder="Enter your Password" required>
             <input type="password" name="conPassword" id="conPassword" placeholder="Confirm password" required>
 
             <input type="submit" value="submit" name="submit">
         </form>
         <div class="forgot-password">
-            <a href="login.php">Already Login?</a>
+            <a href="login.php">Already Login User?</a>
 
         </div>
     </div>
@@ -35,6 +36,8 @@
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
         $email = $_POST['email'];
+        $contact = $_POST['contact'];
+        
         // $password1=$_POST['password'];
 
 
@@ -49,8 +52,8 @@
 
 
 
-        $stmt = $conn->prepare("INSERT INTO signup (firstName,lastName,email,password) VALUES (?,?,?,?)");
-        $stmt->bind_param("ssss", $firstName, $lastName, $email, $password1);
+        $stmt = $conn->prepare("INSERT INTO signup (firstName,lastName,email,contact,password) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("sssss", $firstName, $lastName, $email,$contact, $password1);
 
 
 
@@ -74,7 +77,7 @@
                         alert('Signup successful!');
                         setTimeout(function() {
                             window.location.href = 'login.php';
-                        }, 500); 
+                        }, 10); 
                     };
                 </script>
             </head>
