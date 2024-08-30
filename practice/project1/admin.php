@@ -6,11 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+
+    <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
     <div class="login-container">
+    <button class="cross-btn"><a class="cross-a-tag" href="welcome.php"><i class="fa-solid fa-circle-xmark"></i></a></button>
         <h2>Admin Login</h2>
         <form action="admin.php" method="post">
             <input type="email" name="adminMail" placeholder="Enter Admin Mail" required>

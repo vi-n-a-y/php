@@ -63,7 +63,7 @@ if (!isset($_SESSION['dbId'])) {
         <nav>
             <ul>
                 <li>
-                    <a href="home.php">Home</a>
+                    <a href="#">Home</a>
                 </li>
                 <li>
                     <a href="#">Services</a>
@@ -72,7 +72,7 @@ if (!isset($_SESSION['dbId'])) {
                     <a href="updateProfile.php">Update Profile</a>
                 </li>
                 <li>
-                    <a href="login.php">Logout</a>
+                    <a href="logout.php">Logout</a>
                 </li>
             </ul>
         </nav>

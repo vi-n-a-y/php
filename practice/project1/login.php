@@ -7,11 +7,18 @@
     <title>Login Page</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+
+    <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
     <div class="login-container">
+        <button class="cross-btn"><a class="cross-a-tag" href="welcome.php"><i class="fa-solid fa-circle-xmark"></i></a></button>
         <h2>Login</h2>
         <form action="login.php" method="post">
             <input type="email" name="email" placeholder="Enter your email" required>
@@ -25,7 +32,7 @@
     </div>
 
     <?php
-     session_start();
+    session_start();
 
     if (isset($_POST['submit'])) {
         $email = $_POST['email'];
@@ -61,7 +68,7 @@
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($dbId,$firstName, $lastName, $hashedPassword);
+            $stmt->bind_result($dbId, $firstName, $lastName, $hashedPassword);
             $stmt->fetch();
 
 

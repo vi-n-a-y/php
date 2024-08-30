@@ -13,7 +13,7 @@
 <body>
 
     <div class="welcome-container">
-        <h1>Welcome</h1>
+        <h1>Welcome</h1> 
 
         <div class="button-container">
             <label for="signup-button">New User?</label>

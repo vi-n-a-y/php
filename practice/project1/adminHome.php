@@ -27,9 +27,23 @@ if (!isset($_SESSION['adminMail'])) {
     <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
 </head>
 <style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+    }
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            /* margin: 20px;
+            margin-top:0;  */
+        }
+        .dashboard-container{
+            margin:50px;
+        }
+
+        .welcome-text{
+            text-align: center;
         }
         table {
             width: 100%;
@@ -53,10 +67,13 @@ if (!isset($_SESSION['adminMail'])) {
             border-radius: 3px;
         }
         .update-btn {
-            background-color: #4CAF50;
+            /* background-color: #4CAF50; */
+            background-color: #179BAE;
+            margin-right:5px;
         }
         .delete-btn {
             background-color: #f44336;
+            
         }
         .action-btn:hover {
             opacity: 0.8;
@@ -66,9 +83,68 @@ if (!isset($_SESSION['adminMail'])) {
             text-decoration: none;
             color:black;
         }
+
+
+        .search-input{
+            padding:10px 40px;
+        }
+
+        .search-btn{
+            padding:10px 40px;
+            margin-right:50px;
+            background-color: #4158A6;
+        }
         .modify-btn{
             text-decoration: none;
             color:white;
+
+        }
+
+        .download-btn{
+           
+        display: block;
+        padding:15px;
+        margin-right: 15px;
+            background-color: #FF8343;
+
+        }
+
+        .add-btn{
+        background-color: blue;
+        display: block;
+        /* margin:15px; */
+        margin:15px 0;
+        padding:15px;
+
+        }
+        .home-btn{
+            /* background-color: #4CAF50; */
+            background-color: #179BAE;
+        display: block;
+        /* margin:15px; */
+        /* margin:15px 0; */
+        padding:15px;
+        margin-right: 15px;
+        }
+
+        .logout-btn{
+            background-color: red;
+        display: block;
+        /* margin:15px; */
+        /* margin:15px 0; */
+        padding:15px;
+        margin-right:20px;
+        /* float:right; */
+
+        }
+        .search-delete{
+            display: flex;
+            justify-content: right;
+            align-items:center;
+            background-color: #f1dec6;
+            height: 100px;
+            margin-top:0;
+            
 
         }
 
@@ -99,9 +175,10 @@ if (!isset($_SESSION['adminMail'])) {
 }
 
 .pagination a.active {
-    background-color: #4CAF50;
+    /* background-color: #4CAF50; */
+    background-color: #4158A6;
     color: white;
-    border: 1px solid #4CAF50;
+    /* border: 1px solid #4CAF50; */
 }
 
 .pagination a.disabled {
@@ -122,14 +199,21 @@ if (!isset($_SESSION['adminMail'])) {
 </style>
 
 <body>
+    <div class="search-delete">
 
 <form method="GET" action="">
-    <input type="text" name="search" placeholder="Search..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>" />
-    <button type="submit" class="action-btn update-btn">Search</button>
+    <input type="text" class="search-input" name="search" placeholder="Search..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>" />
+    <button type="submit" class="action-btn search-btn update-btn">Search</button>
 </form>
 
+<button title="Download CSV file" class='action-btn download-btn'><a class='modify-btn' href="downloadRecords.php?downloadRec=1"> <i class="fa-solid fa-download"></i></a></button>
+<button class='action-btn home-btn'><a class='modify-btn' href="welcome.php"> <i class="fa-solid fa-house"></i></a></button>
+<button class='action-btn logout-btn'><a class='modify-btn' href="logout.php?logout=1"> <i class="fa-solid fa-right-from-bracket"></i></a></button>
 
-<h1>Welcome, <?php echo $adminName1;  ?></h1>
+
+</div>
+<div class="dashboard-container">
+<h1 class="welcome-text">Welcome, <?php echo $adminName1;  ?></h1>
 <?php
 include_once 'db_connect.php';
 
@@ -141,7 +225,7 @@ $sort_order = isset($_GET['sort_order']) ? $_GET['sort_order'] : 'ASC'; // Defau
 $sort_order = ($sort_order === 'DESC') ? 'DESC' : 'ASC';
 
 // Ensure sort_by is a valid column
-$valid_columns = ['Id', 'firstName', 'lastName', 'email', 'contact'];
+$valid_columns = ['Id','updateAt', 'firstName', 'lastName', 'email', 'contact'];
 if (!in_array($sort_by, $valid_columns)) {
     $sort_by = 'firstName';
 }
@@ -172,10 +256,14 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     ?>
+
+<button class='action-btn add-btn'><a class='modify-btn' href="addUser.php"> <i class="fa-solid fa-user-plus"></i> </a></button>
 <table>
     <thead>
         <tr>
         <th><a href="?sort_by=Id&sort_order=<?= ($sort_by == 'Id' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">ID <?= $sort_by == 'Id' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
+
+        <th><a href="?sort_by=updateAt&sort_order=<?= ($sort_by == 'updateAt' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">Time Stamp <?= $sort_by == 'updateAt' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
             <th><a href="?sort_by=firstName&sort_order=<?= ($sort_by == 'firstName' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">First Name <?= $sort_by == 'firstName' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
             <th><a href="?sort_by=lastName&sort_order=<?= ($sort_by == 'lastName' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">Last Name <?= $sort_by == 'lastName' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
             <th><a href="?sort_by=email&sort_order=<?= ($sort_by == 'email' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">Email <?= $sort_by == 'email' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
@@ -188,14 +276,30 @@ if ($result->num_rows > 0) {
         $i = $offset;
         while ($row = $result->fetch_assoc()) {
             $i++;
-            echo "<tr><td>{$i}</td><td>{$row["firstName"]}</td><td>{$row["lastName"]}</td><td>{$row["email"]}</td><td>{$row["contact"]}</td><td>
+            echo "<tr><td>{$i}</td><td>{$row["updateAt"]}</td><td>{$row["firstName"]}</td><td>{$row["lastName"]}</td><td>{$row["email"]}</td><td>{$row["contact"]}</td><td>
                 <button class='action-btn update-btn'><a class='modify-btn' href='update.php?updateId={$row["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                <button class='action-btn delete-btn'><a class='modify-btn' href='delete.php?deleteId={$row["id"]}'> <i class='fa-solid fa-trash'></i></a></button>
+                <button class='action-btn delete-btn'><a class='modify-btn'  onclick='confirmDelete(event, {$row["id"]})'> <i class='fa-solid fa-trash'></i></a></button>
             </td></tr>";
         }
         ?>
     </tbody>
 </table>
+
+<script>
+        function confirmDelete(event, id) {
+            event.preventDefault(); // Prevent the default action (e.g., form submission or link redirection)
+            
+            // Show confirmation dialog
+            if (confirm("Really want to Delete this User?")) {
+                // If user clicks "Yes", redirect to the delete PHP script with the item ID
+                window.location.href = 'delete.php?deleteId=' + id;
+            }
+           
+            // If user clicks "No", do nothing
+        }
+    </script>
+
+
 
 <!-- Pagination Controls -->
 <div class="pagination">
@@ -223,22 +327,14 @@ if ($result->num_rows > 0) {
 $conn->close();
 }
 ?>
-
-
-
-
-
-
-
-
-
-
+</div>
+ 
 </body>
 
 </html>
 <!-- color hunt -->
-<!-- 
-//alter table signup 
-//ADD COLUMN updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP; -->
+
+<!-- alter table signup 
+ADD COLUMN updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP; -->
 
 <!-- alter table signup add column contact varchar(20); -->

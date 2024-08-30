@@ -47,10 +47,18 @@ if($row){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+
+    <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
 <div class="login-container">
+<button class="cross-btn"><a class="cross-a-tag" href="home.php?firstName=<?php echo $dbFirstName;?>&lastName=<?php echo $dbLastName;?>"><i class="fa-solid fa-circle-xmark"></i></a></button>
         <h2>Update Profile</h2>
         <form  method="post">
             <input type="text" name="firstName" id="firstName" placeholder="Enter your First Name"  value="<?php echo $dbFirstName; ?>" required>
@@ -74,9 +82,10 @@ if($row){
       $lastName = $_POST['lastName'];
       $email = $_POST['email'];
       $contact = $_POST['contact'];
+      $password1 = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
       
-      $stmt =$conn->prepare("update `signup` set  firstName=?,lastName=?,email=?,contact=? where id=?");
+      $stmt =$conn->prepare("update `signup` set  firstName=?,lastName=?,email=?,contact=?,password=? where id=?");
     
       // $sql ="update `signup` set  firstName='$firstName',lastName='$lastName',email='$email' where id='$updateId'";
       // $result=mysqli_query($conn,$sql);
@@ -89,12 +98,13 @@ if($row){
 
 
 
-      $stmt->bind_param("ssssi", $firstName, $lastName, $email,$contact, $updateId);
+      $stmt->bind_param("sssssi", $firstName, $lastName, $email,$contact,$password1, $updateId);
       // print_r( $stmt);
       if ($stmt->execute()) {
-          // echo "updated successfully";
-header('location:adminHome.php');
-exit();
+        $firstNameEncoded = urlencode($firstName);
+        $lastNameEncoded = urlencode($lastName);
+    header("Location: home.php?firstName={$firstNameEncoded}&lastName={$lastNameEncoded}");
+        exit();
       }else{
           echo "something went wrong";
       }
@@ -102,6 +112,8 @@ exit();
    }
   
   ?>
+
+  
 
 
 
