@@ -1,4 +1,9 @@
 <?php
+session_start();
+    if (!isset($_SESSION['adminMail'])) {
+        header("Location: admin.php");
+        exit();
+    } 
 // Database connection
 require 'db_connect.php'; // Replace with your actual database connection file
 
