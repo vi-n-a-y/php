@@ -1,21 +1,21 @@
 <?php
-// class Car{
-//     public $color;
-//     public $model;
+class Car{
+    public $color;
+   public $model;
 
-//     public function __construct($color,$model){
-//         $this->color=$color;
-//         $this->model=$model;
-//     }
+    public function __construct($color,$model){
+        $this->color=$color;
+        $this->model=$model;
+   }
 
-//     public function drive(){
-//         return "Drivinga a $this->color $this->model";
-//     }
+   public function drive(){ 
+       return "Drivinga a $this->color $this->model";
+    }
     
-// }
+ }
 
-// $myCar=new Car("red","toyota");
-// echo $myCar->drive();
+$myCar=new Car("red","toyota");
+ echo $myCar->drive();
 
 
 
