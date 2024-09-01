@@ -17,13 +17,15 @@
 <br>
 <label for="celebrity">Celebrity :</label>
 <input type="text" name="celebrity" id="celebrity">
-<input type="submit" value="submit">
+<input type="submit" name="submit" value="submit">
 </form>
 
 
 
 
     <?php 
+
+if(isset($_GET['submit']){
 
 
 $color=isset($_GET["color"])?$_GET["color"]:'';
@@ -41,6 +43,8 @@ $celebrity=isset($_GET["celebrity"])?$_GET["celebrity"]:'';
     echo "$pluralNoun are blue <br>";
     echo "I love $celebrity <br>";
    }
+
+}
     
     ?>
 </body>
