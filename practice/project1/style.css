@@ -35,13 +35,21 @@ body {
 .login-container input[type="email"],
 .login-container input[type="password"],
 .login-container input[type="text"],
-.login-container input[type="number"] {
+.login-container input[type="number"],
+.login-container input[type="file"]  {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #cccccc;
     border-radius: 4px;
     box-sizing: border-box;
+    
+}
+.profilePic{
+    padding:15px;
+    width:100%;
+    color:red;
+    
 }
 
 .login-container input[type="submit"] {

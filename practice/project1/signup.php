@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignUp Page</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,6 +28,7 @@
             <input type="number" name="contact" id="contact" placeholder="Enter your Contact" required>
             <input type="password" name="password" id="Password" placeholder="Enter your Password" required>
             <input type="password" name="conPassword" id="conPassword" placeholder="Confirm password" required>
+            <input type="file" title="Upload Your Profile" name="profilePic" class="profilePic" id="profilePic" required>
 
             <input type="submit" value="submit" name="submit">
         </form>

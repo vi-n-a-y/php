@@ -99,6 +99,11 @@ if (!isset($_SESSION['adminMail'])) {
             color:white;
 
         }
+        .import-btn{
+            padding:15px;
+            margin-right: 15px;
+            background-color: violet;
+        }
 
         .download-btn{
            
@@ -191,7 +196,7 @@ if (!isset($_SESSION['adminMail'])) {
 }
 
 .pagination a.prev-next:hover {
-    background-color: #4CAF50;
+    background-color: #179BAE;
     color: white;
 }
 
@@ -206,6 +211,7 @@ if (!isset($_SESSION['adminMail'])) {
     <button type="submit" class="action-btn search-btn update-btn">Search</button>
 </form>
 
+<button title="Import file" class='action-btn import-btn'><a class='modify-btn' href="import.php"><i class="fa-solid fa-file-import"></i></a></button>
 <button title="Download CSV file" class='action-btn download-btn'><a class='modify-btn' href="downloadRecords.php?downloadRec=1"> <i class="fa-solid fa-download"></i></a></button>
 <button class='action-btn home-btn'><a class='modify-btn' href="welcome.php"> <i class="fa-solid fa-house"></i></a></button>
 <button class='action-btn logout-btn'><a class='modify-btn' href="logout.php?logout=1"> <i class="fa-solid fa-right-from-bracket"></i></a></button>
