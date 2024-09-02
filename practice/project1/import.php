@@ -8,23 +8,45 @@
     <style>
         .import-div{
             border:1px solid black;
-            padding:50px 50px
+            padding:50px 30px;
+            background-color: white;
+            text-align: center;
         }
         .import-div input[type="file"] {
             padding:10px 15px;
             
+        }
+        .import-div form{
+            display: flex;
+            flex-direction: column;
+            /* padding-left:20px; */
+            justify-content: center;
+          
+
+        }
+        .import-div input[type="submit"] {
+            padding:8px 15px;
+          background-color: #179BAE;;
+
+            
+        }
+        h3{
+            color:blue;
         }
     </style>
 </head>
 <body>
    <div class="import-div">
    <form  method="post" enctype="multipart/form-data">
+    <h3>Upload a SQL File</h3>
         <input type="file" name="sqlfile" accept=".sql">
         <input type="submit" value="submit" name="submit">
     </form>
    </div>
 </body>
 </html>
+
+
 
 
 

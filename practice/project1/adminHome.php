@@ -274,6 +274,7 @@ if ($result->num_rows > 0) {
             <th><a href="?sort_by=lastName&sort_order=<?= ($sort_by == 'lastName' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">Last Name <?= $sort_by == 'lastName' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
             <th><a href="?sort_by=email&sort_order=<?= ($sort_by == 'email' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">Email <?= $sort_by == 'email' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
             <th><a href="?sort_by=contact&sort_order=<?= ($sort_by == 'contact' && $sort_order == 'ASC') ? 'DESC' : 'ASC' ?>">Contact <?= $sort_by == 'contact' ? ($sort_order == 'ASC' ? '<i class="fa-solid fa-angle-up"></i>' : '<i class="fa-solid fa-angle-down"></i>') : '<i class="fa-solid fa-angle-down"></i>' ?></a></th>
+            <th><a href="#">Pictures</a></th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -282,7 +283,7 @@ if ($result->num_rows > 0) {
         $i = $offset;
         while ($row = $result->fetch_assoc()) {
             $i++;
-            echo "<tr><td>{$i}</td><td>{$row["updateAt"]}</td><td>{$row["firstName"]}</td><td>{$row["lastName"]}</td><td>{$row["email"]}</td><td>{$row["contact"]}</td><td>
+            echo "<tr><td>{$i}</td><td>{$row["updateAt"]}</td><td>{$row["firstName"]}</td><td>{$row["lastName"]}</td><td>{$row["email"]}</td><td>{$row["contact"]}</td><td>{$row["profilePic"]}</td><td>
                 <button class='action-btn update-btn'><a class='modify-btn' href='update.php?updateId={$row["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
                 <button class='action-btn delete-btn'><a class='modify-btn'  onclick='confirmDelete(event, {$row["id"]})'> <i class='fa-solid fa-trash'></i></a></button>
             </td></tr>";
