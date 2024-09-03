@@ -200,6 +200,13 @@ if (!isset($_SESSION['adminMail'])) {
     color: white;
 }
 
+.profile-pic {
+        width: 40px; /* Adjust size as needed */
+        height: 40px; /* Adjust size as needed */
+        border-radius: 50%; /* Makes the image round */
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+    }
+
 
 </style>
 
@@ -283,7 +290,9 @@ if ($result->num_rows > 0) {
         $i = $offset;
         while ($row = $result->fetch_assoc()) {
             $i++;
-            echo "<tr><td>{$i}</td><td>{$row["updateAt"]}</td><td>{$row["firstName"]}</td><td>{$row["lastName"]}</td><td>{$row["email"]}</td><td>{$row["contact"]}</td><td>{$row["profilePic"]}</td><td>
+            $imagePath = 'uploads/' . htmlspecialchars($row["profilePic"], ENT_QUOTES, 'UTF-8');
+
+            echo "<tr><td>{$i}</td><td>{$row["updateAt"]}</td><td>{$row["firstName"]}</td><td>{$row["lastName"]}</td><td>{$row["email"]}</td><td>{$row["contact"]}</td><td><img src='{$imagePath}' alt='img' class='profile-pic' loading='lazy'></td><td>
                 <button class='action-btn update-btn'><a class='modify-btn' href='update.php?updateId={$row["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
                 <button class='action-btn delete-btn'><a class='modify-btn'  onclick='confirmDelete(event, {$row["id"]})'> <i class='fa-solid fa-trash'></i></a></button>
             </td></tr>";

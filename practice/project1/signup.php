@@ -59,6 +59,13 @@
                 $targetDir = 'uploads/';
                 $targetFile = $targetDir . $fileName;
 
+                if (!is_writable($targetDir)) {
+                    echo "The directory is not writable.";
+                } else {
+                    echo "The directory is writable.";
+                }
+                
+
                 if (!is_dir($targetDir)) {
                     mkdir($targetDir, 0755, true);
                 }

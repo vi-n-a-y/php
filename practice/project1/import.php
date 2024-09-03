@@ -1,95 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload SQL File</title>
+    <title>Upload File</title>
+
     <link rel="stylesheet" href="style.css">
-    <style>
-        .import-div{
-            border:1px solid black;
-            padding:50px 30px;
-            background-color: white;
-            text-align: center;
-        }
-        .import-div input[type="file"] {
-            padding:10px 15px;
-            
-        }
-        .import-div form{
-            display: flex;
-            flex-direction: column;
-            /* padding-left:20px; */
-            justify-content: center;
-          
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
 
-        }
-        .import-div input[type="submit"] {
-            padding:8px 15px;
-          background-color: #179BAE;;
-
-            
-        }
-        h3{
-            color:blue;
-        }
-    </style>
+    <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-   <div class="import-div">
-   <form  method="post" enctype="multipart/form-data">
-    <h3>Upload a SQL File</h3>
-        <input type="file" name="sqlfile" accept=".sql">
-        <input type="submit" value="submit" name="submit">
-    </form>
-   </div>
+
+    <div class="login-container">
+        <button class="cross-btn"><a class="cross-a-tag" href="adminHome.php"><i class="fa-solid fa-circle-xmark"></i></a></button>
+        <h2>Upload File</h2>
+        <form  method="post" enctype="multipart/form-data">
+            <input type="file" name="csvFile" accept=".csv" required>
+            
+            <input type="submit" value="upload" name="submit">
+        </form>
+       
+    </div>
 </body>
 </html>
-
-
-
-
-
-
-
 <?php
+// upload.php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] === UPLOAD_ERR_OK) {
+        // Database connection
+        include_once 'db_connect.php'; // Adjust the path to your db_connect.php
 
-include_once 'db_connect.php';
-if(isset($_POST['submit'])){
+        // File info
+        $fileTmpPath = $_FILES['csvFile']['tmp_name'];
+        $fileName = $_FILES['csvFile']['name'];
+        $fileSize = $_FILES['csvFile']['size'];
+        $fileType = $_FILES['csvFile']['type'];
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['sqlfile'])) {
-    
-    if ($_FILES['sqlfile']['error'] == UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['sqlfile']['tmp_name'];
-        $fileName = $_FILES['sqlfile']['name'];
-        $fileSize = $_FILES['sqlfile']['size'];
-        $fileType = $_FILES['sqlfile']['type'];
-        
-        // Read the file contents
-        $sql = file_get_contents($fileTmpPath);
-
-        // Execute the SQL queries
-        if ($conn->multi_query($sql)) {
-            do {
-                // Store result set if there is one
-                if ($result = $conn->store_result()) {
-                    while ($row = $result->fetch_row()) {
-                        // process the row
-                    }
-                    $result->free();
-                }
-            } while ($conn->more_results() && $conn->next_result());
-            echo "SQL file imported successfully.";
-        } else {
-            echo "Error importing SQL file: " . $conn->error;
+        // Validate file extension
+        if ($fileExtension !== 'csv') {
+            die("Invalid file type. Please upload a CSV file.");
         }
-    } else {
-        echo "File upload error.";
-    }
-} else {
-    echo "Invalid request.";
-}
 
+        // Open the file
+        if (($handle = fopen($fileTmpPath, 'r')) !== false) {
+            // Skip the header row
+            $header = fgetcsv($handle);
+
+            // Prepare SQL statement
+            $stmt = $conn->prepare("INSERT INTO signup (firstName, lastName, email, contact, password, profilePic) VALUES (?, ?, ?, ?, ?, ?)");
+
+            if (!$stmt) {
+                die('Prepare Error: ' . $conn->error);
+            }
+
+            while (($data = fgetcsv($handle)) !== false) {
+                // Skip empty rows
+                if (empty(array_filter($data))) {
+                    continue;
+                }
+
+                // print_r($data); // Debugging line to check CSV data
+
+                if (count($data) === 6) { // Ensure there are exactly 6 columns
+                    $stmt->bind_param('ssssss', $data[0], $data[1], $data[2], $data[3], $data[4], $data[5]);
+                    $stmt->execute();
+
+                    if ($stmt->error) {
+                        die('Execute Error: ' . $stmt->error);
+                    }
+                } else {
+                    echo "Invalid data format: ";
+                    print_r($data); // Print out the problematic data
+                }
+            }
+
+            fclose($handle);
+            $stmt->close();
+            // echo "<!DOCTYPE html>
+            // <html lang='en'>
+            // <head>
+            //     <meta charset='UTF-8'>
+            //     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            //     <title>Success</title>
+            //     <script>
+            //         window.onload = function() {
+            //             alert('uploaded successful!');
+            //             setTimeout(function() {
+            //                 window.location.href = 'adminHome.php';
+            //             }, 10); 
+            //         };
+            //     </script>
+            // </head>
+            // <body>
+            // </body>
+            // </html>";
+            header('location:adminHome.php');
+            exit();
+            // echo "File successfully uploaded and data inserted into the database.";
+        } else {
+            echo "Error opening the file.";
+        }
+
+        $conn->close();
+    } else {
+        echo "Error: " . $_FILES['csvFile']['error'];
+    }
 }
-$conn->close();
 ?>
