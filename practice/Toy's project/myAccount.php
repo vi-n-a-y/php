@@ -1784,3 +1784,45 @@ CREATE TABLE customers (
     address TEXT,
     registration_date DATETIME DEFAULT CURRENT_TIMESTAMP
 ); -->
+
+
+
+
+
+
+
+
+<!-- <input
+  type="date"
+  name="date"
+  className={(this.state.date) ? 'date-input--has-value' : ''}
+  value={this.state.date}
+  onChange={this.handleChange}
+/> -->
+
+
+
+
+
+/* 
+
+
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: green;
+}
+
+
+input[type="date"].date-input--has-value::-webkit-datetime-edit-text,
+input[type="date"].date-input--has-value::-webkit-datetime-edit-month-field,
+input[type="date"].date-input--has-value::-webkit-datetime-edit-day-field,
+input[type="date"].date-input--has-value::-webkit-datetime-edit-year-field {
+  color: red;
+} 
+
+input{
+color:black;
+
+} */
