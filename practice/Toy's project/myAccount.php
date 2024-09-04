@@ -89,18 +89,43 @@
             gap: 10px;
         }
 
-        .con-st-region{
+        .con-st-region {
             display: flex;
-            gap: 1px;
+            gap: 5px;
             font-size: 2px;
 
         }
 
-        .con-st-region input{
-            padding-left:8px;
-            padding-right:5px;
-            border: 1px solid #ff5722;
+        .con-st-region input {
+            padding-left: 8px;
+            padding-right: 5px;
+            border: 2px solid #ff5722;
         }
+
+
+        /* .input-group{
+  position: relative;
+}
+.input-group::after{
+  content: '*';
+  position: absolute;
+  top: 0px;
+  left: 46px;
+  color: #f00;
+} */
+
+/* placeholder text style */
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #e64a19;
+  
+}
+
+
+
+
 
 
 
@@ -111,22 +136,27 @@
 
 
         :root {
-    --primary: #111;
-    --secondary: #fd0;
-}	
+            --primary: #111;
+            --secondary: #fd0;
+        }
 
 
 
-.select-box {
-    position: relative;
+        .select-box {
+            position: relative;
 
-    /* width: 26rem; */
-    /* margin: 7rem auto; */
-    margin-bottom: 15px;
-   
-}
+            /* width: 26rem; */
+            /* margin: 7rem auto; */
+            margin-bottom: 15px;
 
-/* .select-box input {
+        }
+
+
+        input[type="date"]::placeholder {
+            color: #e64a19; /* Change this color to your preferred placeholder color */
+        }
+
+        /* .select-box input {
     width: 100%;
     padding: 1rem .6rem;
     font-size: 1.1rem;
@@ -135,135 +165,163 @@
     outline: none;
 } */
 
-/* input[type="tel"] {
+        /* input[type="tel"] {
     border-radius: 0 .5rem .5rem 0;
 } */
 
 
-.kids-form input[type="tel"]{
-    margin-bottom: 0;
-    border:none;
-    border-radius: 5px;
-}
+        .selected-option input[type="number"] {
+            margin-bottom: 0;
+            border: none;
+            border-radius: 5px;
+        }
 
-/* .select-box input:focus {
+        /* .select-box input:focus {
     border: .1rem solid var(--primary);
 } */
 
-.selected-option {
-    background-color: #eee;
-    border-radius: .5rem;
-    overflow: hidden;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 2px solid #ff5722;
+        .selected-option {
+            background-color: #eee;
+            border-radius: .5rem;
+            overflow: hidden;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #ff5722;
+        }
+
+        .selected-option div {
+            position: relative;
+
+            width: 6rem;
+            padding: 0 2.8rem 0 .5rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .options{
+            position:relative;
+            z-index: 100;
+        }
+
+        .selected-option div::after {
+            position: absolute;
+            content: "";
+            right: .8rem;
+            top: 30%;
+            transform: translateY(-50%) rotate(45deg);
+
+            width: .8rem;
+            height: .8rem;
+            border-right: .12rem solid var(--primary);
+            border-bottom: .12rem solid var(--primary);
+
+            transition: .2s;
+        }
+
+        .selected-option div.active::after {
+            transform: translateY(-50%) rotate(225deg);
+        }
+
+        .select-box .options {
+            position: absolute;
+            top: 3.3rem;
+
+            width: 100%;
+            background-color: #fff;
+            border-radius: .5rem;
+
+            display: none;
+        }
+
+        .select-box .options.active {
+            display: block;
+        }
+
+        .select-box .options::before {
+            position: absolute;
+            content: "";
+            left: 1rem;
+            top: -1.2rem;
+
+            width: 0;
+            height: 0;
+            border: .6rem solid transparent;
+            border-bottom-color: var(--primary);
+        }
+
+        input.search-box {
+            /* background-color: var(--primary); */
+            color: black;
+            /* border-radius: .5rem .5rem 0 0; */
+            padding: 1rem 0.631rem;
+            margin-bottom:0;
+            /* width: 94%; */
+        }
+
+        .select-box ol {
+            margin-top:10px;
+            list-style: none;
+            max-height: 150px;
+            overflow: overlay;
+            position:relative;
+            z-index: 10;
+            /* height: 300px; */
+        }
+
+        .select-box ol::-webkit-scrollbar {
+            width: 0.6rem;
+        }
+
+        .select-box ol::-webkit-scrollbar-thumb {
+            width: 0.4rem;
+            height: 3rem;
+            background-color: #ccc;
+            border-radius: .4rem;
+        }
+
+        .select-box ol li {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .select-box ol li.hide {
+            display: none;
+        }
+
+        .select-box ol li:not(:last-child) {
+            border-bottom: .1rem solid #eee;
+        }
+
+        .select-box ol li:hover {
+            background-color: lightcyan;
+        }
+
+        .select-box ol li .country-name {
+            margin-left: .4rem;
+        }
+
+
+        input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.selected-option div{
-    position: relative;
-
-    width: 6rem;
-    padding: 0 2.8rem 0 .5rem;
-    text-align: center;
-    cursor: pointer;
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
-.selected-option div::after{
-    position: absolute;
-    content: "";
-    right: .8rem;
-    top: 50%;
-    transform: translateY(-50%) rotate(45deg);
-    
-    width: .8rem;
-    height: .8rem;
-    border-right: .12rem solid var(--primary);
-    border-bottom: .12rem solid var(--primary);
-
-    transition: .2s;
+input[type=tel] {
+  -moz-appearance: textfield;
 }
 
-.selected-option div.active::after{
-    transform: translateY(-50%) rotate(225deg);
-}
 
-.select-box .options {
-    position: absolute;
-    top: 4rem;
-    
-    width: 100%;
-    background-color: #fff;
-    border-radius: .5rem;
 
-    display: none;
-}
-
-.select-box .options.active {
-    display: block;
-}
-
-.select-box .options::before {
-    position: absolute;
-    content: "";
-    left: 1rem;
-    top: -1.2rem;
-
-    width: 0;
-    height: 0;
-    border: .6rem solid transparent;
-    border-bottom-color: var(--primary);
-}
-
-input.search-box {
-    /* background-color: var(--primary); */
-    color: #fff;
-    /* border-radius: .5rem .5rem 0 0; */
-    padding: 1.4rem 0.631rem;
-    /* width: 94%; */
-}
-
-.select-box ol {
-    list-style: none;
-    max-height: 150px;
-    overflow: overlay;
-    /* height: 300px; */
-}
-
-.select-box ol::-webkit-scrollbar {
-    width: 0.6rem;
-}
-
-.select-box ol::-webkit-scrollbar-thumb {
-    width: 0.4rem;
-    height: 3rem;
-    background-color: #ccc;
-    border-radius: .4rem;
-}
-
-.select-box ol li {
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-}
-
-.select-box ol li.hide {
-    display: none;
-}
-
-.select-box ol li:not(:last-child) {
-    border-bottom: .1rem solid #eee;
-}
-
-.select-box ol li:hover {
-    background-color: lightcyan;
-}
-
-.select-box ol li .country-name {
-    margin-left: .4rem;
-}
     </style>
 
 
@@ -273,11 +331,16 @@ input.search-box {
     <div class="form-container">
         <form class="kids-form">
             <h1>Sign Up</h1>
+            
             <div class="input-text-first-last">
+            
                 <input type="text" id="name" placeholder="Name">
                 <input type="text" id="lastName" placeholder="Last Name">
             </div>
-            <input type="number" id="age" placeholder="Age">
+            <!-- <span class="input-group"> -->
+            <!-- <input type="number" id="age" placeholder="Age" required> -->
+
+            <input type="date" id="dob" name="dob" placeholder="date"    required>
             <input type="email" id="email" placeholder="Mail">
 
             <div class="select-box">
@@ -286,7 +349,8 @@ input.search-box {
                         <span class="iconify" data-icon="flag:in-4x3"></span>
                         <strong>+91</strong>
                     </div>
-                    <input type="tel" name="tel" placeholder="Phone Number">
+                    
+                    <input type="number" name="tel" placeholder="Phone Number">
                 </div>
                 <div class="options">
                     <input type="text" class="search-box" placeholder="Search Country Name">
@@ -298,17 +362,32 @@ input.search-box {
 
 
             <div class="con-st-region">
-            <input type="text" id="city" placeholder="City" readonly>
-
- 
-<input type="text" id="region"  placeholder="State" readonly>
+               
+        
 
 
-<input type="text" id="country"  placeholder="Country" readonly>
+
+<input type="text" id="district" name="district" placeholder="District" readonly>
+
+<input type="text" id="pincode" name="pincode" placeholder="PinCode" readonly>
+
+
+
             </div>
 
-            <input type="password" name="password" id="password" placeholder="Enter Your Password">
+            <div class="con-st-region">
 
+            <input type="text" id="state" name="state" placeholder="State" readonly>
+           
+
+            <input type="text" id="country" name="country" placeholder="Country" readonly>
+
+            </div>
+            
+            <input type="password" name="password" id="password" placeholder="Password">
+
+            
+            <input type="password" name="password" id="password" placeholder="Confirm Password">
 
             <button type="submit">Submit</button>
         </form>
@@ -1609,7 +1688,7 @@ input.search-box {
         selected_option.innerHTML = '';
         selected_option.append(icon, phone_code);
 
-        input_box.value = phone_code.innerText;
+        // input_box.value = phone_code.innerText;
 
         select_box.classList.remove('active');
         selected_option.classList.remove('active');
