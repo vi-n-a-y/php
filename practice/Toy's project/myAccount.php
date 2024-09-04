@@ -7,10 +7,35 @@
     <title>My Account</title>
 
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- <link rel="stylesheet" href="styles.css"> -->
     <style>
         /* styles.css */
+
+
+
+        .error { color: red; }
+        .error-message { display: block; color: red; font-size: 0.875em; margin-top: 0.5em; }
+        /* .required:after { content: " *"; color: red; } */
+        .error-icon { color: red; margin-right: 0.5em; }
+        .error-icon::before { content: "\f071"; font-family: "Font Awesome 6 Free"; font-weight: 900; } /* ⚠️ icon */
+        
+        .password-container {
+            position: relative;
+        }
+        .password-container input {
+            padding-right: 2.5em; /* Adjust for icon */
+          /* relative */
+        }
+        .password-container .fa-eye, .password-container .fa-eye-slash {
+            position: absolute;
+            right: 0.5em;
+            top: 35%;
+            transform: translateY(10%);
+            cursor: pointer;
+            color: #000;
+        }
 
         /* Apply a fun background to the entire page */
         body {
@@ -53,7 +78,7 @@
             width: 94%;
             padding: 10px;
 
-            margin-bottom: 15px;
+            margin-top: 15px;
             border: 2px solid #ff5722;
             border-radius: 5px;
             font-size: 1rem;
@@ -86,7 +111,7 @@
 
         .input-text-first-last {
             display: flex;
-            gap: 10px;
+            gap: 20px;
         }
 
         .con-st-region {
@@ -115,13 +140,13 @@
 } */
 
 /* placeholder text style */
-input[type="date"]::-webkit-datetime-edit-text,
+/* input[type="date"]::-webkit-datetime-edit-text,
 input[type="date"]::-webkit-datetime-edit-month-field,
 input[type="date"]::-webkit-datetime-edit-day-field,
 input[type="date"]::-webkit-datetime-edit-year-field {
   color: #e64a19;
   
-}
+} */
 
 
 
@@ -147,7 +172,7 @@ input[type="date"]::-webkit-datetime-edit-year-field {
 
             /* width: 26rem; */
             /* margin: 7rem auto; */
-            margin-bottom: 15px;
+            /* margin-bottom: 15px; */
 
         }
 
@@ -174,6 +199,7 @@ input[type="date"]::-webkit-datetime-edit-year-field {
             margin-bottom: 0;
             border: none;
             border-radius: 5px;
+            margin-top:1px;
         }
 
         /* .select-box input:focus {
@@ -189,6 +215,7 @@ input[type="date"]::-webkit-datetime-edit-year-field {
             justify-content: space-between;
             align-items: center;
             border: 2px solid #ff5722;
+            margin-top:15px;
         }
 
         .selected-option div {
@@ -214,8 +241,8 @@ input[type="date"]::-webkit-datetime-edit-year-field {
 
             width: .8rem;
             height: .8rem;
-            border-right: .12rem solid var(--primary);
-            border-bottom: .12rem solid var(--primary);
+          border-right: .12rem solid #ff5722;
+            border-bottom: .12rem solid #ff5722;
 
             transition: .2s;
         }
@@ -311,14 +338,42 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+
+
+
+input[type="file"] {
+            background-color: #fff;
+            border: 2px solid #ff5722;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            width: 94%;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            background: #ff5722;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        input[type="file"]::placeholder {
+            color: #ff5722;
+        }
+      
+
 /* Firefox */
-input[type=number] {
+/* input[type=number] {
   -moz-appearance: textfield;
 }
 
 input[type=tel] {
   -moz-appearance: textfield;
-}
+} */
 
 
 
@@ -328,20 +383,41 @@ input[type=tel] {
 </head>
 
 <body>
-    <div class="form-container">
-        <form class="kids-form">
+<div class="form-container">
+        <form class="kids-form" id="signup-form">
             <h1>Sign Up</h1>
             
             <div class="input-text-first-last">
-            
-                <input type="text" id="name" placeholder="Name">
-                <input type="text" id="lastName" placeholder="Last Name">
-            </div>
-            <!-- <span class="input-group"> -->
-            <!-- <input type="number" id="age" placeholder="Age" required> -->
+                <div class="first-name">
+                <input type="text" id="name" class="required" placeholder="Name">
+                <span id="nameError" class="error-message"></span>
+                </div>
 
-            <input type="date" id="dob" name="dob" placeholder="date"    required>
-            <input type="email" id="email" placeholder="Mail">
+                <div class="last-name">
+                <input type="text" id="lastName" class="required" placeholder="Last Name">
+                <span id="lastNameError" class="error-message"></span>
+                </div>
+               
+            </div>
+
+            <input type="date" id="dob" name="dob" class="required" placeholder="Date of Birth">
+            <span id="dobError" class="error-message"></span>
+
+            <input type="email" id="email" class="required" placeholder="Email">
+            <span id="emailError" class="error-message"></span>
+
+            <!-- <div class="select-box">
+                <div class="selected-option">
+                    <div>
+                        <span class="iconify" data-icon="flag:in-4x3"></span>
+                        <strong>+91</strong>
+                    </div>
+                    <input type="number" name="number" class="required" placeholder="Phone Number">
+                    
+                </div>
+            </div>
+            <span id="phoneError" class="error-message"></span> -->
+
 
             <div class="select-box">
                 <div class="selected-option">
@@ -350,7 +426,7 @@ input[type=tel] {
                         <strong>+91</strong>
                     </div>
                     
-                    <input type="number" name="tel" placeholder="Phone Number">
+                    <input type="number" name="number" placeholder="Phone Number">
                 </div>
                 <div class="options">
                     <input type="text" class="search-box" placeholder="Search Country Name">
@@ -359,42 +435,45 @@ input[type=tel] {
                     </ol>
                 </div>
             </div>
-
+             <span id="phoneError" class="error-message"></span>
 
             <div class="con-st-region">
-               
-        
-
-
-
-<input type="text" id="district" name="district" placeholder="District" readonly>
-
-<input type="text" id="pincode" name="pincode" placeholder="PinCode" readonly>
-
-
-
+                <input type="text" id="district" name="district" placeholder="District" readonly>
+                <span id="districtError" class="error-message"></span>
+                <input type="text" id="pincode" name="pincode" placeholder="PinCode" readonly>
+                <span id="pincodeError" class="error-message"></span>
             </div>
 
             <div class="con-st-region">
-
-            <input type="text" id="state" name="state" placeholder="State" readonly>
-           
-
-            <input type="text" id="country" name="country" placeholder="Country" readonly>
-
+                <input type="text" id="state" name="state" placeholder="State" readonly>
+                <span id="stateError" class="error-message"></span>
+                <input type="text" id="country" name="country" placeholder="Country" readonly>
+                <span id="countryError" class="error-message"></span>
             </div>
             
-            <input type="password" name="password" id="password" placeholder="Password">
-
+            <div class="password-container">
+                <input type="password" name="password" id="password" class="required" placeholder="Password">
+                <i id="togglePassword" class="fa fa-eye"></i>
+                <span id="passwordError" class="error-message"></span>
+            </div>
             
-            <input type="password" name="password" id="password" placeholder="Confirm Password">
-
+            <div class="password-container">
+                <input type="password" name="confirmPassword" id="confirmPassword" class="required" placeholder="Confirm Password">
+                <i id="toggleConfirmPassword" class="fa fa-eye"></i>
+                <span id="confirmPasswordError" class="error-message"></span>
+            </div>
+            
+            <input type="file" name="file" id="file" >
+            <span id="fileError" class="error-message"></span>
+            
             <button type="submit">Submit</button>
         </form>
     </div>
-</body>
-<script src="geolocation.js"></script>
 
+</body>
+
+<script src="geolocation.js"></script>
+<script src="inputValidation.js"></script>
 <script>
     // 253 countries
     const countries = [{
@@ -1804,10 +1883,10 @@ CREATE TABLE customers (
 
 
 
-/* 
 
 
-input[type="date"]::-webkit-datetime-edit-text,
+
+<!-- input[type="date"]::-webkit-datetime-edit-text,
 input[type="date"]::-webkit-datetime-edit-month-field,
 input[type="date"]::-webkit-datetime-edit-day-field,
 input[type="date"]::-webkit-datetime-edit-year-field {
@@ -1825,4 +1904,4 @@ input[type="date"].date-input--has-value::-webkit-datetime-edit-year-field {
 input{
 color:black;
 
-} */
+}  -->
