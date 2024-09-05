@@ -45,6 +45,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -76,6 +77,21 @@
 
         .kids-form input {
             width: 94%;
+            padding: 10px;
+            color:black;
+
+            margin-top: 15px;
+            border: 2px solid #ff5722;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: whitesmoke;
+            opacity: 0.8;
+            
+        }
+
+
+        #gender{
+            width: 100%;
             padding: 10px;
 
             margin-top: 15px;
@@ -110,8 +126,9 @@
         }
 
         .input-text-first-last {
-            display: flex;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: 180px 180px;
+            column-gap: 20px;
         }
 
         .con-st-region {
@@ -384,17 +401,17 @@ input[type=tel] {
 
 <body>
 <div class="form-container">
-        <form class="kids-form" id="signup-form">
+        <form class="kids-form" id="signup-form" method="post" enctype="multipart/form-data">
             <h1>Sign Up</h1>
             
             <div class="input-text-first-last">
                 <div class="first-name">
-                <input type="text" id="name" class="required" placeholder="Name">
+                <input type="text" name="firstName" id="name" class="required" placeholder="Name">
                 <span id="nameError" class="error-message"></span>
                 </div>
 
                 <div class="last-name">
-                <input type="text" id="lastName" class="required" placeholder="Last Name">
+                <input type="text" id="lastName"  name="lastName" class="required" placeholder="Last Name">
                 <span id="lastNameError" class="error-message"></span>
                 </div>
                
@@ -403,7 +420,13 @@ input[type=tel] {
             <input type="date" id="dob" name="dob" class="required" placeholder="Date of Birth">
             <span id="dobError" class="error-message"></span>
 
-            <input type="email" id="email" class="required" placeholder="Email">
+            <select id="gender" name="gender" >
+            
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+            <input type="email" id="email" name="email" class="required" placeholder="Email">
             <span id="emailError" class="error-message"></span>
 
             <!-- <div class="select-box">
@@ -453,17 +476,17 @@ input[type=tel] {
             
             <div class="password-container">
                 <input type="password" name="password" id="password" class="required" placeholder="Password">
-                <i id="togglePassword" class="fa fa-eye"></i>
+                <!-- <i id="togglePassword" class="fa fa-eye"></i> -->
                 <span id="passwordError" class="error-message"></span>
             </div>
             
             <div class="password-container">
                 <input type="password" name="confirmPassword" id="confirmPassword" class="required" placeholder="Confirm Password">
-                <i id="toggleConfirmPassword" class="fa fa-eye"></i>
+                <!-- <i id="toggleConfirmPassword" class="fa fa-eye"></i> -->
                 <span id="confirmPasswordError" class="error-message"></span>
             </div>
             
-            <input type="file" name="file" id="file" >
+            <input type="file" name="profile_pic" id="file" accept="image/*">
             <span id="fileError" class="error-message"></span>
             
             <button type="submit">Submit</button>
@@ -1811,7 +1834,7 @@ input[type=tel] {
     stock_quantity INT DEFAULT 0,
     image_url VARCHAR(255),
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('active', 'discontinued') DEFAULT 'active',
+    status ENUM('active', 'discontinued') DEFAULT 'active', 
     FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (brand_id) REFERENCES brands(id)
 );
@@ -1825,6 +1848,7 @@ CREATE TABLE brands (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
+
 
 CREATE TABLE reviews (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -1862,7 +1886,32 @@ CREATE TABLE customers (
     phone VARCHAR(20),
     address TEXT,
     registration_date DATETIME DEFAULT CURRENT_TIMESTAMP
-); -->
+); 
+
+
+my table
+
+CREATE TABLE customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    updateAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    number VARCHAR(20),
+    password1 varchar(255),
+    address varchar(255),
+    file varchar(255)
+    
+	
+);
+
+id ,
+    
+    firstName ,lastName ,email ,number ,password1 ,address ,file 
+
+
+
+-->
 
 
 
@@ -1905,3 +1954,107 @@ input{
 color:black;
 
 }  -->
+
+
+
+
+<?php
+    include_once 'db_connect.php';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $dob=$_POST['dob'];
+        $email = $_POST['email'];
+        $contact = $_POST['number'];
+        $gender=$_POST['gender'];
+        // echo $gender;
+        $district=$_POST['district'];       
+        $pincode=$_POST['pincode'];       
+        $state=$_POST['state'];       
+        $country=$_POST['country'];   
+        $address=$district.','.$pincode.','.$state.','.$country;
+        // echo $address;
+        
+        $password1 = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $profilePic = null;
+
+        if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['profile_pic'];
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+            if (in_array($file['type'], $allowedTypes)) {
+                $fileName = basename($file['name']);
+                $targetDir = 'images/';
+                $targetFile = $targetDir . $fileName;
+
+                if (!is_writable($targetDir)) {
+                    echo "The directory is not writable.";
+                } else {
+                    // echo "The directory is writable.";
+                }
+                
+
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0755, true);
+                }
+
+                if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+                    $profilePic = $fileName;
+                    // echo "Profile Picture: $profilePic<br>";
+                    // echo "Profile Picture1: $fileName<br>";
+                } else {
+                    echo "Failed to move uploaded file.";
+                    exit;
+                }
+            } else {
+                echo "Invalid file type. Only JPEG, PNG, and GIF are allowed.";
+                exit;
+            }
+        }
+        // echo "Profile Picture: $profilePic<br>";
+        // echo "Profile Picture1: $fileName<br>";
+
+        $stmt = $conn->prepare("INSERT INTO customers (firstName ,lastName ,dob,gender,email ,number ,password1 ,address ,
+profilePic) VALUES (?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("sssssssss", $firstName, $lastName,$dob,$gender, $email, $contact, $password1,$address, $profilePic,);
+
+
+
+        if ($stmt->execute()) {
+          
+            echo "<!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Success</title>
+                <script>
+                    window.onload = function() {
+                        alert('Signup successful!');
+                        setTimeout(function() {
+                            window.location.href = 'adminHome.php';
+                        }, 10); 
+                    };
+                </script>
+            </head>
+            <body>
+            </body>
+            </html>";
+            //  header("Location: login.php");
+            // exit();
+
+
+            // echo "success fully inserted";
+        } else {
+            echo "error while inserting the records: " . $stmt->error;
+        }
+
+
+        $stmt->close();
+        $conn->close();
+    }
+
+    ?>
+
