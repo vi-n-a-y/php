@@ -1823,21 +1823,37 @@ input[type=tel] {
 
 
 
+<!-- CREATE TABLE products ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL, description TEXT, price DECIMAL(10, 2) NOT NULL, SKU varchar(255), categoryId INT, brandId INT, ageGroupId INT, stockQuantity INT DEFAULT 0, imageUrl VARCHAR(255), discount int , createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, status ENUM('active', 'discontinued') DEFAULT 'active', FOREIGN KEY (categoryId) REFERENCES categories(id), FOREIGN KEY (brandId) REFERENCES brands(id), FOREIGN KEY (ageGroupId) REFERENCES ageGroup(id) ); -->
+
+
+
+
 <!-- CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
-    age_group VARCHAR(50),
-    category_id INT,
-    brand_id INT,
-    stock_quantity INT DEFAULT 0,
-    image_url VARCHAR(255),
-    date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+    SKU varchar(255),
+    ageGroupId INT,
+    categoryId INT,
+    brandId INT,
+    stockQuantity INT DEFAULT 0,
+    imageUrl VARCHAR(255),
+    discount int CHECK (rating BETWEEN 1 AND 99),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     status ENUM('active', 'discontinued') DEFAULT 'active', 
-    FOREIGN KEY (category_id) REFERENCES categories(id),
-    FOREIGN KEY (brand_id) REFERENCES brands(id)
+    FOREIGN KEY (ageGroupId) REFERENCES ageGroup(id),
+    FOREIGN KEY (categoryId) REFERENCES categories(id),
+    FOREIGN KEY (brandId) REFERENCES brands(id)
 );
+
+
+createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP
+
+
 
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,

@@ -13,7 +13,15 @@
    
 
     <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
-
+<style>
+    .nav-btns {
+   
+    margin-bottom:150px;
+    
+    
+    
+}
+</style>
 </head>
 <body>
 
@@ -46,7 +54,7 @@
         <div class="nav-btns">
             <ul>
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="home.php">Home</a>
                 </li>
                 <li>
                     <a href="#">about</a>
