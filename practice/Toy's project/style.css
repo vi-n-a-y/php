@@ -507,4 +507,17 @@ color:green;
   .accordion-header { padding: 10px; cursor: pointer; background-color: #f1f1f1; }
   .accordion-body { display: none; padding: 10px; border-top: 1px solid #ddd; }
 
+  .accordion-body a{
+    display: block;
+    text-decoration: none;
+    color:black;
+    padding:5px;
+
+  }
+
+  .accordion-item i{
+    display: block;
+    float:right;
+  }
+
 

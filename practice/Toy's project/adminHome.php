@@ -15,6 +15,16 @@
     <script src="https://kit.fontawesome.com/51ef45e87a.js" crossorigin="anonymous"></script>
 
 </head>
+
+<style>
+    /* .content{
+        display: none;
+    } */
+
+    .brands,.category,.age-group, .customers,.orders,.products-db{
+        display: none;
+    }
+</style>
 <body>
 
 <?php
@@ -29,16 +39,18 @@ include_once 'header.php';
         <aside class="sidebar">
             <h2>Admin Panel</h2>
             <ul>
-                <li><a href="#">Dashboard</a></li>
+                <!-- <li><a href="#">Dashboard</a></li> -->
                 <li><a href="#">Products</a></li>
                 <li><a href="#">Orders</a></li>
                 <li><a href="#">Customers</a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">User Management</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Promotions</a></li>
+                <li><a href="AboutUs.php">About Us</a></li>
+                <!-- <li><a href="#">Reports</a></li> -->
+                <!-- <li><a href="#">User Management</a></li> -->
+                <!-- <li><a href="#">Settings</a></li> -->
+                <!-- <li><a href="#">Promotions</a></li> -->
             </ul>
         </aside>
+
 
         <!-- Main Content -->
         <main class="content">
@@ -121,6 +133,8 @@ include_once 'header.php';
                 </table>
             </section>
 
+            
+
             <!-- Customers -->
             <section class="customers">
                 <h1>Customers</h1>
@@ -137,7 +151,7 @@ include_once 'header.php';
                     </thead>
                     <tbody>
                         <tr>
-                            <td>501</td>
+                            <td>201</td>
                             <td>Jane Doe</td>
                             <td>jane@example.com</td>
                             <td>5</td>
@@ -148,7 +162,201 @@ include_once 'header.php';
                     </tbody>
                 </table>
             </section>
+
+
+
+              <!-- Customers -->
+              <section class="brands">
+                <h1>Brands</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Brand ID</th>
+                            <th>Name</th>
+                           
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>301</td>
+                            <td>Jane Doe</td>
+                           
+                            <td><button>view</button></td>
+                        </tr>
+                        <!-- More rows here -->
+                    </tbody>
+                </table>
+            </section>
+
+
+            <section class="category">
+            <button>Add</button>
+
+
+                <h1>Category</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category ID</th>
+                            <th>Name</th>
+                           
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>401</td>
+                            <td>Jane Doe</td>
+
+                            <td><button>view</button></td>
+                        </tr>
+                        <!-- More rows here -->
+                    </tbody>
+                </table>
+            </section>
+
+
+
+
+                    
+            <section class="age-group">
+            <button>Add</button>
+
+
+                <h1>Age Group</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Age Group ID</th>
+                            <th>Value</th>
+                           
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>501</td>
+                            <td>3-5</td>
+
+                            <td><button>view</button></td>
+                        </tr>
+                        <!-- More rows here -->
+                    </tbody>
+                </table>
+            </section>
+
+
+
+
+            <?php
+include_once 'db_connect.php';
+// Fetch the About Us content
+$sql = "SELECT * FROM aboutUs ORDER BY created_at DESC LIMIT 1";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Output data of the most recent row
+   $row = $result->fetch_assoc();
+   $imagePath = 'images/' . htmlspecialchars($row["aboutFile"], ENT_QUOTES, 'UTF-8');
+   
+    // echo "<h1>" . htmlspecialchars($row["title"]) . "</h1>";
+    // echo "<p>" . nl2br(htmlspecialchars($row["content"])) . "</p>";
+    // // echo "<img  src={$imagePath}>";
+
+    // echo $imagePath;
+    // echo $row["aboutFile"];
+
+
+} else {
+    echo "No content available.";
+}
+
+$conn->close();
+?>
+
+
+
+
+
+
+<style>
+               .about-us img{
+                height:150px;
+                width:150px;
+               }
+               </style>
+            <section class="about-us">
+            <!-- <button>Add</button> -->
+
+
+                <h1>About Us</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>AboutUs ID</th>
+                            <th>created AT</th>
+                            <th>Title</th>
+                            <th>Content</th> 
+                            <th>Images</th>   
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <!-- <td></td>
+                            <td></td>
+                            <td></td> -->
+                            
+                        <?php  
+
+// {$row["id"]}
+        echo "<td>1</td><td>{$row["created_at"]}</td><td>{$row["title"]}</td><td>{$row["content"]}</    td><td><img src='{$imagePath}' alt='img' class='profile-pic' loading='lazy'></td>
+                            
+               <td> <button class='action-btn update-btn'><a class='modify-btn' href='updateId={$row["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
+                <button class='action-btn delete-btn'><a class='modify-btn'  onclick='confirmDelete(event, {$row["id"]})'> <i class='fa-solid fa-trash'></i></a></button></td>
+            "
+             
+
+                        ?>
+                            
+                        </tr>
+                        <!-- More rows here -->
+                    </tbody>
+                </table>
+            </section>
+
         </main>
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     </div>
 </body>
+
+
+<script>
+        function confirmDelete(event, id) {
+            event.preventDefault(); // Prevent the default action (e.g., form submission or 
+            if (confirm("Really want to Delete this User?")) {
+                // If user clicks "Yes", redirect to the delete PHP script with the item ID
+                window.location.href = 'delete.php?deleteId=' + id;
+            }
+           
+            // If user clicks "No", do nothing
+        }
+    </script>
 </html>

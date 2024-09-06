@@ -28,7 +28,7 @@
                     <a href="index.php">Home</a>
                 </li>
                 <li>
-                    <a href="#">about</a>
+                    <a href="aboutUs.php">about</a>
                 </li>
                 <li>
                     <a href="#">shop now</a>
