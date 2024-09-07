@@ -102,7 +102,9 @@
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
             <label for="content">Content:</label>
-            <textarea id="content" name="content" rows="10" required></textarea>
+            <textarea id="content" name="content" rows="5" required></textarea>
+            <label for="content1">Description:</label>
+            <textarea id="content1" name="content1" rows="10" required></textarea>
 
             <label for="content">File:</label>
             <input type="file" name="aboutFile" accept="image/*" id="file">
@@ -123,6 +125,7 @@ include_once 'db_connect.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $content = $_POST['content'];
+    $content1 = $_POST['content1'];
     // $aboutFile=$_POST['aboutFile'];
 
 
@@ -163,8 +166,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
    
-    $stmt = $conn->prepare("INSERT INTO aboutUs (title, content,aboutFile) VALUES (?, ?,?)");
-    $stmt->bind_param("sss", $title, $content,$aboutFile);
+    $stmt = $conn->prepare("INSERT INTO aboutUs (title, content,content1,aboutFile) VALUES (?, ?,?,?)");
+    $stmt->bind_param("ssss", $title, $content,$content1,$aboutFile);
 
     // Execute
     if ($stmt->execute()) {
