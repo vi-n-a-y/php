@@ -106,3 +106,7 @@ if (isset($_POST['submit'])) {
 // Close connection
 $conn->close();
 ?>
+
+
+//name,description,price,SKU,categoryId,brandId,ageGroupId,stockQuantity,imageUrl,discount,status
+//fjlkdjf,Stuffedfdkfjl doll for children,45.222,DOL456,1,1,2,30,dolfldd.jpg,5,active
