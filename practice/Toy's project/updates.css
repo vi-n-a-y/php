@@ -1,0 +1,151 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+}
+
+.error-message {
+    display: block;
+    color: red;
+    font-size: 0.875em;
+    margin-top: 0.5em;
+}
+
+.error-icon {
+    color: red;
+    margin-right: 0.5em;
+}
+
+.error-icon::before {
+    content: "\f071";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 2.5em;
+}
+
+.password-container .fa-eye,
+.password-container .fa-eye-slash {
+    position: absolute;
+    right: 0.5em;
+    top: 35%;
+    transform: translateY(10%);
+    cursor: pointer;
+    color: #000;
+}
+
+body {
+    background: url('images/teddy_bear_2.avif') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+}
+
+.kids-form h1 {
+    color: #ff5722;
+    text-align: center;
+    font-size: 2rem;
+    margin: 15px;
+}
+
+.kids-form label {
+    display: block;
+    margin: 5px;
+    font-size: 1.1rem;
+}
+
+.kids-form input {
+    width: 100%;
+    padding: 10px;
+    color: black;
+    border: 2px solid #ff5722;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    opacity: 0.8;
+}
+
+.kids-form input::placeholder {
+    color: #ff5722;
+}
+
+.kids-form .submit-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #ff5722;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.kids-form button:hover {
+    background-color: #e64a19;
+}
+
+.con-st-region input {
+    padding-left: 8px;
+    padding-right: 5px;
+    border: 2px solid #ff5722;
+}
+
+.cross-btn {
+    display: block;
+    float: right;
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
+
+.cross-a-tag {
+    text-decoration: none;
+    color: red;
+    font-size: 25px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+
+input[type="file"]::-webkit-file-upload-button {
+    background: #ff5722;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+input[type="file"]::placeholder {
+    color: #ff5722;
+}

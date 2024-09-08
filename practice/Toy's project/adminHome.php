@@ -38,9 +38,9 @@ if (!isset($_SESSION['adminLogin'])) {
 
 
 
-.action-btn {
-    margin-bottom:10px;
-}
+    .action-btn {
+        margin-bottom: 10px;
+    }
 
 
 
@@ -107,12 +107,81 @@ if (!isset($_SESSION['adminLogin'])) {
 
 <body>
 
-    <?php
+    <!-- <?php
 
-    include_once 'header.php';
+            // include_once 'header.php';
 
 
-    ?>
+            ?> -->
+
+
+    <div>
+        <div class="toys-header-container">
+
+            <div class="white-shade-toy-header">
+                <div class="call">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <a href="tel:1234567890">1234567890</a>
+                </div>
+                <div class="call">
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="mailto:toysstoreinfo@test.com">toysstoreinfo@test.com</a>
+                </div>
+            </div>
+
+            <div class="bg-black-header">
+                <h3 class="toy-text-header">Toys-Shop</h3>
+
+                <input type="text" name="search_header" id="search_header" class="search_header">
+                <button class="search-btn-header">Search</button>
+                <!-- <div class="love-icon-header"><i class="fa-regular fa-heart"></i></div> -->
+                <div class="wishlist-icon-header">
+                    <a class='modify-btn' href="import.php"><i class="fa-solid fa-file-import"></i></a>
+
+                </div>
+
+                <div class="wishlist-icon-header">
+
+                    <a class='modify-btn' href="downloadRecordFile.php"> <i class="fa-solid fa-download"></i></a>
+                </div>
+                <div class="wishlist-icon-header">
+                    <a class='modify-btn' href="index.php"> <i class="fa-solid fa-house"></i></a>
+                </div>
+                <div class="wishlist-icon-header">
+                    <a class='modify-btn' href="home.php"> <i class="fa-solid fa-right-from-bracket"></i>
+                </div>
+
+
+
+            </div>
+
+
+            <div class="nav-btns">
+                <ul>
+                    <li>
+                        <a href="index.php">Home</a>
+                    </li>
+                    <li>
+                        <a href="aboutUs.php">about</a>
+                    </li>
+                    <li>
+                        <a href="#">shop now</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">WishList</a>
+                    </li>
+                    <li>
+                        <a href="myAccount.php">my account </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
 
     <div class="container-admin-panel">
         <!-- Sidebar -->
@@ -146,7 +215,7 @@ if (!isset($_SESSION['adminLogin'])) {
                     <li><a href="#" class="nav-a" data-target="section1">Products</a></li>
                     <li><a href="#" class="nav-a" data-target="section2">Customers</a></li>
                     <li><a href="#" class="nav-a" data-target="section3">Brands</a></li>
-                    <li><a href="#" class="nav-a" data-target="section4">Orders</a></li>
+                    <!-- <li><a href="#" class="nav-a" data-target="section4">Orders</a></li> -->
                     <li><a href="#" class="nav-a" data-target="section5">Category</a></li>
                     <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
                     <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
@@ -272,38 +341,42 @@ if (!isset($_SESSION['adminLogin'])) {
                             <button><a href="addProducts.php"><i class="fa-solid fa-plus"></i></a></button>
                         </div>
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
-                                    <th>Description</th>
-                                    <th>Price</th>
-                                    <th>SKU</th>
-                                    <th>Stock Quantity</th>
-                                    <th>Image URL</th>
-                                    <th>Discount</th>
+                        <thead>
+    <tr>
+        <th data-sort="productId">Product ID</th>
+        <th data-sort="productName">Product Name</th>
+        <th data-sort="description">Description</th>
+        <th data-sort="price">Price</th>
+        <th data-sort="SKU">SKU</th>
+        <th data-sort="stockQuantity">Stock Quantity</th>
+        <th data-sort="imageUrl">Image URL</th>
+        <th data-sort="discount">Discount</th>
+        <th data-sort="updatedAt">Updated At</th>
+        <th data-sort="status">Status</th>
+        <th data-sort="categoryName">Category Name</th>
+        <th data-sort="brandName">Brand Name</th>
+        <th data-sort="ageGroupName">Age Group</th>
+        <th>Action</th>
+    </tr>
+</thead>
 
-                                    <th>Updated At</th>
-                                    <th>Status</th>
-                                    <th>Category Name</th>
-                                    <th>Brand Name</th>
-                                    <th>Age Group</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 <tr>
                                     <?php
                                     $i = 0;
                                     while ($row = $result->fetch_assoc()) {
+                                        $imagePath = 'images/' . htmlspecialchars($row["imageUrl"], ENT_QUOTES, 'UTF-8');
+                                        // <td>{$row['productId']}</td>
+                                        $i++;
                                         echo "
-                                                <td>{$row['productId']}</td>
+                                                
+                                                <td>{$i}</td>
                                                 <td>{$row['productName']}</td>
                                                 <td>{$row['description']}</td>
                                                 <td>{$row['price']}</td>
                                                 <td>{$row['SKU']}</td>
                                                 <td>{$row['stockQuantity']}</td>
-                                                <td>{$row['imageUrl']}</td>
+                                                 <td><img src='{$imagePath}' height='50px' width='50px' alt='some'></td>
                                                 <td>{$row['discount']}</td>
                                                
                                                 <td>{$row['updatedAt']}</td>
@@ -325,6 +398,8 @@ if (!isset($_SESSION['adminLogin'])) {
                         <?php
                                     }
                                 } else {
+                                    echo '<button><a href="addProducts.php"><i class="fa-solid fa-plus"></i></a></button>';
+
                                     echo "No content available.";
                                 }
 
@@ -332,7 +407,7 @@ if (!isset($_SESSION['adminLogin'])) {
                             </tbody>
                         </table>
                 </section>
-
+<script src="sort.js"></script>
                 <!-- Orders -->
 
 
@@ -747,22 +822,6 @@ if (!isset($_SESSION['adminLogin'])) {
                 </section>
 
             </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </div>
 </body>

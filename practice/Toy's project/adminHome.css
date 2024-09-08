@@ -10,8 +10,8 @@ body {
 }
 
 .container-admin-panel {
-    display: flex;
-    min-height: 100vh;
+    /* display: flex;
+    min-height: 100vh; */
 }
 
 /* Sidebar */
@@ -96,13 +96,15 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+   
 }
 
 table thead th {
     background-color: #333;
     color: #fff;
     padding: 10px;
-    text-align: left;
+    text-align: center;
+    cursor: pointer;
 }
 
 table tbody tr:nth-child(even) {
@@ -116,6 +118,8 @@ table tbody tr:hover {
 table th, table td {
     padding: 12px;
     border: 1px solid #ddd;
+    vertical-align: middle;
+    text-align: center;
 }
 
 button {
