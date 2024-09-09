@@ -209,7 +209,7 @@ input[type="file"]::placeholder {
         <?php if (!empty($errorMsg)) { ?>
             <p style="color: red; text-align: center;"><?php echo $errorMsg; ?></p>
         <?php } ?>
-        <form action="addProducts.php" method="post" enctype="multipart/form-data">
+<form action="addProducts.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="action" value="<?php echo $action; ?>">
     <?php if ($action === 'update') { ?>
         <input type="hidden" name="updateId" value="<?php echo $updateId; ?>">

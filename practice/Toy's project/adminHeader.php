@@ -1,10 +1,5 @@
-<style>
-    .admin-header-ele{
-        position:fixed;
-        /* top:0; */
-    }
-</style>
-<div class="admin-header-ele">
+
+
         <div class="toys-header-container">
 
             <div class="white-shade-toy-header">
@@ -70,4 +65,99 @@
             </div> -->
 
         </div>
-    </div>
+
+
+
+
+
+        <div class="nav-a-div">
+
+            <nav>
+                <ul class="section-ul">
+                    <li><a href="#" class="nav-a" data-target="section1">Products</a></li>
+                    <li><a href="#" class="nav-a" data-target="section2">Customers</a></li>
+                    <li><a href="#" class="nav-a" data-target="section3">Brands</a></li>
+                    
+                    <li><a href="#" class="nav-a" data-target="section5">Category</a></li>
+                    <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
+                    <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
+                    <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
+                </ul>
+            </nav>
+
+        </div>    
+
+
+
+            <style>
+                       .nav-a-div {
+        font-family: Arial, sans-serif;
+        /* display: flex;
+        
+        flex-direction: row; */
+    }
+
+    .toys-header-container{
+        position:fixed;
+        top:0;
+        width: 100%;
+    }
+
+
+
+
+    nav {
+
+        position: fixed; /* Fixes the sidebar in the viewport */
+    top: 18%; /* Aligns it to the top of the viewport */
+    left: 0; /* Aligns it to the left side of the viewport */
+    width: 250px; /* Adjust the width of the sidebar */
+    height: 100vh;
+        width: 190px;
+        background: #333;
+        color: #fff;
+        padding: 10px;
+        font-size: 20px;
+    }
+
+
+    .section-ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin-right: 10px;
+    }
+
+    nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+    }
+
+    .nav-a.active {
+        font-weight: bold;
+        /* text-decoration: underline; */
+        background-color: white;
+        color: black;
+    }
+
+    .section {
+        display: none;
+        padding: 20px;
+    }
+
+    .section.active {
+        display: block;
+    }
+            </style>
+
+

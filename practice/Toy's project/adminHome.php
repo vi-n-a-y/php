@@ -103,6 +103,46 @@ if (!isset($_SESSION['adminLogin'])) {
     .section.active {
         display: block;
     }
+
+
+
+
+ 
+                            .add-btn-admin {
+                                display: flex;
+                                justify-content: space-between;
+
+                            }
+
+                            .add-btn-admin a {
+                                text-decoration: none;
+                                color: white;
+                            }
+
+                            .add-btn-admin a:hover {
+                                color: blue;
+                            }
+
+
+                            .add-btn-admin button {
+                                display: block;
+                                padding: 15px;
+                                margin-bottom: 5px;
+                            }
+
+
+                            .modify-btn {
+                                color: white;
+                            }
+
+                            .update-btn a:hover {
+                                color: orange;
+                            }
+
+                            .delete-btn a:hover {
+                                color: red;
+                            }
+                        
 </style>
 
 
@@ -116,7 +156,7 @@ if (!isset($_SESSION['adminLogin'])) {
             ?> -->
 
 
-    <div>
+
         <div class="toys-header-container">
 
             <div class="white-shade-toy-header">
@@ -182,31 +222,9 @@ if (!isset($_SESSION['adminLogin'])) {
             </div> -->
 
         </div>
-    </div>
+
 
     <div class="container-admin-panel">
-        <!-- Sidebar -->
-        <!-- <aside class="sidebar">
-            <h2>Admin Panel</h2>
-            <ul> -->
-        <!-- <li><a href="#">Dashboard</a></li> -->
-        <!-- <li><a href="#">Products</a></li>
-                <li><a href="#">Orders</a></li>
-                <li><a href="#">Customers</a></li>
-                <li><a href="AboutUs.php">About Us</a></li> -->
-        <!-- <li><a href="#">Reports</a></li> -->
-        <!-- <li><a href="#">User Management</a></li> -->
-        <!-- <li><a href="#">Settings</a></li> -->
-        <!-- <li><a href="#">Promotions</a></li> -->
-        <!-- </ul>
-        </aside> -->
-
-
-
-
-
-
-
 
 
         <div class="nav-a-div">
@@ -217,17 +235,15 @@ if (!isset($_SESSION['adminLogin'])) {
                     <li><a href="#" class="nav-a" data-target="section2">Customers</a></li>
                     <li><a href="#" class="nav-a" data-target="section3">Brands</a></li>
                     <!-- <li><a href="#" class="nav-a" data-target="section4">Orders</a></li> -->
-                    <li><a href="#" class="nav-a" data-target="section5">Category</a></li>
-                    <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
+                    <li><a href="#" class="nav-a" data-target="section5">Category</a></li> 
                     <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
                     <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
+                    <!-- <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li> -->
                 </ul>
             </nav>
 
 
-
-            <!-- <script>
-                // script.js
+            <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     const navLinks = document.querySelectorAll('.nav-a');
                     const sections = document.querySelectorAll('.section');
@@ -257,66 +273,25 @@ if (!isset($_SESSION['adminLogin'])) {
                             event.preventDefault();
                             const targetId = link.getAttribute('data-target');
                             showSection(targetId);
+                            // Optionally, remember the last active section in localStorage
+                            localStorage.setItem('activeSection', targetId);
                         });
                     });
 
-                    // Optionally, show the first section by default
-                    if (sections.length > 0) {
-                        showSection(sections[0].id);
+                    // Show the section that was last active, if any
+                    const lastActiveSection = localStorage.getItem('activeSection');
+                    if (lastActiveSection) {
+                        showSection(lastActiveSection);
+                    } else {
+                        // Optionally, show the first section by default
+                        if (sections.length > 0) {
+                            showSection(sections[0].id);
+                        }
                     }
                 });
-            </script> -->
+            </script>
 
-            <script>
-                
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.nav-a');
-        const sections = document.querySelectorAll('.section');
-
-        // Function to show the selected section and hide others
-        function showSection(targetId) {
-            sections.forEach(section => {
-                if (section.id === targetId) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
-                }
-            });
-
-            navLinks.forEach(link => {
-                if (link.getAttribute('data-target') === targetId) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        }
-
-        // Set up click event handlers for the navigation links
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const targetId = link.getAttribute('data-target');
-                showSection(targetId);
-                // Optionally, remember the last active section in localStorage
-                localStorage.setItem('activeSection', targetId);
-            });
-        });
-
-        // Show the section that was last active, if any
-        const lastActiveSection = localStorage.getItem('activeSection');
-        if (lastActiveSection) {
-            showSection(lastActiveSection);
-        } else {
-            // Optionally, show the first section by default
-            if (sections.length > 0) {
-                showSection(sections[0].id);
-            }
-        }
-    });
-</script>
-            
-
+       
 
 
 
@@ -689,69 +664,6 @@ if (!isset($_SESSION['adminLogin'])) {
 
 
 
-                <section id="section8" class="section customers">
-
-                    <?php
-                    include_once 'db_connect.php';
-                    // Fetch the About Us content
-                    $sql = "SELECT
-            subcategories.id AS subcategory_id,
-            subcategories.name AS subcategory_name,
-            categories.name AS category_name
-        FROM
-            subcategories
-        INNER JOIN
-            categories
-        ON
-            subcategories.categoryId = categories.id";
-
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                    ?>
-
-                        <div class="add-btn-admin">
-
-
-                            <h1>Customers</h1>
-                            <button><a href="addSubCategory.php"><i class="fa-solid fa-plus"></i></a></button>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Category Name</th>
-                                    <th>Sub-Category Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                <?php
-                                $i = 0;
-                                while ($row = $result->fetch_assoc()) {
-                                    $i++;
-
-
-
-                                    echo "<td>{$i}</td><td>{$row["category_name"]}</td><td>{$row["subcategory_name"]}</td>
- <td> <button class='action-btn update-btn'><a class='modify-btn' href='addSubCategory.php?type=update&updateId={$row["subcategory_id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-<button class='action-btn delete-btn'><a class='modify-btn'  href='addSubCategory.php?type=delete&deleteId={$row["subcategory_id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
-
-
-                                ?>
-
-
-
-                            </tr>
-                    <?php
-                                }
-                            } else {
-                                echo "No content available.";
-                            }
-
-                    ?>
-                        </table>
-                </section>
 
 
 
@@ -771,42 +683,7 @@ if (!isset($_SESSION['adminLogin'])) {
                     $i = 0;
                     if ($ageResult->num_rows > 0) {
                     ?>
-                        <style>
-                            .add-btn-admin {
-                                display: flex;
-                                justify-content: space-between;
-
-                            }
-
-                            .add-btn-admin a {
-                                text-decoration: none;
-                                color: white;
-                            }
-
-                            .add-btn-admin a:hover {
-                                color: blue;
-                            }
-
-
-                            .add-btn-admin button {
-                                display: block;
-                                padding: 15px;
-                                margin-bottom: 5px;
-                            }
-
-
-                            .modify-btn {
-                                color: white;
-                            }
-
-                            .update-btn a:hover {
-                                color: orange;
-                            }
-
-                            .delete-btn a:hover {
-                                color: red;
-                            }
-                        </style>
+      
 
 
 
@@ -940,6 +817,75 @@ if (!isset($_SESSION['adminLogin'])) {
                         </tbody>
                     </table>
                 </section>
+
+
+
+
+
+                
+<section id="section8" class="section customers">
+
+<?php
+include_once 'db_connect.php';
+// Fetch the About Us content
+$sql = "SELECT
+subcategories.id AS subcategory_id,
+subcategories.name AS subcategory_name,
+categories.name AS category_name
+FROM
+subcategories
+INNER JOIN
+categories
+ON
+subcategories.categoryId = categories.id";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+?>
+
+    <div class="add-btn-admin">
+
+
+        <h1>Customers</h1>
+        <button><a href="addSubCategory.php"><i class="fa-solid fa-plus"></i></a></button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+                <th>Sub-Category Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tr>
+            <?php
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $i++;
+
+
+
+                echo "<td>{$i}</td><td>{$row["category_name"]}</td><td>{$row["subcategory_name"]}</td>
+<td> <button class='action-btn update-btn'><a class='modify-btn' href='addSubCategory.php?type=update&updateId={$row["subcategory_id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
+<button class='action-btn delete-btn'><a class='modify-btn'  href='addSubCategory.php?type=delete&deleteId={$row["subcategory_id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+
+
+            ?>
+
+
+
+        </tr>
+<?php
+            }
+        } else {
+            echo "No content available.";
+        }
+
+?>
+    </table>
+</section>
 
             </main>
 
