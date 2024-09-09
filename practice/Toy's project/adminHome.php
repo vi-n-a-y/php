@@ -56,8 +56,9 @@ if (!isset($_SESSION['adminLogin'])) {
 
     nav {
 
-        height: 100vh;
-        width: 180px;
+        min-height: 100vh;
+        max-height: 200vh;
+        width: 190px;
         background: #333;
         color: #fff;
         padding: 10px;
@@ -156,7 +157,7 @@ if (!isset($_SESSION['adminLogin'])) {
             </div>
 
 
-            <div class="nav-btns">
+            <!-- <div class="nav-btns">
                 <ul>
                     <li>
                         <a href="index.php">Home</a>
@@ -178,7 +179,7 @@ if (!isset($_SESSION['adminLogin'])) {
                     </li>
 
                 </ul>
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -217,6 +218,7 @@ if (!isset($_SESSION['adminLogin'])) {
                     <li><a href="#" class="nav-a" data-target="section3">Brands</a></li>
                     <!-- <li><a href="#" class="nav-a" data-target="section4">Orders</a></li> -->
                     <li><a href="#" class="nav-a" data-target="section5">Category</a></li>
+                    <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
                     <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
                     <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
                 </ul>
@@ -224,7 +226,7 @@ if (!isset($_SESSION['adminLogin'])) {
 
 
 
-            <script>
+            <!-- <script>
                 // script.js
                 document.addEventListener('DOMContentLoaded', function() {
                     const navLinks = document.querySelectorAll('.nav-a');
@@ -263,7 +265,57 @@ if (!isset($_SESSION['adminLogin'])) {
                         showSection(sections[0].id);
                     }
                 });
-            </script>
+            </script> -->
+
+            <script>
+                
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.nav-a');
+        const sections = document.querySelectorAll('.section');
+
+        // Function to show the selected section and hide others
+        function showSection(targetId) {
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-target') === targetId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Set up click event handlers for the navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetId = link.getAttribute('data-target');
+                showSection(targetId);
+                // Optionally, remember the last active section in localStorage
+                localStorage.setItem('activeSection', targetId);
+            });
+        });
+
+        // Show the section that was last active, if any
+        const lastActiveSection = localStorage.getItem('activeSection');
+        if (lastActiveSection) {
+            showSection(lastActiveSection);
+        } else {
+            // Optionally, show the first section by default
+            if (sections.length > 0) {
+                showSection(sections[0].id);
+            }
+        }
+    });
+</script>
+            
 
 
 
@@ -341,24 +393,24 @@ if (!isset($_SESSION['adminLogin'])) {
                             <button><a href="addProducts.php"><i class="fa-solid fa-plus"></i></a></button>
                         </div>
                         <table>
-                        <thead>
-    <tr>
-        <th data-sort="productId">Product ID</th>
-        <th data-sort="productName">Product Name</th>
-        <th data-sort="description">Description</th>
-        <th data-sort="price">Price</th>
-        <th data-sort="SKU">SKU</th>
-        <th data-sort="stockQuantity">Stock Quantity</th>
-        <th data-sort="imageUrl">Image URL</th>
-        <th data-sort="discount">Discount</th>
-        <th data-sort="updatedAt">Updated At</th>
-        <th data-sort="status">Status</th>
-        <th data-sort="categoryName">Category Name</th>
-        <th data-sort="brandName">Brand Name</th>
-        <th data-sort="ageGroupName">Age Group</th>
-        <th>Action</th>
-    </tr>
-</thead>
+                            <thead>
+                                <tr>
+                                    <th data-sort="productId">Product ID</th>
+                                    <th data-sort="productName">Product Name</th>
+                                    <th data-sort="description">Description</th>
+                                    <th data-sort="price">Price</th>
+                                    <th data-sort="SKU">SKU</th>
+                                    <th data-sort="stockQuantity">Stock Quantity</th>
+                                    <th data-sort="imageUrl">Image URL</th>
+                                    <th data-sort="discount">Discount</th>
+                                    <th data-sort="updatedAt">Updated At</th>
+                                    <th data-sort="status">Status</th>
+                                    <th data-sort="categoryName">Category Name</th>
+                                    <th data-sort="brandName">Brand Name</th>
+                                    <th data-sort="ageGroupName">Age Group</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
 
                             <tbody>
                                 <tr>
@@ -390,6 +442,7 @@ if (!isset($_SESSION['adminLogin'])) {
 
 
 
+
                                     ?>
 
 
@@ -407,7 +460,7 @@ if (!isset($_SESSION['adminLogin'])) {
                             </tbody>
                         </table>
                 </section>
-<script src="sort.js"></script>
+                <script src="sort.js"></script>
                 <!-- Orders -->
 
 
@@ -633,6 +686,73 @@ if (!isset($_SESSION['adminLogin'])) {
                         ?>
                         </table>
                 </section>
+
+
+
+                <section id="section8" class="section customers">
+
+                    <?php
+                    include_once 'db_connect.php';
+                    // Fetch the About Us content
+                    $sql = "SELECT
+            subcategories.id AS subcategory_id,
+            subcategories.name AS subcategory_name,
+            categories.name AS category_name
+        FROM
+            subcategories
+        INNER JOIN
+            categories
+        ON
+            subcategories.categoryId = categories.id";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                    ?>
+
+                        <div class="add-btn-admin">
+
+
+                            <h1>Customers</h1>
+                            <button><a href="addSubCategory.php"><i class="fa-solid fa-plus"></i></a></button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Category Name</th>
+                                    <th>Sub-Category Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <?php
+                                $i = 0;
+                                while ($row = $result->fetch_assoc()) {
+                                    $i++;
+
+
+
+                                    echo "<td>{$i}</td><td>{$row["category_name"]}</td><td>{$row["subcategory_name"]}</td>
+ <td> <button class='action-btn update-btn'><a class='modify-btn' href='addSubCategory.php?type=update&updateId={$row["subcategory_id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
+<button class='action-btn delete-btn'><a class='modify-btn'  href='addSubCategory.php?type=delete&deleteId={$row["subcategory_id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+
+
+                                ?>
+
+
+
+                            </tr>
+                    <?php
+                                }
+                            } else {
+                                echo "No content available.";
+                            }
+
+                    ?>
+                        </table>
+                </section>
+
 
 
 

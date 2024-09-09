@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
                     $sql = "INSERT INTO products ( name, description, price, SKU, categoryId, brandId, ageGroupId, stockQuantity, imageUrl, discount, status)
                             VALUES ( '$name', '$description', '$price', '$SKU', '$categoryId', '$brandId', '$ageGroupId', '$stockQuantity', '$imageUrl', '$discount', '$status')";
 
-                            print_r($sql);
+                            // print_r($sql);
 
                     // Execute the query
                     if (!$conn->query($sql)) {
@@ -103,10 +103,12 @@ if (isset($_POST['submit'])) {
     }
 }
 
+
+//name,description,price,SKU,categoryId,brandId,ageGroupId,stockQuantity,imageUrl,discount,status
+//fjlkdjf,Stuffedfdkfjl doll for children,45.222,DOL456,1,1,2,30,dolfldd.jpg,5,active
+
 // Close connection
 $conn->close();
 ?>
 
 
-//name,description,price,SKU,categoryId,brandId,ageGroupId,stockQuantity,imageUrl,discount,status
-//fjlkdjf,Stuffedfdkfjl doll for children,45.222,DOL456,1,1,2,30,dolfldd.jpg,5,active

@@ -10,7 +10,7 @@ if (isset($_GET['type'])) {
     if ($type == 'update') {
         if (isset($_POST['submit'])) {
 
-            $productName = $_POST['productName'];
+            $firstName = $_POST['firstName'];
             $lastName = $_POST['lastName'];
             $dob=$_POST['dob'];
             $email = $_POST['email'];
@@ -655,7 +655,6 @@ input[type="file"] {
             <button name="submit" type="submit"><?php echo isset($pageButton) ? $pageButton : "Add"; ?></button>
         </form>
     </div>
-
 </body>
 
 <!-- <script src="geolocation.js"></script> -->

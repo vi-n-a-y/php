@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stockQuantity = $_POST['stockQuantity'];
     $discount = $_POST['discount'];
     $status = $_POST['status'];
+    $subCategoryId=$_POST['subCategory'];
 
     // Handle file upload
     $imageUrl = '';
@@ -50,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadFile = $uploadDir . $originalName;
 
         // Validate file type and size
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $allowedTypes = ['image/jpeg', 'image/png','image/avif', 'image/gif'];
         $fileType = mime_content_type($tmpName);
         
         if (in_array($fileType, $allowedTypes) && $_FILES['imageUrl']['size'] < 2000000) { // Limit size to 2MB
@@ -94,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $categories = $conn->query("SELECT id, name FROM categories");
 $brands = $conn->query("SELECT id, name FROM brands");
 $ageGroups = $conn->query("SELECT id, ageGroup FROM agegroup");
+$subCategory = $conn->query("SELECT id, name FROM subCategories");
 
 // Fetch product data if updating
 if ($action === 'update' && $updateId > 0) {
