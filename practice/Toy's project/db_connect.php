@@ -2,8 +2,8 @@
 
 $servername="localhost";
 $username="root";
-// $password="";
-$password="root";
+$password="";
+// $password="root";
 $dbname="ecommerce";
 
 
@@ -14,3 +14,8 @@ if ($conn->connect_error) {
 }
 
 ?>
+
+
+<!-- cd "/Applications/XAMPP/xamppfiles/htdocs/dashboard/practice/Toy's project/"
+chmod 755 images
+chmod 777 images -->

@@ -1,3 +1,4 @@
+
 <?php
 
 // Start output buffering
@@ -40,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stockQuantity = $_POST['stockQuantity'];
     $discount = $_POST['discount'];
     $status = $_POST['status'];
-    $subCategoryId=$_POST['subCategory'];
+    echo $status;
+    // $subCategoryId=$_POST['subCategory'];
 
     // Handle file upload
     $imageUrl = '';
@@ -51,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadFile = $uploadDir . $originalName;
 
         // Validate file type and size
-        $allowedTypes = ['image/jpeg', 'image/png','image/avif', 'image/gif'];
+        $allowedTypes = ['image/jpeg', 'image/png','image/jpg','image/avif', 'image/gif'];
         $fileType = mime_content_type($tmpName);
         
         if (in_array($fileType, $allowedTypes) && $_FILES['imageUrl']['size'] < 2000000) { // Limit size to 2MB
@@ -70,8 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'update' && $updateId > 0) {
         // Update product logic
-        $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, SKU=?, categoryId=?, brandId=?, ageGroupId=?, stockQuantity=?, imageUrl=?, discount=?, status=? WHERE id=?");
-        $stmt->bind_param("ssdsiiiissii", $name, $description, $price, $SKU, $categoryId, $brandId, $ageGroupId, $stockQuantity, $imageUrl, $discount, $status, $updateId);
+        $stmt = $conn->prepare("UPDATE products SET name=?, description=?, price=?, SKU=?, categoryId=?, brandId=?, ageGroupId=?, stockQuantity=?, imageUrl=?, discount=?, `status`=? WHERE id=?");
+        $stmt->bind_param("ssdsiiiisisi", $name, $description, $price, $SKU, $categoryId, $brandId, $ageGroupId, $stockQuantity, $imageUrl, $discount, $status, $updateId);
+        // print_r($stmt);
+        
         if ($stmt->execute()) {
             header('Location: adminHome.php'); // Redirect on success
             exit();
@@ -79,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errorMsg = "Something went wrong while updating the product.";
         }
     } else {
-        // Add new product logic
+        
         $stmt = $conn->prepare("INSERT INTO products (name, description, price, SKU, categoryId, brandId, ageGroupId, stockQuantity, imageUrl, discount, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssdsiiiisis", $name, $description, $price, $SKU, $categoryId, $brandId, $ageGroupId, $stockQuantity, $imageUrl, $discount, $status);
         if ($stmt->execute()) {
@@ -95,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $categories = $conn->query("SELECT id, name FROM categories");
 $brands = $conn->query("SELECT id, name FROM brands");
 $ageGroups = $conn->query("SELECT id, ageGroup FROM agegroup");
-$subCategory = $conn->query("SELECT id, name FROM subCategories");
+// $subCategory = $conn->query("SELECT id, name FROM subCategories");
 
 // Fetch product data if updating
 if ($action === 'update' && $updateId > 0) {
@@ -118,98 +122,101 @@ ob_end_flush();
 ?>
 
 
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f5f5f5;
-            background-image: url('images/teddy_bear_2.avif');
-    background-position:center;
-    background-repeat: no-repeat;
-    background-size: cover;
-   
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        }
-        .form-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 80%;
-            max-width: 600px;
-        }
-        h1 {
-            text-align: center;
-            color: #ff5722;
-        }
-        input[type="text"],
-        input[type="number"],
-        input[type="file"],
-        textarea,
-        select {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #00008b; /* Dark Blue */
-            outline: none;
-        }
-        button {
-            background-color: #ff5722;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            display: block;
-            width: 97%;
-        }
-        button:hover {
-            background-color: #e64a19;
-        }
-        input::placeholder,
-        textarea::placeholder {
-            color: #ff5722; /* Placeholder color */
-        }
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-        input[type="file"]::-webkit-file-upload-button {
-    background: #ff5722;
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
+
+
+<style>
+.section{
+    /* position:absolute; */
+    height: 100vh;
+    position:absolute;
+        top:20%;
+        left:30%;
 }
-input[type="file"]::placeholder {
-    color: #ff5722;
+
+
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        /* Set a max width for the form container */
+        margin: 0 auto;
+        /* Center horizontally */
+        padding: 20px 20px 20px 40px;
+        /* Add some padding */
+        border: 1px solid #ddd;
+        /* Optional: Add border */
+        border-radius: 8px;
+        /* Optional: Add border radius for rounded corners */
+        background-color: #f9f9f9;
+        /* Optional: Add background color */
+    }
+
+    .form-container button {
+
+        /* width: 94%; */
+    }
+
+    .form-container h1 {
+        width: 94%;
+        margin: 15px 0;
+    }
+
+    input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
-    </style>
-</head>
+
+
+.quill-container{
+    width: 96%;
+    /* height: 120px; */
+    /* padding:10px; */
+    margin-bottom:15px;
+}
+</style>
+
+
+
+
+
+
 <body>
-    <div class="form-container">
+
+    <?php include_once 'adminHeader.php';  ?>
+    <div class="container-admin-panel">
+
+
+
+
+
+
+        <main class="content">
+
+            <section id="section1" class="section products-db">
+
+
+            <div class="form-container">
         <h1><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></h1>
         <?php if (!empty($errorMsg)) { ?>
             <p style="color: red; text-align: center;"><?php echo $errorMsg; ?></p>
         <?php } ?>
-<form action="addProducts.php" method="post" enctype="multipart/form-data">
+<form  method="post" enctype="multipart/form-data">
     <input type="hidden" name="action" value="<?php echo $action; ?>">
     <?php if ($action === 'update') { ?>
         <input type="hidden" name="updateId" value="<?php echo $updateId; ?>">
@@ -217,13 +224,22 @@ input[type="file"]::placeholder {
 
     <input type="text" name="name" id="name" value="<?php echo isset($product['name']) ? htmlspecialchars($product['name']) : ''; ?>" required placeholder="Enter product name">
 
-    <textarea name="description" id="description" required placeholder="Enter product description"><?php echo isset($product['description']) ? htmlspecialchars($product['description']) : ''; ?></textarea>
+    <input type="text" value="<?php echo isset($product['description']) ? htmlspecialchars($product['description']) : ''; ?>"   name="description" id="quill-editor2-hidden">
+<div class="quill-container">
+    
+
+            <div id="quill-editor1" class="ql-editor"></div>
+</div>
+
+    <!-- <textarea name="description" id="description" required placeholder="Enter product description"><?php echo isset($product['description']) ? htmlspecialchars($product['description']) : ''; ?></textarea> -->
+
 
     <input type="number" step="0.01" name="price" id="price" value="<?php echo isset($product['price']) ? htmlspecialchars($product['price']) : ''; ?>" required placeholder="Enter price">
 
     <input type="text" name="SKU" id="SKU" value="<?php echo isset($product['SKU']) ? htmlspecialchars($product['SKU']) : ''; ?>" placeholder="Enter SKU">
 
-    <select name="categoryId" id="categoryId" required>
+    <select name="categoryId" id="categoryId" onchange="fetchSubcategories(this.value)" required>
+        <option value="">Select Category</option>
         <?php while ($row = $categories->fetch_assoc()) { ?>
             <option value="<?php echo $row['id']; ?>" <?php echo (isset($product['categoryId']) && $product['categoryId'] == $row['id']) ? 'selected' : ''; ?>>
                 <?php echo htmlspecialchars($row['name']); ?>
@@ -231,7 +247,13 @@ input[type="file"]::placeholder {
         <?php } ?>
     </select>
 
+    
+    <select id="subcategory" name="subcategory">
+        <option value="">Select Subcategory</option>
+    </select>
+
     <select name="brandId" id="brandId" required>
+        <option value="">Select Brand</option>
         <?php while ($row = $brands->fetch_assoc()) { ?>
             <option value="<?php echo $row['id']; ?>" <?php echo (isset($product['brandId']) && $product['brandId'] == $row['id']) ? 'selected' : ''; ?>>
                 <?php echo htmlspecialchars($row['name']); ?>
@@ -240,6 +262,7 @@ input[type="file"]::placeholder {
     </select>
 
     <select name="ageGroupId" id="ageGroupId" required>
+    <option value="">Select Age</option>
         <?php while ($row = $ageGroups->fetch_assoc()) { ?>
             <option value="<?php echo $row['id']; ?>" <?php echo (isset($product['ageGroupId']) && $product['ageGroupId'] == $row['id']) ? 'selected' : ''; ?>>
                 <?php echo htmlspecialchars($row['ageGroup']); ?>
@@ -250,17 +273,155 @@ input[type="file"]::placeholder {
     <input type="number" name="stockQuantity" id="stockQuantity" value="<?php echo isset($product['stockQuantity']) ? htmlspecialchars($product['stockQuantity']) : ''; ?>" placeholder="Enter stock quantity">
 
     <input type="file" name="imageUrl" id="imageUrl" <?php echo ($action === 'update' ? '' : 'required'); ?>>
+<?php if(isset($product['imageUrl'])){
+    $imagePath = 'images/' . htmlspecialchars($product["imageUrl"], ENT_QUOTES, 'UTF-8');
+?>
+<img src="<?php echo $imagePath ?>" height="100px" width=100px alt="some">
+
+
+<?php
+
+}
+    ?>
+    
 
     <input type="number" name="discount" id="discount" value="<?php echo isset($product['discount']) ? htmlspecialchars($product['discount']) : ''; ?>" placeholder="Enter discount">
 
     <select name="status" id="status" required>
         <option value="active" <?php echo (isset($product['status']) && $product['status'] === 'active') ? 'selected' : ''; ?>>Active</option>
-        <option value="inactive" <?php echo (isset($product['status']) && $product['status'] === 'inactive') ? 'selected' : ''; ?>>Inactive</option>
+        <option value="discontinued" <?php echo (isset($product['status']) && $product['status'] === 'discontinued') ? 'selected' : ''; ?>>Inactive</option>
     </select>
 
-    <button type="submit"><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></button>
+    <button name="submit" type="submit"><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></button>
 </form>
 
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+        </main>
     </div>
+
+    <script>
+function fetchSubcategories(categoryId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'addSubCategory.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById('subcategory').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send('category_id=' + categoryId);
+}
+</script>
+
+    
+
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.nav-a');
+        const sections = document.querySelectorAll('.section');
+
+        // Function to show the selected section and hide others
+        function showSection(targetId) {
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-target') === targetId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Set up click event handlers for the navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetId = link.getAttribute('data-target');
+                showSection(targetId);
+                // Optionally, remember the last active section in localStorage
+                localStorage.setItem('activeSection', targetId);
+            });
+        });
+
+        // Show the section that was last active, if any
+        const lastActiveSection = localStorage.getItem('activeSection');
+        if (lastActiveSection) {
+            showSection(lastActiveSection);
+        } else {
+            // Optionally, show the first section by default
+            if (sections.length > 0) {
+                showSection(sections[0].id);
+            }
+        }
+    });
+</script>
+
 </html>
+
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+const editor = document.querySelector('.ql-editor');
+// editor.style.maxheight= '400px'; 
+
+     var quill1 = new Quill('#quill-editor1', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
+                    ['link', 'image', 'video']
+                ]
+            }
+        });
+</script>
+
+

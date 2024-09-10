@@ -30,7 +30,7 @@ body{
 }
 .white-shade-toy-header{
     background-color: whitesmoke;
-    opacity:0.6;
+    /* opacity:0.6; */
     display: flex;
     padding:15px 20px;
 }

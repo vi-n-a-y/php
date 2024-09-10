@@ -74,18 +74,21 @@
 
             <nav>
                 <ul class="section-ul">
-                    <li><a href="#" class="nav-a" data-target="section1">Products</a></li>
-                    <li><a href="#" class="nav-a" data-target="section2">Customers</a></li>
-                    <li><a href="#" class="nav-a" data-target="section3">Brands</a></li>
-                    
-                    <li><a href="#" class="nav-a" data-target="section5">Category</a></li>
-                    <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
-                    <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
-                    <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section1">Products</a></li>
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section2">Customers</a></li>
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section3">Brands</a></li> 
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section5">Category</a></li>
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section8">Sub-Category</a></li>
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section6">Age Group</a></li>
+                    <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section7">About Us</a></li>
                 </ul>
             </nav>
 
-        </div>    
+        </div> 
+        
+        
+
+
 
 
 
@@ -96,6 +99,8 @@
         
         flex-direction: row; */
     }
+
+   
 
     .toys-header-container{
         position:fixed;
@@ -109,7 +114,7 @@
     nav {
 
         position: fixed; /* Fixes the sidebar in the viewport */
-    top: 18%; /* Aligns it to the top of the viewport */
+    top: 16%; /* Aligns it to the top of the viewport */
     left: 0; /* Aligns it to the left side of the viewport */
     width: 250px; /* Adjust the width of the sidebar */
     height: 100vh;
@@ -158,6 +163,12 @@
     .section.active {
         display: block;
     }
-            </style>
+</style>
 
+
+<script>
+        function navigateToExample() {
+            window.location.href = "http://localhost/dashboard/practice/Toy's%20project/adminHome.php";
+        }
+    </script>
 

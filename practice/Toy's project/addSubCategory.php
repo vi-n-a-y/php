@@ -6,6 +6,23 @@ ob_start();
 // Include database connection
 require 'db_connect.php';
 
+
+
+
+if (isset($_POST['category_id'])) {
+    $category_id = $_POST['category_id'];
+    $subcategories = $conn->query("SELECT * FROM subcategories WHERE categoryId = $category_id");
+
+    echo '<option value="">Select Subcategory</option>';
+    while ($row = $subcategories->fetch_assoc()) {
+        echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+    }
+}
+
+
+
+
+
 // Initialize variables
 $action = isset($_GET['type']) ? $_GET['type'] : '';
 $updateId = isset($_GET['updateId']) ? intval($_GET['updateId']) : 0;
@@ -92,39 +109,49 @@ ob_end_flush();
 <link rel="stylesheet" href="style.css">
 
 
-    <style>
-        .container-admin-panel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh; /* Full viewport height */
-        }
+<style>
+    .container-admin-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        /* Full viewport height */
+    }
 
-        .content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%; /* Ensure full width */
-        }
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        /* Ensure full width */
+    }
 
-        .form-container {
-            width: 100%;
-            max-width: 600px; /* Set a max width for the form container */
-            margin: 0 auto; /* Center horizontally */
-            padding: 20px; /* Add some padding */
-            border: 1px solid #ddd; /* Optional: Add border */
-            border-radius: 8px; /* Optional: Add border radius for rounded corners */
-            background-color: #f9f9f9; /* Optional: Add background color */
-        }
-        .form-container button{
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        /* Set a max width for the form container */
+        margin: 0 auto;
+        /* Center horizontally */
+        padding: 20px 20px 20px 40px;
+        /* Add some padding */
+        border: 1px solid #ddd;
+        /* Optional: Add border */
+        border-radius: 8px;
+        /* Optional: Add border radius for rounded corners */
+        background-color: #f9f9f9;
+        /* Optional: Add background color */
+    }
 
-            width: 94%;
-        }
-        .form-container h1{
-            width: 94%;
-            margin:15px 0;
-        }
-    </style>
+    .form-container button {
+
+        width: 94%;
+    }
+
+    .form-container h1 {
+        width: 94%;
+        margin: 15px 0;
+    }
+</style>
 
 
 
@@ -141,7 +168,7 @@ ob_end_flush();
 
 
 
-            <main class="content">    
+        <main class="content">
 
             <section id="section8" class="section products-db">
 
@@ -153,38 +180,36 @@ ob_end_flush();
 
 
 
-<div class="form-container">
-        <h1><?php echo ($action === 'update' ? 'Update Sub-category' : 'Add Sub-Category'); ?></h1>
-        <?php if (!empty($errorMsg)) { ?>
-            <p style="color: red; text-align: center;"><?php echo $errorMsg; ?></p>
-        <?php } ?>
-<form method="post" enctype="multipart/form-data">
-    <input type="hidden" name="action" value="<?php echo $action; ?>">
-    <?php if ($action === 'update') { ?>
-        <input type="hidden" name="updateId" value="<?php echo $updateId; ?>">
-    <?php } ?>
+                <div class="form-container">
+                    <h1><?php echo ($action === 'update' ? 'Update Sub-category' : 'Add Sub-Category'); ?></h1>
+                    <?php if (!empty($errorMsg)) { ?>
+                        <p style="color: red; text-align: center;"><?php echo $errorMsg; ?></p>
+                    <?php } ?>
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="<?php echo $action; ?>">
+                        <?php if ($action === 'update') { ?>
+                            <input type="hidden" name="updateId" value="<?php echo $updateId; ?>">
+                        <?php } ?>
 
-    <input type="text" name="subCategory" id="name" value="<?php echo isset($subCat['name']) ? htmlspecialchars($subCat['name']) : ''; ?>" required placeholder="Enter Sub-Category Name">
-
-
-
-    <select name="categoryId" id="categoryId" required>
-        <?php while ($row = $categories->fetch_assoc()) { ?>
-            <option value="<?php echo $row['id']; ?>" <?php echo (isset($subCat['categoryId']) && $subCat['categoryId'] == $row['id']) ? 'selected' : ''; ?>>
-                <?php echo htmlspecialchars($row['name']); ?>
-            </option>
-        <?php } ?>
-    </select>
+                        <input type="text" name="subCategory" id="name" value="<?php echo isset($subCat['name']) ? htmlspecialchars($subCat['name']) : ''; ?>" required placeholder="Enter Sub-Category Name">
 
 
 
+                        <select name="categoryId" id="categoryId" required>
+                            <?php while ($row = $categories->fetch_assoc()) { ?>
+                                <option value="<?php echo $row['id']; ?>" <?php echo (isset($subCat['categoryId']) && $subCat['categoryId'] == $row['id']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($row['name']); ?>
+                                </option>
+                            <?php } ?>
+                        </select>
 
-    <button type="submit"><?php echo ($action === 'update' ? 'Update Sub-Category' : 'Add Sub-Category'); ?></button>
-</form>
-
-    </div>
 
 
+
+                        <button type="submit"><?php echo ($action === 'update' ? 'Update Sub-Category' : 'Add Sub-Category'); ?></button>
+                    </form>
+
+                </div>
 
 
 
@@ -200,21 +225,16 @@ ob_end_flush();
 
 
 
-                
+
+
+
 
             </section>
 
-          </main>
-        </div>
-
+        </main>
     </div>
 
-
-
-
-
-
-
+    
 
 </body>
 

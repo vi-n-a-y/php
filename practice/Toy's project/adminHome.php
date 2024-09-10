@@ -238,7 +238,7 @@ if (!isset($_SESSION['adminLogin'])) {
                     <li><a href="#" class="nav-a" data-target="section5">Category</a></li> 
                     <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
                     <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
-                    <!-- <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li> -->
+                    <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
                 </ul>
             </nav>
 
