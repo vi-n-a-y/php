@@ -136,11 +136,23 @@ ob_end_flush();
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+ 
+
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
 
 <style>
+
+
+.error { color: red; }
+        .error-message { display: block; color: red; font-size: 0.875em; margin-top: 0.5em; }
+        /* .required:after { content: " *"; color: red; } */
+        .error-icon { color: red; margin-right: 0.5em; }
+        .error-icon::before { content: "\f071"; font-family: "Font Awesome 6 Free"; font-weight: 900; } /* ⚠️ icon */
+        
+
+
 .section{
     /* position:absolute; */
     height: 100vh;
@@ -189,6 +201,20 @@ input::-webkit-inner-spin-button {
     /* padding:10px; */
     margin-bottom:15px;
 }
+
+.form-container  input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="file"],
+        .form-container  textarea,
+        .form-container  select {
+            margin-bottom:0;
+            
+            margin-top: 10px;
+            
+            
+        }
+
+
 </style>
 
 
@@ -216,29 +242,31 @@ input::-webkit-inner-spin-button {
         <?php if (!empty($errorMsg)) { ?>
             <p style="color: red; text-align: center;"><?php echo $errorMsg; ?></p>
         <?php } ?>
-<form  method="post" enctype="multipart/form-data">
+<form  method="post" id="product-form" enctype="multipart/form-data">
     <input type="hidden" name="action" value="<?php echo $action; ?>">
     <?php if ($action === 'update') { ?>
         <input type="hidden" name="updateId" value="<?php echo $updateId; ?>">
     <?php } ?>
 
-    <input type="text" name="name" id="name" value="<?php echo isset($product['name']) ? htmlspecialchars($product['name']) : ''; ?>" required placeholder="Enter product name">
+    <input type="text" name="name" id="name" value="<?php echo isset($product['name']) ? htmlspecialchars($product['name']) : ''; ?>"  placeholder="Enter product name">
+    <span id="productNameError" class="error-message"></span>
 
-    <input type="text" value="<?php echo isset($product['description']) ? htmlspecialchars($product['description']) : ''; ?>"   name="description" id="quill-editor2-hidden">
-<div class="quill-container">
-    
+    <div class="quill-container">
+        <div id="quill-editor1"></div>
+    </div>
+    <input type="hidden" name="description" id="quill-editor-content">
+    <span id="productDesError" class="error-message"></span>
 
-            <div id="quill-editor1" class="ql-editor"></div>
-</div>
-
-    <!-- <textarea name="description" id="description" required placeholder="Enter product description"><?php echo isset($product['description']) ? htmlspecialchars($product['description']) : ''; ?></textarea> -->
+    <!-- <textarea name="description" id="description"  placeholder="Enter product description"><?php /* echo isset($product['description']) ? htmlspecialchars($product['description']) : '' */; ?></textarea> -->
 
 
-    <input type="number" step="0.01" name="price" id="price" value="<?php echo isset($product['price']) ? htmlspecialchars($product['price']) : ''; ?>" required placeholder="Enter price">
+    <input type="number" step="0.01" name="price" id="price" value="<?php echo isset($product['price']) ? htmlspecialchars($product['price']) : ''; ?>"  placeholder="Enter price">
+    <span id="productPriceError" class="error-message"></span>
 
     <input type="text" name="SKU" id="SKU" value="<?php echo isset($product['SKU']) ? htmlspecialchars($product['SKU']) : ''; ?>" placeholder="Enter SKU">
+    <span id="productSkuError" class="error-message"></span>
 
-    <select name="categoryId" id="categoryId" onchange="fetchSubcategories(this.value)" required>
+    <select name="categoryId" id="categoryId" onchange="fetchSubcategories(this.value)" >
         <option value="">Select Category</option>
         <?php while ($row = $categories->fetch_assoc()) { ?>
             <option value="<?php echo $row['id']; ?>" <?php echo (isset($product['categoryId']) && $product['categoryId'] == $row['id']) ? 'selected' : ''; ?>>
@@ -246,13 +274,14 @@ input::-webkit-inner-spin-button {
             </option>
         <?php } ?>
     </select>
-
+    <span id="productCatError" class="error-message"></span>
     
     <select id="subcategory" name="subcategory">
         <option value="">Select Subcategory</option>
     </select>
+    <span id="productSubCatError" class="error-message"></span>
 
-    <select name="brandId" id="brandId" required>
+    <select name="brandId" id="brandId" >
         <option value="">Select Brand</option>
         <?php while ($row = $brands->fetch_assoc()) { ?>
             <option value="<?php echo $row['id']; ?>" <?php echo (isset($product['brandId']) && $product['brandId'] == $row['id']) ? 'selected' : ''; ?>>
@@ -260,8 +289,9 @@ input::-webkit-inner-spin-button {
             </option>
         <?php } ?>
     </select>
+    <span id="productBrandError" class="error-message"></span>
 
-    <select name="ageGroupId" id="ageGroupId" required>
+    <select name="ageGroupId" id="ageGroupId" >
     <option value="">Select Age</option>
         <?php while ($row = $ageGroups->fetch_assoc()) { ?>
             <option value="<?php echo $row['id']; ?>" <?php echo (isset($product['ageGroupId']) && $product['ageGroupId'] == $row['id']) ? 'selected' : ''; ?>>
@@ -269,10 +299,14 @@ input::-webkit-inner-spin-button {
             </option>
         <?php } ?>
     </select>
+    <span id="productAgeGroupError" class="error-message"></span>
 
     <input type="number" name="stockQuantity" id="stockQuantity" value="<?php echo isset($product['stockQuantity']) ? htmlspecialchars($product['stockQuantity']) : ''; ?>" placeholder="Enter stock quantity">
+    <span id="productQuantityError" class="error-message"></span>
 
-    <input type="file" name="imageUrl" id="imageUrl" <?php echo ($action === 'update' ? '' : 'required'); ?>>
+    <input type="file" name="imageUrl" id="imageUrl" <?php echo ($action === 'update' ? '' : ''); ?>>
+    <span id="fileError" class="error-message"></span>
+
 <?php if(isset($product['imageUrl'])){
     $imagePath = 'images/' . htmlspecialchars($product["imageUrl"], ENT_QUOTES, 'UTF-8');
 ?>
@@ -286,11 +320,14 @@ input::-webkit-inner-spin-button {
     
 
     <input type="number" name="discount" id="discount" value="<?php echo isset($product['discount']) ? htmlspecialchars($product['discount']) : ''; ?>" placeholder="Enter discount">
+    <span id="productDiscountError" class="error-message"></span>
 
-    <select name="status" id="status" required>
+    <select name="status" id="status" >
+        <option value="">Select Status</option>
         <option value="active" <?php echo (isset($product['status']) && $product['status'] === 'active') ? 'selected' : ''; ?>>Active</option>
         <option value="discontinued" <?php echo (isset($product['status']) && $product['status'] === 'discontinued') ? 'selected' : ''; ?>>Inactive</option>
     </select>
+    <span id="productStatusError" class="error-message"></span>
 
     <button name="submit" type="submit"><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></button>
 </form>
@@ -298,28 +335,312 @@ input::-webkit-inner-spin-button {
 
 
 
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+
+
+
+    <!-- <script>
+        // Initialize Quill editor
+        var quill1 = new Quill('#quill-editor1', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
+                    ['link', 'image', 'video']
+                ]
+            }
+        });
+
+        // Load existing data into Quill editor
+        var existingDescription = <?php /* echo json_encode(isset($product['description']) ? htmlspecialchars($product['description']) : '') */; ?>;
+        
+        quill1.root.innerHTML = existingDescription;
+
+        // Update the hidden field when Quill content changes
+        quill1.on('text-change', function() {
+            document.getElementById('quill-editor-content').value = quill1.root.innerHTML;
+        });
+    </script> -->
+
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var quill1 = new Quill('#quill-editor1', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],
+                ['blockquote', 'code-block'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['link', 'image']
+            ]
+        }
+    });
+
+
+    var existingDescription = <?php echo json_encode(isset($product['description']) ? htmlspecialchars($product['description']) : ''); ?>;
+        
+        quill1.root.innerHTML = existingDescription;
+
+    quill1.on('text-change', function() {
+        document.getElementById('quill-editor-content').value = quill1.root.innerHTML;
+    });
+
+    function validateProductDes() {
+        const description = document.getElementById('quill-editor-content').value.trim();
+        const descriptionError = document.getElementById('productDesError');
+        if (!description) {
+            descriptionError.innerHTML = '<span class="error-icon"></span>Product Description is Required.';
+            return false;
+        } else {
+            descriptionError.textContent = '';
+            return true;
+        }
+    }
+
+    function validateForm(event) {
+        let isValid = true;
+        isValid &= validateProductDes();
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    }
+
+    document.getElementById('product-form').addEventListener('submit', validateForm);
+});
+
+</script>
+
+<script>
+
+
+
+
+function validateProductName() {
+    const name = document.getElementById('name').value.trim();
+    const nameError = document.getElementById('productNameError');
+    if (!name) {
+        nameError.innerHTML = '<span class="error-icon"></span>Product Name is Required.';
+        return false;
+    } else {
+        nameError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductDes() {
+        const description = document.getElementById('quill-editor-content').value.trim();
+        const descriptionError = document.getElementById('productDesError');
+        if (!description) {
+            descriptionError.innerHTML = '<span class="error-icon"></span>Product Description is Required.';
+            return false;
+        } else {
+            descriptionError.textContent = '';
+            return true;
+        }
+    }
+
+function validateProductPrice() {
+    const price = parseFloat(document.getElementById('price').value.trim());
+    const priceError = document.getElementById('productPriceError');
+    if (price <= 0) {
+        priceError.innerHTML = '<span class="error-icon"></span>Please Enter a Positive Price.';
+        return false;
+    }
+    if (isNaN(price)) {
+        priceError.innerHTML = '<span class="error-icon"></span>Please Enter a Valid Price.';
+        return false;
+    } else {
+        priceError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductSku() {
+    const sku = document.getElementById('SKU').value.trim();
+    const skuError = document.getElementById('productSkuError');
+    if (!sku) {
+        skuError.innerHTML = '<span class="error-icon"></span>Product SKU is Required.';
+        return false;
+    } else {
+        skuError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductCat() {
+    const category = document.getElementById('categoryId').value.trim();
+    const categoryError = document.getElementById('productCatError');
+    if (!category) {
+        categoryError.innerHTML = '<span class="error-icon"></span>Select Product Category';
+        return false;
+    } else {
+        categoryError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductSubCat() {
+    const subCategory = document.getElementById('subcategory').value.trim();
+    const subCategoryError = document.getElementById('productSubCatError');
+    if (!subCategory) {
+        subCategoryError.innerHTML = '<span class="error-icon"></span>Select Product Sub-Category';
+        return false;
+    } else {
+        subCategoryError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductBrand() {
+    const brand = document.getElementById('brandId').value.trim();
+    const brandError = document.getElementById('productBrandError');
+    if (!brand) {
+        brandError.innerHTML = '<span class="error-icon"></span>Select Product Brand';
+        return false;
+    } else {
+        brandError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductAgeGroup() {
+    const ageGroup = document.getElementById('ageGroupId').value.trim();
+    const ageGroupError = document.getElementById('productAgeGroupError');
+    if (!ageGroup) {
+        ageGroupError.innerHTML = '<span class="error-icon"></span>Select Product Age-Group';
+        return false;
+    } else {
+        ageGroupError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductQuantity() {
+    const quantity = parseInt(document.getElementById('stockQuantity').value.trim(), 10);
+    const quantityError = document.getElementById('productQuantityError');
+    if (quantity < 0) {
+        quantityError.innerHTML = '<span class="error-icon"></span>Please Enter Positive Quantity.';
+        return false;
+    }
+    if (isNaN(quantity)) {
+        quantityError.innerHTML = '<span class="error-icon"></span>Please Enter the Product Quantity.';
+        return false;
+    } else {
+        quantityError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductImage() {
+    const fileInput = document.getElementById('imageUrl');
+    const fileError = document.getElementById('fileError');
+    if (fileInput.files.length === 0) {
+        fileError.innerHTML = '<span class="error-icon"></span>File is required.';
+        return false;
+    } else {
+        fileError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductDiscount() {
+    const discount = parseFloat(document.getElementById('discount').value.trim());
+    const discountError = document.getElementById('productDiscountError');
+    if (discount < 0) {
+        discountError.innerHTML = '<span class="error-icon"></span>Please Enter a Positive Discount Value.';
+        return false;
+    }
+    if (isNaN(discount)) {
+        discountError.innerHTML = '<span class="error-icon"></span>Please Enter the Product Discount.';
+        return false;
+    } else {
+        discountError.textContent = '';
+        return true;
+    }
+}
+
+function validateProductStatus() {
+    const status = document.getElementById('status').value.trim();
+    const statusError = document.getElementById('productStatusError');
+    if (!status) {
+        statusError.innerHTML = '<span class="error-icon"></span>Select Product Status';
+        return false;
+    } else {
+        statusError.textContent = '';
+        return true;
+    }
+}
+
+function validateForm(event) {
+    let isValid = true;
+    isValid &= validateProductName();
+   
+    isValid &= validateProductPrice();
+    isValid &= validateProductSku();
+    isValid &= validateProductCat();
+    isValid &= validateProductSubCat();
+    isValid &= validateProductBrand();
+    isValid &= validateProductAgeGroup();
+    isValid &= validateProductQuantity();
+    isValid &= validateProductImage();
+    isValid &= validateProductDiscount();
+    isValid &= validateProductStatus();
+    // isValid &= validateProductDes();
+
+    if (!isValid) {
+        event.preventDefault(); // Prevent form submission
+    }
+}
+
+function addEventListeners() {
+    // Add input event listeners for real-time validation
+    document.getElementById('name').addEventListener('input', validateProductName);
+    // Quill editor
+    document.getElementById('price').addEventListener('input', validateProductPrice);
+    document.getElementById('SKU').addEventListener('input', validateProductSku);
+    document.getElementById('categoryId').addEventListener('click', validateProductCat);
+    document.getElementById('subcategory').addEventListener('click', validateProductSubCat);
+    document.getElementById('brandId').addEventListener('click', validateProductBrand);
+    document.getElementById('ageGroupId').addEventListener('click', validateProductAgeGroup);
+    document.getElementById('stockQuantity').addEventListener('input', validateProductQuantity);
+    document.getElementById('imageUrl').addEventListener('change', validateProductImage);
+    document.getElementById('discount').addEventListener('input', validateProductDiscount);
+    document.getElementById('status').addEventListener('click', validateProductStatus);
+    // document.getElementById('description').addEventListener('input', validateProductDes); 
+
+    // Form validation on submit
+    document.getElementById('product-form').addEventListener('submit', validateForm);
+}
+
+// Initialize event listeners
+addEventListeners();
+
+
+
+</script>
+
+
+
+
+
+
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -396,32 +717,5 @@ function fetchSubcategories(categoryId) {
 </script>
 
 </html>
-
-
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script>
-const editor = document.querySelector('.ql-editor');
-// editor.style.maxheight= '400px'; 
-
-     var quill1 = new Quill('#quill-editor1', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{ 'header': 1 }, { 'header': 2 }],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    [{ 'script': 'sub'}, { 'script': 'super' }],
-                    [{ 'indent': '-1'}, { 'indent': '+1' }],
-                    [{ 'direction': 'rtl' }],
-                    [{ 'size': ['small', false, 'large', 'huge'] }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'font': [] }],
-                    [{ 'align': [] }],
-                    ['link', 'image', 'video']
-                ]
-            }
-        });
-</script>
 
 
