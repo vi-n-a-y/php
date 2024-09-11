@@ -34,7 +34,7 @@
                     <a href="#">shop now</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="contactUs.php">Contact</a>
                 </li>
                 <li>
                     <a href="#">WishList</a>

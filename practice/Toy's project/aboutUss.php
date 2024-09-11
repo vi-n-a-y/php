@@ -50,7 +50,8 @@ $processedContent1 = processQuillContent($content1);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
+       <link rel="stylesheet" href="style.css">
+    <!-- <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -59,9 +60,12 @@ $processedContent1 = processQuillContent($content1);
         }
 
         .abt-main-con {
-            width: 80%;
+            position:absolute;
+            top:20%;
+            width: 100%;
             margin: auto;
             padding: 20px;
+            /* margin-bottom: 200px; */
         }
 
         .abt-img-header {
@@ -131,12 +135,108 @@ $processedContent1 = processQuillContent($content1);
         .nav-a-div{
             display: none;
         }
+    </style> -->
+    <style>
+            .nav-a-div{
+            display: none;
+        }
+
+
+
+.abt-main-con {
+    flex: 1; /* Takes up available space so footer stays at the bottom */
+    width: 100%;
+    padding: 20px;
+   /* Ensure footer doesn’t overlap with content */
+   position:absolute;
+   top:20%;
+}
+
+.abt-img-header {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.abt-img-header::before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.abt-img-header .title-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    max-width: 80%;
+    transform: translate(-50%, -50%);
+}
+
+.abt-content1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.abt-content1 img {
+    max-width: 50%;
+    height: 300px; 
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.abt-content1 .text-content {
+    flex: 1;
+}
+
+.abt-content2 {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .abt-content1 {
+        flex-direction: column;
+    }
+
+    .abt-content1 img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+.add-mrg-header{
+    margin-bottom: 100px;
+}
+
+
+
+
+
+
+
+
     </style>
     
 </head>
 
-<?php  include_once 'adminHeader.php';  ?>
 <body>
+<div class="add-mrg-header">
+<?php  include_once 'adminHeader.php';  ?>
+</div>
 
 <div class="abt-main-con">
     <div class="abt-img-header" style="background-image: url('<?php echo $imagePath; ?>');">
@@ -158,7 +258,10 @@ $processedContent1 = processQuillContent($content1);
         <?php endforeach; ?>
         <?php echo $processedContent1['texts'][0]; ?>
     </div>
+    <?php include_once 'footer.php' ?>
 </div>
+
+
 
 </body>
 </html>
