@@ -84,7 +84,7 @@ if (!isset($_SESSION['adminLogin'])) {
     nav ul li a {
         color: #fff;
         text-decoration: none;
-        display: inline-block;
+        display: block;
         padding: 10px;
     }
 
@@ -237,8 +237,9 @@ if (!isset($_SESSION['adminLogin'])) {
                     <!-- <li><a href="#" class="nav-a" data-target="section4">Orders</a></li> -->
                     <li><a href="#" class="nav-a" data-target="section5">Category</a></li> 
                     <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
-                    <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
+                   
                     <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
+                    <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
                 </ul>
             </nav>
 
@@ -372,13 +373,13 @@ if (!isset($_SESSION['adminLogin'])) {
                                 <tr>
                                     <th data-sort="productId">Product ID</th>
                                     <th data-sort="productName">Product Name</th>
-                                    <th data-sort="description">Description</th>
+                                    <!-- <th data-sort="description">Description</th> -->
                                     <th data-sort="price">Price</th>
                                     <th data-sort="SKU">SKU</th>
                                     <th data-sort="stockQuantity">Stock Quantity</th>
                                     <th data-sort="imageUrl">Image URL</th>
                                     <th data-sort="discount">Discount</th>
-                                    <th data-sort="updatedAt">Updated At</th>
+                                    <!-- <th data-sort="updatedAt">Updated At</th> -->
                                     <th data-sort="status">Status</th>
                                     <th data-sort="categoryName">Category Name</th>
                                     <th data-sort="brandName">Brand Name</th>
@@ -399,14 +400,13 @@ if (!isset($_SESSION['adminLogin'])) {
                                                 
                                                 <td>{$i}</td>
                                                 <td>{$row['productName']}</td>
-                                                <td>{$row['description']}</td>
+                                                 
                                                 <td>{$row['price']}</td>
                                                 <td>{$row['SKU']}</td>
                                                 <td>{$row['stockQuantity']}</td>
-                                                 <td><img src='{$imagePath}' height='50px' width='50px' alt='some'></td>
+                                                <td><img src='{$imagePath}' height='50px' width='50px' alt='some'></td>
                                                 <td>{$row['discount']}</td>
-                                               
-                                                <td>{$row['updatedAt']}</td>
+                                                
                                                 <td>{$row['status']}</td>
                                                 <td>{$row['categoryName']}</td>
                                                 <td>{$row['brandName']}</td>
@@ -414,6 +414,8 @@ if (!isset($_SESSION['adminLogin'])) {
                                                 <td><button  class='action-btn update-btn'><a class='modify-btn' href='addProducts.php?type=update&updateId={$row["productId"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
                                                      <button class='action-btn delete-btn'><a class='modify-btn'  href='addProducts.php?type=delete&deleteId={$row["productId"]}'> <i class='fa-solid fa-trash'></i></a></button></td>
                                               ";
+                                            //   <td>{$row['updatedAt']}</td>
+                                            //   <td>{$row['description']}</td> 
 
 
 

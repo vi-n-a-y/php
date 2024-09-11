@@ -1,51 +1,98 @@
+<?php
+ob_start();
+include_once 'db_connect.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $content1 = $_POST['content1'];
+    $aboutFile = null;
+    if (isset($_FILES['aboutFile']) && $_FILES['aboutFile']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['aboutFile'];
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+        if (in_array($file['type'], $allowedTypes)) {
+            $fileName = basename($file['name']);
+            $targetDir = 'images/';
+            $targetFile = $targetDir . $fileName;
+            if (!is_writable($targetDir)) {
+                echo "The directory is not writable.";
+            }
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+                $aboutFile = $fileName;
+            } else {
+                echo "Failed to move uploaded file.";
+                exit;
+            }
+        } else {
+            echo "Invalid file type. Only JPEG, PNG, and GIF are allowed.";
+            exit;
+        }
+    }
+    $stmt = $conn->prepare("INSERT INTO aboutUs (title, content, content1, aboutFile) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $title, $content, $content1, $aboutFile);
+    if ($stmt->execute()) {
+        header('Location: adminHome.php');
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+    $stmt->close();
+}
+$conn->close();
+ob_end_flush();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>About Us</title>
+    
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #F5F7F8;
-            
-
         }
 
-        .aboutus-flex{
+        .aboutus-flex {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-
         }
 
-        .container {
-            width: 80%;
-            
+        .container-abt {
+            width: 1400px;
             margin: auto;
             overflow: hidden;
             padding: 20px;
         }
-        h1 {
+
+        .container-abt h1 {
             color: #333;
             text-align: center;
         }
-        form {
+
+        .container-abt form {
             background: #fff;
-            padding: 20px;
+            padding: 40px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 1000px;
             margin: auto;
         }
-        label {
+
+        .container-abt label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
         }
-        input[type="text"], textarea {
+
+        .container-abt input[type="text"], textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -53,18 +100,18 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        input[type="file"]{
-            width:100%;
-            padding:15px;
+
+        .container-abt input[type="file"] {
+            width: 100%;
+            padding: 15px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
-
         }
 
-        input[type="submit"] {
-            margin-left:15px;
+        .container-abt input[type="submit"] {
+            margin-left: 15px;
             background: #5cb85c;
             color: #fff;
             border: none;
@@ -73,48 +120,69 @@
             cursor: pointer;
             font-size: 16px;
         }
-        input[type="submit"]:hover {
+
+        .container-abt input[type="submit"]:hover {
             background: #4cae4c;
         }
 
-
-        input[type="file"]::-webkit-file-upload-button {
+        .container-abt input[type="file"]::-webkit-file-upload-button {
             background: #5cb85c;
             color: #fff;
             border: none;
-            
             padding: 10px;
             cursor: pointer;
             border-radius: 5px;
         }
-        
-        input[type="file"]::placeholder {
+
+        .container-abt input[type="file"]::placeholder {
             color: #ff5722;
+        }
+
+        .quill-container1 {
+            width: 100%;
+            height: 200px; /* Set height for the first Quill editor */
+            margin-bottom: 50px;
+        }
+
+        .quill-container2 {
+            width: 100%;
+            height: 300px; /* Set height for the second Quill editor */
+            margin-bottom: 50px;
         }
     </style>
 </head>
 <body>
 
+<!-- <div class="getting-abt-page">
+    <?php
 
 
+?> -->
 
-
-
+</div>
 
 
 
 
 <div class="aboutus-flex">
-
-<div class="container">
+    <div class="container-abt">
         <h1>Add About Us</h1>
         <form method="post" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
             <label for="content">Content:</label>
-            <textarea id="content" name="content" rows="5" required></textarea>
+            <div class="quill-container1">
+                <div id="quill-editor1"></div>
+            </div>
+            <input type="hidden" name="content" id="quill-editor-content1">
+            <span id="productDesError" class="error-message"></span>
+
             <label for="content1">Description:</label>
-            <textarea id="content1" name="content1" rows="10" required></textarea>
+            <div class="quill-container2">
+                <div id="quill-editor2"></div>
+            </div>
+            <input type="hidden" name="content1" id="quill-editor-content2">
+            <span id="productDesError" class="error-message"></span>
 
             <label for="content">File:</label>
             <input type="file" name="aboutFile" accept="image/*" id="file">
@@ -122,88 +190,62 @@
             <input type="submit" value="Submit">
         </form>
     </div>
-
 </div>
 
-    </body>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
-    <?php
-include_once 'db_connect.php';
-
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-    $content1 = $_POST['content1'];
-    // $aboutFile=$_POST['aboutFile'];
-
-
-    $aboutFile = null;
-
-        if (isset($_FILES['aboutFile']) && $_FILES['aboutFile']['error'] === UPLOAD_ERR_OK) {
-            $file = $_FILES['aboutFile'];
-            $allowedTypes = ['image/jpeg', 'image/png','image/jpg', 'image/gif'];
-
-            if (in_array($file['type'], $allowedTypes)) {
-                $fileName = basename($file['name']);
-                $targetDir = 'images/';
-                $targetFile = $targetDir . $fileName;
-
-                if (!is_writable($targetDir)) {
-                    echo "The directory is not writable.";
-                } else {
-                    // echo "The directory is writable.";
-                }
-                
-
-                if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0755, true);
-                }
-
-                if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-                    $aboutFile = $fileName;
-                    // echo "Profile Picture: $profilePic<br>";
-                    // echo "Profile Picture1: $fileName<br>";
-                } else {
-                    echo "Failed to move uploaded file.";
-                    exit;
-                }
-            } else {
-                echo "Invalid file type. Only JPEG, PNG, and GIF are allowed.";
-                exit;
-            }
+<script>
+    // Initialize the first Quill editor
+    var quill1 = new Quill('#quill-editor1', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                [{ 'direction': 'rtl' }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'font': [] }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video']
+            ]
         }
+    });
 
-   
-    $stmt = $conn->prepare("INSERT INTO aboutUs (title, content,content1,aboutFile) VALUES (?, ?,?,?)");
-    $stmt->bind_param("ssss", $title, $content,$content1,$aboutFile);
+    // Update the hidden field for the first Quill editor
+    quill1.on('text-change', function() {
+        document.getElementById('quill-editor-content1').value = quill1.root.innerHTML;
+    });
 
-    // Execute
-    if ($stmt->execute()) {
-        // echo "New record created successfully";
+    // Initialize the second Quill editor
+    var quill2 = new Quill('#quill-editor2', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                [{ 'direction': 'rtl' }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'font': [] }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video']
+            ]
+        }
+    });
 
-        header('location:adminHome.php');
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-$conn->close();
-?>
-
+    // Update the hidden field for the second Quill editor
+    quill2.on('text-change', function() {
+        document.getElementById('quill-editor-content2').value = quill2.root.innerHTML;
+    });
+</script>
+</body>
 </html>
-
-
-
-
-
-
-<!-- cd "/Applications/XAMPP/xamppfiles/htdocs/dashboard/practice/Toy's project/"
-chmod 755 images
-chmod 777 images -->
-
-
-

@@ -255,7 +255,7 @@ input::-webkit-inner-spin-button {
         <div id="quill-editor1"></div>
     </div>
     <input type="hidden" name="description" id="quill-editor-content">
-    <span id="productDesError" class="error-message"></span>
+    <!-- <span id="productDesError" class="error-message"></span> -->
 
     <!-- <textarea name="description" id="description"  placeholder="Enter product description"><?php /* echo isset($product['description']) ? htmlspecialchars($product['description']) : '' */; ?></textarea> -->
 
@@ -614,8 +614,8 @@ function addEventListeners() {
     // Quill editor
     document.getElementById('price').addEventListener('input', validateProductPrice);
     document.getElementById('SKU').addEventListener('input', validateProductSku);
-    document.getElementById('categoryId').addEventListener('click', validateProductCat);
-    document.getElementById('subcategory').addEventListener('click', validateProductSubCat);
+    document.getElementById('categoryId').addEventListener('change ', validateProductCat);
+    document.getElementById('subcategory').addEventListener('change', validateProductSubCat);
     document.getElementById('brandId').addEventListener('click', validateProductBrand);
     document.getElementById('ageGroupId').addEventListener('click', validateProductAgeGroup);
     document.getElementById('stockQuantity').addEventListener('input', validateProductQuantity);
