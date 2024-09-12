@@ -48,18 +48,22 @@ ob_end_flush();
 <head>
     <meta charset="UTF-8">
     <title>About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #F5F7F8;
+            background-color: #F4DEB3;
         }
 
         .aboutus-flex {
-            height: 100vh;
+            /* height: 100vh; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -152,6 +156,7 @@ ob_end_flush();
     </style>
 </head>
 <body>
+<?php  include_once 'header.php'  ?>
 
 <!-- <div class="getting-abt-page">
     <?php
@@ -191,6 +196,7 @@ ob_end_flush();
         </form>
     </div>
 </div>
+
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
@@ -247,5 +253,6 @@ ob_end_flush();
         document.getElementById('quill-editor-content2').value = quill2.root.innerHTML;
     });
 </script>
+<?php  include_once 'footer.php'  ?>
 </body>
 </html>

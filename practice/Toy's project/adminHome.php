@@ -239,6 +239,7 @@ if (!isset($_SESSION['adminLogin'])) {
                     <li><a href="#" class="nav-a" data-target="section6">Age Group</a></li>
                    
                     <li><a href="addSubCategory.php" class="nav-a" data-target="section8">Sub-Category</a></li>
+                    <li><a href="#" class="nav-a" data-target="section9">Contact Us</a></li>
                     <li><a href="#" class="nav-a" data-target="section7">About Us</a></li>
                 </ul>
             </nav>
@@ -412,7 +413,7 @@ if (!isset($_SESSION['adminLogin'])) {
                                                 <td>{$row['brandName']}</td>
                                                 <td>{$row['ageGroupName']}</td>
                                                 <td><button  class='action-btn update-btn'><a class='modify-btn' href='addProducts.php?type=update&updateId={$row["productId"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                                                     <button class='action-btn delete-btn'><a class='modify-btn'  href='addProducts.php?type=delete&deleteId={$row["productId"]}'> <i class='fa-solid fa-trash'></i></a></button></td>
+                                                     <button class='action-btn delete-btn'><a class='modify-btn'  href='addProducts.php?type=delete&deleteId={$row["productId"]}'  onclick='confirmDelete(event, \"Are you sure you want to delete this product?\")'> <i class='fa-solid fa-trash'></i></a></button></td>
                                               ";
                                             //   <td>{$row['updatedAt']}</td>
                                             //   <td>{$row['description']}</td> 
@@ -492,7 +493,7 @@ if (!isset($_SESSION['adminLogin'])) {
 
                                     echo "<td>{$i}</td><td>{$customerRow["updateAt"]}</td><td>{$name}</td><td>{$customerRow["dob"]}</td><td>{$customerRow["email"]}</td><td>{$customerRow["number"]}</td><td><img src='{$customerImagePath}' alt='img' heigh='200' width='100' class='profile-pic' loading='lazy'></td>
                      <td> <button class='action-btn update-btn'><a class='modify-btn' href='addCustomer.php?type=update&updateId={$customerRow["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                <button class='action-btn delete-btn'><a class='modify-btn'  href='addCustomer.php?type=delete&deleteId={$customerRow["id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+                <button class='action-btn delete-btn'><a class='modify-btn'  href='addCustomer.php?type=delete&deleteId={$customerRow["id"]}' onclick='confirmDelete(event, \"Are you sure you want to delete this User?\")'> <i class='fa-solid fa-trash'></i></a></button></td>";
 
 
                                 ?>
@@ -555,7 +556,7 @@ if (!isset($_SESSION['adminLogin'])) {
 
                                         echo "<td>{$i}</td><td>{$brandRow["name"]}</td>
                      <td> <button class='action-btn update-btn'><a class='modify-btn' href='addBrands.php?type=update&updateId={$brandRow["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                <button class='action-btn delete-btn'><a class='modify-btn'  href='addBrands.php?type=delete&deleteId={$brandRow["id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+                <button class='action-btn delete-btn'><a class='modify-btn'  href='addBrands.php?type=delete&deleteId={$brandRow["id"]}' onclick='confirmDelete(event, \"Are you sure you want to delete this Brand?\")'> <i class='fa-solid fa-trash'></i></a></button></td>";
 
 
                                     ?>
@@ -646,7 +647,7 @@ if (!isset($_SESSION['adminLogin'])) {
 
                                         echo "<td>{$i}</td><td>{$categoriesRow["name"]}</td>
                      <td> <button class='action-btn update-btn'><a class='modify-btn' href='addCategories.php?type=update&updateId={$categoriesRow["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                <button class='action-btn delete-btn'><a class='modify-btn'  href='addCategories.php?type=delete&deleteId={$categoriesRow["id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+                <button class='action-btn delete-btn'><a class='modify-btn'  href='addCategories.php?type=delete&deleteId={$categoriesRow["id"]}' onclick='confirmDelete(event, \"Are you sure you want to delete this Order?\")'> <i class='fa-solid fa-trash'></i></a></button></td>";
 
 
                                     ?>
@@ -720,7 +721,7 @@ if (!isset($_SESSION['adminLogin'])) {
 
                                         echo "<td>{$i}</td><td>{$ageRow["ageGroup"]}</td>
                      <td> <button class='action-btn update-btn'><a class='modify-btn' href='addAgeGroup.php?type=update&updateId={$ageRow["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                <button class='action-btn delete-btn'><a class='modify-btn'  href='addAgeGroup.php?type=delete&deleteId={$ageRow["id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+                <button class='action-btn delete-btn'><a class='modify-btn'  href='addAgeGroup.php?type=delete&deleteId={$ageRow["id"]}' onclick='confirmDelete(event, \"Are you sure you want to delete this Age Group?\")'> <i class='fa-solid fa-trash'></i></a></button></td>";
 
 
                                     ?>
@@ -739,6 +740,75 @@ if (!isset($_SESSION['adminLogin'])) {
                             </tbody>
                         </table>
                 </section>
+
+
+
+
+
+                <section id="section9" class="section age-group">
+
+
+
+<?php
+include_once 'db_connect.php';
+// Fetch the About Us content
+$contact = "SELECT * FROM contactUs";
+$contactResult = $conn->query($contact);
+
+$i = 0;
+if ($contactResult->num_rows > 0) {
+?>
+
+    <div class="add-btn-admin">
+
+
+        <h1>Contact Us</h1>
+       
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Update At</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <?php
+                while ($contactRow = $contactResult->fetch_assoc()) {
+                    $i++;
+
+
+
+
+                    echo "<td>{$i}</td><td>{$contactRow["createdAt"]}</td><td>{$contactRow["name"]}</td><td>{$contactRow["email"]}</td><td>{$contactRow["message"]}</td>
+                    <td> <button class='action-btn update-btn'><a class='modify-btn' href='mailto:{$contactRow["email"]}' > <i class='fa-solid fa-reply'></i></a></button>
+                    ";
+                    // <button class='action-btn delete-btn'><a class='modify-btn'  href='addcontactUs.php?type=delete&deleteId={$contactRow["id"]}'   onclick='confirmDelete(event, \"Are you sure you want to delete this Message?\")'> <i class='fa-solid fa-trash'></i></a></button></td>
+
+
+                ?>
+
+
+
+            </tr>
+    <?php
+                }
+            } else {
+                echo "No content available.";
+            }
+
+    ?>
+    <!-- More rows here -->
+        </tbody>
+    </table>
+</section>
+
+
 
 
 
@@ -799,14 +869,25 @@ if (!isset($_SESSION['adminLogin'])) {
                         </thead>
                         <tbody>
                             <tr>
-                                <!-- <td></td>
-                            <td></td>
-                            <td></td> -->
+
+                           <style>
+                            .abt-over-flow-hidden{
+                                /* display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical; */
+                                overflow-y: auto;
+                                /* text-overflow: ellipsis;
+                                white-space: normal; */
+                                height: 100px;
+                            }
+                           </style>
+
+                            
 
                                 <?php
 
-                                // {$row["id"]}
-                                echo "<td>1</td><td>{$row["created_at"]}</td><td>{$row["title"]}</td><td>{$row["content"]}</    td><td>{$row["content1"]}</    td><td><img src='{$imagePath}' alt='img' class='profile-pic' loading='lazy'></td>
+                                
+                                echo "<td>1</td><td>{$row["created_at"]}</td><td>{$row["title"]}</td><td class='abt-over-flow-hidden'>{$row["content"]}</    td><td class='abt-over-flow-hidden'>{$row["content1"]}</    td><td><img src='{$imagePath}' alt='img' class='profile-pic' loading='lazy'></td>
                             
                <td> <button class='action-btn update-btn'><a class='modify-btn' href='updateId={$row["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
                 <button class='action-btn delete-btn'><a class='modify-btn'  onclick='confirmDelete(event, {$row["id"]})'> <i class='fa-solid fa-trash'></i></a></button></td>";
@@ -869,9 +950,9 @@ if ($result->num_rows > 0) {
 
 
 
-                echo "<td>{$i}</td><td>{$row["category_name"]}</td><td>{$row["subcategory_name"]}</td>
+echo "<td>{$i}</td><td>{$row["category_name"]}</td><td>{$row["subcategory_name"]}</td>
 <td> <button class='action-btn update-btn'><a class='modify-btn' href='addSubCategory.php?type=update&updateId={$row["subcategory_id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-<button class='action-btn delete-btn'><a class='modify-btn'  href='addSubCategory.php?type=delete&deleteId={$row["subcategory_id"]}'> <i class='fa-solid fa-trash'></i></a></button></td>";
+<button class='action-btn delete-btn'><a class='modify-btn'  href='addSubCategory.php?type=delete&deleteId={$row["subcategory_id"]}' onclick='confirmDelete(event, \"Are you sure you want to delete this Sub-Category?\")'> <i class='fa-solid fa-trash'></i></a></button></td>";
 
 
             ?>
@@ -905,6 +986,15 @@ if ($result->num_rows > 0) {
 
         // If user clicks "No", do nothing
     }
+
+
+
+    function confirmDelete(event, message) {
+        if (!confirm(message)) {
+            event.preventDefault();  // Prevent the default action (navigation)
+        }
+    }
+
 </script>
 
 </html>

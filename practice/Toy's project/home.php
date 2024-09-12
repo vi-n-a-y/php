@@ -175,80 +175,73 @@ $productsResult = $conn->query($productsQuery);
 }
 
 
+    /* Your existing styles here */
 </style>
 
 <body>
     <?php include 'header.php'; ?>
 
     <div class="main-content">
-<div class="filters">
-    <div class="accordion">
-        <div class="accordion-item">
-            <div class="accordion-header">Category <i class="fa fa-chevron-down"></i></div>
-            <div class="accordion-body">
-                <?php while ($category = $categoriesResult->fetch_assoc()): ?>
-                    <a href="#" class="filter-link" data-filter="category-<?php echo htmlspecialchars($category['name']); ?>">
-                        <?php echo htmlspecialchars($category['name']); ?>
-                    </a>
-                <?php endwhile; ?>
+        <div class="filters">
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">Category <i class="fa fa-chevron-down"></i></div>
+                    <div class="accordion-body">
+                        <?php while ($category = $categoriesResult->fetch_assoc()): ?>
+                            <a href="#" class="filter-link" data-filter="category-<?php echo htmlspecialchars($category['name']); ?>">
+                                <?php echo htmlspecialchars($category['name']); ?>
+                            </a>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Age <i class="fa fa-chevron-down"></i></div>
+                    <div class="accordion-body">
+                        <?php while ($ageGroup = $ageGroupsResult->fetch_assoc()): ?>
+                            <a href="#" class="filter-link" data-filter="age-<?php echo htmlspecialchars($ageGroup['ageGroup']); ?>">
+                                <?php echo htmlspecialchars($ageGroup['ageGroup']); ?>
+                            </a>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Brand <i class="fa fa-chevron-down"></i></div>
+                    <div class="accordion-body">
+                        <?php while ($brand = $brandsResult->fetch_assoc()): ?>
+                            <a href="#" class="filter-link" data-filter="brand-<?php echo htmlspecialchars($brand['name']); ?>">
+                                <?php echo htmlspecialchars($brand['name']); ?>
+                            </a>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="accordion-item">
-            <div class="accordion-header">Age <i class="fa fa-chevron-down"></i></div>
-            <div class="accordion-body">
-                <?php while ($ageGroup = $ageGroupsResult->fetch_assoc()): ?>
-                    <a href="#" class="filter-link" data-filter="age-<?php echo htmlspecialchars($ageGroup['ageGroup']); ?>">
-                        <?php echo htmlspecialchars($ageGroup['ageGroup']); ?>
-                    </a>
-                <?php endwhile; ?>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header">Brand <i class="fa fa-chevron-down"></i></div>
-            <div class="accordion-body">
-                <?php while ($brand = $brandsResult->fetch_assoc()): ?>
-                    <a href="#" class="filter-link" data-filter="brand-<?php echo htmlspecialchars($brand['name']); ?>">
-                        <?php echo htmlspecialchars($brand['name']); ?>
-                    </a>
-                <?php endwhile; ?>
-            </div>
-        </div>
-    </div>
-</div>
-
 
         <section id="product1" class="section-p1">
             <h2 class="feature-products-text">Kids Products</h2>
             <p>Summer Collection New Modern Design</p>
             <div class="pro-container">
-            <?php while ($product = $productsResult->fetch_assoc()): ?>
-    <?php
-    $category = htmlspecialchars($product['productCategory']);
-    $brand = htmlspecialchars($product['brandName']);
-    $ageGroup = htmlspecialchars($product['ageGroup']);
-
-    ?>
-    <div class="pro"
-         data-category="<?php echo $category; ?>" 
-         data-ageGroup="<?php echo $ageGroup;  ?>"
-         data-brand="<?php echo $brand; ?>">
-        <img src="<?php echo htmlspecialchars('images/' . $product['imageUrl']); ?>" alt="<?php echo htmlspecialchars($product['productName']); ?>">
-        <div class="des">
-            <span><?php echo $brand; ?></span>
-            <h5><?php echo htmlspecialchars($product['productName']); ?></h5>
-            <div class="star">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-            </div>
-            <h4>$<?php echo htmlspecialchars($product['price']); ?></h4>
-        </div>
-        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-    </div>
-<?php endwhile; ?>
-
+                <?php while ($product = $productsResult->fetch_assoc()): ?>
+                    <div class="pro"
+                         data-category="<?php echo htmlspecialchars($product['productCategory']); ?>" 
+                         data-ageGroup="<?php echo htmlspecialchars($product['ageGroup']); ?>"
+                         data-brand="<?php echo htmlspecialchars($product['brandName']); ?>">
+                        <img src="<?php echo htmlspecialchars('images/' . $product['imageUrl']); ?>" alt="<?php echo htmlspecialchars($product['productName']); ?>">
+                        <div class="des">
+                            <span><?php echo htmlspecialchars($product['brandName']); ?></span>
+                            <h5><?php echo htmlspecialchars($product['productName']); ?></h5>
+                            <div class="star">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4>$<?php echo htmlspecialchars($product['price']); ?></h4>
+                        </div>
+                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                    </div>
+                <?php endwhile; ?>
             </div>
         </section>
     </div>
@@ -274,8 +267,13 @@ $productsResult = $conn->query($productsQuery);
                     const filter = link.getAttribute('data-filter');
                     const [filterType, filterValue] = filter.split('-');
 
+                    console.log(`Filter Type: ${filterType}`);
+                    console.log(`Filter Value: ${filterValue}`);
+
                     products.forEach(product => {
                         const productValue = product.getAttribute(`data-${filterType}`);
+                        console.log(`Product ${filterType}: ${productValue}`);
+
                         if (filterValue === 'all' || productValue === filterValue) {
                             product.style.display = 'block';
                         } else {

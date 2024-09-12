@@ -78,6 +78,7 @@
             <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section5">Category</a></li>
             <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section8">Sub-Category</a></li>
             <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section6">Age Group</a></li>
+            <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section9">Contact Us</a></li>
             <li><a href="#" onclick="navigateToExample(); return false;" class="nav-a" data-target="section7">About Us</a></li>
         </ul>
     </nav>

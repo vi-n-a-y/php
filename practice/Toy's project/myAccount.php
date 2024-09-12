@@ -1839,7 +1839,7 @@ input[type=tel] {
     brandId INT,
     stockQuantity INT DEFAULT 0,
     imageUrl VARCHAR(255),
-    discount int CHECK (rating BETWEEN 1 AND 99),
+    discount int,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     status ENUM('active', 'discontinued') DEFAULT 'active', 

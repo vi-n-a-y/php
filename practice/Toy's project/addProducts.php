@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadFile = $uploadDir . $originalName;
 
         // Validate file type and size
-        $allowedTypes = ['image/jpeg', 'image/png','image/jpg','image/avif', 'image/gif'];
+        $allowedTypes = ['image/jpeg', 'image/png','image/jpg','image/webp','image/avif', 'image/gif'];
         $fileType = mime_content_type($tmpName);
         
         if (in_array($fileType, $allowedTypes) && $_FILES['imageUrl']['size'] < 2000000) { // Limit size to 2MB
@@ -616,12 +616,12 @@ function addEventListeners() {
     document.getElementById('SKU').addEventListener('input', validateProductSku);
     document.getElementById('categoryId').addEventListener('change ', validateProductCat);
     document.getElementById('subcategory').addEventListener('change', validateProductSubCat);
-    document.getElementById('brandId').addEventListener('click', validateProductBrand);
-    document.getElementById('ageGroupId').addEventListener('click', validateProductAgeGroup);
+    document.getElementById('brandId').addEventListener('change', validateProductBrand);
+    document.getElementById('ageGroupId').addEventListener('change', validateProductAgeGroup);
     document.getElementById('stockQuantity').addEventListener('input', validateProductQuantity);
     document.getElementById('imageUrl').addEventListener('change', validateProductImage);
     document.getElementById('discount').addEventListener('input', validateProductDiscount);
-    document.getElementById('status').addEventListener('click', validateProductStatus);
+    document.getElementById('status').addEventListener('change', validateProductStatus);
     // document.getElementById('description').addEventListener('input', validateProductDes); 
 
     // Form validation on submit

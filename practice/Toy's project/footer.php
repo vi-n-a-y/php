@@ -45,7 +45,7 @@
             </div>
 
             <!-- Social Media Section -->
-            <div class="footer-social">
+            <!-- <div class="footer-social">
                 <h3>Follow Us</h3>
                 <div class="social-icons">
                     <a href="#">Facebook</a>
@@ -53,7 +53,7 @@
                     <a href="#">Twitter</a>
                     <a href="#">YouTube</a>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Footer Bottom -->
@@ -70,6 +70,7 @@
     
 .footer-php {
     font-family: 'Arial', sans-serif;
+    font-size: 14px;
     
     /* min-height: 100vh; Ensure body takes full viewport height */
     display: flex;
@@ -184,6 +185,7 @@ footer a:hover {
 .footer-bottom p {
     color: #ff69b4;
     font-size: 0.9em;
+    padding:5px;
 }
 
 /* Responsive design */

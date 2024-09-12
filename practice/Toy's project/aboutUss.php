@@ -140,16 +140,24 @@ $processedContent1 = processQuillContent($content1);
             .nav-a-div{
             display: none;
         }
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            /* background-color: #F5F7F8; */
+        }
 
 
 
 .abt-main-con {
     flex: 1; /* Takes up available space so footer stays at the bottom */
     width: 100%;
-    padding: 20px;
+    padding: 5px;
    /* Ensure footer doesn’t overlap with content */
    position:absolute;
-   top:20%;
+   top:16%;
+   height: auto;
+   line-height: 30px;
 }
 
 .abt-img-header {
@@ -186,21 +194,30 @@ $processedContent1 = processQuillContent($content1);
 }
 
 .abt-content1 {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 20px;
+   display:flex;
+   /* grid-template-columns: 2fr 1fr; */
+   margin-bottom:15px;
 }
 
 .abt-content1 img {
-    max-width: 50%;
-    height: 300px; 
+    /* max-width: 60%;
+    height: 300px;  */
+    width: 50%;
+    height: 300px;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.abt-content2 img {
+    width: 100%;
+    /* height: 300px;  */
     margin-right: 20px;
     border-radius: 8px;
 }
 
 .abt-content1 .text-content {
-    flex: 1;
+    /* flex: 1; */
+    width: 50%;
 }
 
 .abt-content2 {

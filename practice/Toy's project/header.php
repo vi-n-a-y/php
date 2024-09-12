@@ -28,10 +28,10 @@
                     <a href="index.php">Home</a>
                 </li>
                 <li>
-                    <a href="aboutUs.php">about</a>
+                    <a href="aboutUss.php">about</a>
                 </li>
                 <li>
-                    <a href="#">shop now</a>
+                    <a href="home.php">shop now</a>
                 </li>
                 <li>
                     <a href="contactUs.php">Contact</a>

@@ -36,9 +36,12 @@ $conn->close();
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .contact-form-full{
-            background-color: #ffe4e1;
+            /* background-color: #ffe4e1; */
+            background-color: #F4DEB3;
             font-family: Arial, sans-serif;
             height: 80vh;
+            /* display: flex; */
+
            
           
             
@@ -107,6 +110,13 @@ $conn->close();
 
 <?php  include_once 'header.php'  ?>
     <div class="contact-form-full">
+    <!-- <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>Email: support@kidstoys.com</p>
+                <p>Phone: 123-456-7890</p>
+                <p>Address: 123 Toy Street, Toyland</p>
+            </div> -->
+
     <div class="contact-form">
         <h2>Contact Us</h2>
         <form id="contactForm"  method="post" onsubmit="return validateForm()">
