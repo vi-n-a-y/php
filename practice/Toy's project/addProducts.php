@@ -719,3 +719,77 @@ function fetchSubcategories(categoryId) {
 </html>
 
 
+
+    <?php
+// Database connection
+$conn = new mysqli('localhost', 'username', 'password', 'database');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form was submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Check for product name
+    if (isset($_POST['product_name']) && !empty($_POST['product_name'])) {
+        $productName = $_POST['product_name'];
+        
+        // Insert product into database
+        $stmt = $conn->prepare("INSERT INTO products (product_name) VALUES (?)");
+        $stmt->bind_param("s", $productName);
+        if ($stmt->execute()) {
+            $productId = $stmt->insert_id; // Get the ID of the newly inserted product
+            $stmt->close();
+            
+            // Check if images were uploaded
+            if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
+                $uploadDir = 'uploads/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+
+                // Loop through each uploaded file
+                foreach ($_FILES['images']['name'] as $key => $name) {
+                    $fileTmpPath = $_FILES['images']['tmp_name'][$key];
+                    $fileName = $_FILES['images']['name'][$key];
+                    $fileSize = $_FILES['images']['size'][$key];
+                    $fileType = $_FILES['images']['type'][$key];
+                    $fileNameCmps = explode('.', $fileName);
+                    $fileExtension = strtolower(end($fileNameCmps));
+
+                    // Validate file type
+                    $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif');
+                    if (in_array($fileExtension, $allowedExtensions)) {
+                        // Move file to upload directory
+                        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+                        $destination = $uploadDir . $newFileName;
+
+                        if (move_uploaded_file($fileTmpPath, $destination)) {
+                            // Insert image record into the database
+                            $stmt = $conn->prepare("INSERT INTO images (product_id, image_path) VALUES (?, ?)");
+                            $stmt->bind_param("is", $productId, $destination);
+                            $stmt->execute();
+                            $stmt->close();
+                        } else {
+                            echo "Error uploading file: " . $fileName;
+                        }
+                    } else {
+                        echo "Invalid file type: " . $fileName;
+                    }
+                }
+            } else {
+                echo "No images uploaded.";
+            }
+        } else {
+            echo "Error inserting product.";
+        }
+    } else {
+        echo "Product name is required.";
+    }
+
+    // Close database connection
+    $conn->close();
+}
+?>
+
+
+
