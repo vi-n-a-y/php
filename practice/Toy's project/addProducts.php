@@ -722,10 +722,7 @@ function fetchSubcategories(categoryId) {
 
     <?php
 // Database connection
-$conn = new mysqli('localhost', 'username', 'password', 'database');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include_once'db_connect.php';
 
 // Check if form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
