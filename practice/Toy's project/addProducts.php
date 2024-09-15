@@ -162,9 +162,45 @@ ob_end_flush();
 }
 
 
-    .form-container {
-        width: 100%;
-        max-width: 600px;
+.form-container h1 {
+        width: 94%;
+        margin: 15px 0;
+    }
+
+    .form-container input[type="text"]{
+        margin-top:10px;
+    }
+
+
+    .form-container input {
+            /* width: 94%; */
+            padding: 10px;
+            color:black;
+
+            margin-top: 15px;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: whitesmoke;
+            /* opacity: 0.8; */
+            
+        }
+
+
+
+  
+    .form-container .submit-btn {
+
+width: 97%;
+
+    }
+
+
+
+
+.form-container {
+        width: 800px;
+        /* max-width: 600px; */
         /* Set a max width for the form container */
         margin: 0 auto;
         /* Center horizontally */
@@ -176,17 +212,11 @@ ob_end_flush();
         /* Optional: Add border radius for rounded corners */
         background-color: #f9f9f9;
         /* Optional: Add background color */
+        position: relative;
+        /* height: 150px; */
+        max-width: 1000px;
     }
-
-    .form-container button {
-
-        /* width: 94%; */
-    }
-
-    .form-container h1 {
-        width: 94%;
-        margin: 15px 0;
-    }
+    
 
     input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -196,11 +226,20 @@ input::-webkit-inner-spin-button {
 
 
 .quill-container{
-    width: 96%;
+    width: 97%;
     /* height: 120px; */
     /* padding:10px; */
-    margin-bottom:15px;
+    margin-bottom:10px;
+    border: 1px solid black;
+    margin-top:15px;
+    
+    /* border-radius: 4px; */
 }
+
+#quill-editor1{
+    height: 100px;
+}
+
 
 .form-container  input[type="text"],
         .form-container input[type="number"],
@@ -210,8 +249,24 @@ input::-webkit-inner-spin-button {
             margin-bottom:0;
             
             margin-top: 10px;
+            border: 1px solid black;
             
             
+        }
+
+      
+
+    .form-container input[type="file"]::-webkit-file-upload-button {
+            background: black;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+     .form-container   input[type="file"]::placeholder {
+            color: black;
         }
 
 
@@ -242,7 +297,7 @@ input::-webkit-inner-spin-button {
         <?php if (!empty($errorMsg)) { ?>
             <p style="color: red; text-align: center;"><?php echo $errorMsg; ?></p>
         <?php } ?>
-<form  method="post" id="product-form" enctype="multipart/form-data">
+<form class="kids-form"  method="post" id="product-form" enctype="multipart/form-data">
     <input type="hidden" name="action" value="<?php echo $action; ?>">
     <?php if ($action === 'update') { ?>
         <input type="hidden" name="updateId" value="<?php echo $updateId; ?>">
@@ -329,7 +384,7 @@ input::-webkit-inner-spin-button {
     </select>
     <span id="productStatusError" class="error-message"></span>
 
-    <button name="submit" type="submit"><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></button>
+    <button  class="submit-btn" name="submit" type="submit"><?php echo ($action === 'update' ? 'Update Product' : 'Add Product'); ?></button>
 </form>
 
 
@@ -720,73 +775,7 @@ function fetchSubcategories(categoryId) {
 
 
 
-    <?php
-// Database connection
-include_once'db_connect.php';
-
-// Check if form was submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check for product name
-    if (isset($_POST['product_name']) && !empty($_POST['product_name'])) {
-        $productName = $_POST['product_name'];
-        
-        // Insert product into database
-        $stmt = $conn->prepare("INSERT INTO products (product_name) VALUES (?)");
-        $stmt->bind_param("s", $productName);
-        if ($stmt->execute()) {
-            $productId = $stmt->insert_id; // Get the ID of the newly inserted product
-            $stmt->close();
-            
-            // Check if images were uploaded
-            if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
-                $uploadDir = 'uploads/';
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
-                }
-
-                // Loop through each uploaded file
-                foreach ($_FILES['images']['name'] as $key => $name) {
-                    $fileTmpPath = $_FILES['images']['tmp_name'][$key];
-                    $fileName = $_FILES['images']['name'][$key];
-                    $fileSize = $_FILES['images']['size'][$key];
-                    $fileType = $_FILES['images']['type'][$key];
-                    $fileNameCmps = explode('.', $fileName);
-                    $fileExtension = strtolower(end($fileNameCmps));
-
-                    // Validate file type
-                    $allowedExtensions = array('jpg', 'jpeg', 'png', 'gif');
-                    if (in_array($fileExtension, $allowedExtensions)) {
-                        // Move file to upload directory
-                        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-                        $destination = $uploadDir . $newFileName;
-
-                        if (move_uploaded_file($fileTmpPath, $destination)) {
-                            // Insert image record into the database
-                            $stmt = $conn->prepare("INSERT INTO images (product_id, image_path) VALUES (?, ?)");
-                            $stmt->bind_param("is", $productId, $destination);
-                            $stmt->execute();
-                            $stmt->close();
-                        } else {
-                            echo "Error uploading file: " . $fileName;
-                        }
-                    } else {
-                        echo "Invalid file type: " . $fileName;
-                    }
-                }
-            } else {
-                echo "No images uploaded.";
-            }
-        } else {
-            echo "Error inserting product.";
-        }
-    } else {
-        echo "Product name is required.";
-    }
-
-    // Close database connection
-    $conn->close();
-}
-?>
+  
 
 
 

@@ -330,116 +330,153 @@ if (!isset($_SESSION['adminLogin'])) {
                 <!-- Products -->
                 <section id="section1" class="section products-db">
 
-                    <?php
-                    include_once 'db_connect.php';
-                    // Fetch the About Us content
-                    $sql = "
-                    SELECT 
-                        p.id AS productId,
-                        p.name AS productName,
-                        p.description,
-                        p.price,
-                        p.SKU,
-                        p.stockQuantity,
-                        p.imageUrl,
-                        p.discount,
-                        p.createdAt,
-                        p.updatedAt,
-                        p.status,
-                        c.name AS categoryName,
-                        b.name AS brandName,
-                        ag.ageGroup AS ageGroupName
-                    FROM 
-                        products p
-                        INNER JOIN categories c ON p.categoryId = c.id
-                        INNER JOIN brands b ON p.brandId = b.id
-                        INNER JOIN agegroup ag ON p.ageGroupId = ag.id
-                ";
-
-                    $result = $conn->query($sql);
 
 
-                    if ($result->num_rows > 0) {
-                    ?>
-
-
-                        <div class="add-btn-admin">
-
-
-                            <h1>Products</h1>
-                            <button><a href="addProducts.php"><i class="fa-solid fa-plus"></i></a></button>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th data-sort="productId">Product ID</th>
-                                    <th data-sort="productName">Product Name</th>
-                                    <!-- <th data-sort="description">Description</th> -->
-                                    <th data-sort="price">Price</th>
-                                    <th data-sort="SKU">SKU</th>
-                                    <th data-sort="stockQuantity">Stock Quantity</th>
-                                    <th data-sort="imageUrl">Image URL</th>
-                                    <th data-sort="discount">Discount</th>
-                                    <!-- <th data-sort="updatedAt">Updated At</th> -->
-                                    <th data-sort="status">Status</th>
-                                    <th data-sort="categoryName">Category Name</th>
-                                    <th data-sort="brandName">Brand Name</th>
-                                    <th data-sort="ageGroupName">Age Group</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr>
-                                    <?php
-                                    $i = 0;
-                                    while ($row = $result->fetch_assoc()) {
-                                        $imagePath = 'images/' . htmlspecialchars($row["imageUrl"], ENT_QUOTES, 'UTF-8');
-                                        // <td>{$row['productId']}</td>
-                                        $i++;
-                                        echo "
-                                                
-                                                <td>{$i}</td>
-                                                <td>{$row['productName']}</td>
-                                                 
-                                                <td>{$row['price']}</td>
-                                                <td>{$row['SKU']}</td>
-                                                <td>{$row['stockQuantity']}</td>
-                                                <td><img src='{$imagePath}' height='50px' width='50px' alt='some'></td>
-                                                <td>{$row['discount']}</td>
-                                                
-                                                <td>{$row['status']}</td>
-                                                <td>{$row['categoryName']}</td>
-                                                <td>{$row['brandName']}</td>
-                                                <td>{$row['ageGroupName']}</td>
-                                                <td><button  class='action-btn update-btn'><a class='modify-btn' href='addProducts.php?type=update&updateId={$row["productId"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-                                                     <button class='action-btn delete-btn'><a class='modify-btn'  href='addProducts.php?type=delete&deleteId={$row["productId"]}'  onclick='confirmDelete(event, \"Are you sure you want to delete this product?\")'> <i class='fa-solid fa-trash'></i></a></button></td>
-                                              ";
-                                            //   <td>{$row['updatedAt']}</td>
-                                            //   <td>{$row['description']}</td> 
+                <style>
+                    /* General Table Styling */
 
 
 
 
-                                    ?>
+/* Image Styling */
+.products-db-td img {
+    border-radius: 4px;
+}
+/* Pagination Controls Styling */
+.pagination-controls {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.pagination-btn {
+    margin: 0 0.25rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    color: #333;
+    cursor: pointer;
+    font-size: 0.875rem; /* Adjust font size as needed */
+}
+
+.pagination-btn.active {
+    background-color: black;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Style for Previous and Next buttons */
+.pagination-btn.previous, .pagination-btn.next {
+    background-color: black;
+    color: white;
+}
+
+.pagination-btn.previous:disabled, .pagination-btn.next:disabled {
+    background-color: #333; /* Darker color for disabled state */
+    color: #888; /* Lighter color for disabled text */
+    border-color: #333;
+    cursor: not-allowed;
+}
 
 
+                </style>
+    <?php
+    include_once 'db_connect.php';
+    // Fetch the products data
+    $sql = "
+    SELECT 
+        p.id AS productId,
+        p.name AS productName,
+        p.description,
+        p.price,
+        p.SKU,
+        p.stockQuantity,
+        p.imageUrl,
+        p.discount,
+        p.createdAt,
+        p.updatedAt,
+        p.status,
+        c.name AS categoryName,
+        b.name AS brandName,
+        ag.ageGroup AS ageGroupName
+    FROM 
+        products p
+        INNER JOIN categories c ON p.categoryId = c.id
+        INNER JOIN brands b ON p.brandId = b.id
+        INNER JOIN agegroup ag ON p.ageGroupId = ag.id
+    ";
 
-                                </tr>
-                        <?php
-                                    }
-                                } else {
-                                    echo '<button><a href="addProducts.php"><i class="fa-solid fa-plus"></i></a></button>';
+    $result = $conn->query($sql);
+    $rows = [];
 
-                                    echo "No content available.";
-                                }
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+    }
+    ?>
 
-                        ?>
-                            </tbody>
-                        </table>
-                </section>
-                <script src="sort.js"></script>
-                <!-- Orders -->
+    <div class="add-btn-admin">
+        <h1>Products</h1>
+        <button><a href="addProducts.php"><i class="fa-solid fa-plus"></i></a></button>
+    </div>
+
+    <table class="products-db-table">
+        <thead>
+            <tr>
+                <th class="products-db-th" data-sort="productId">Product ID</th>
+                <th class="products-db-th" data-sort="productName">Product Name</th>
+                <!-- <th class="products-db-th" data-sort="description">Description</th> -->
+                <th class="products-db-th" data-sort="price">Price</th>
+                <th class="products-db-th" data-sort="SKU">SKU</th>
+                <th class="products-db-th" data-sort="stockQuantity">Stock Quantity</th>
+                <th class="products-db-th" data-sort="imageUrl">Image URL</th>
+                <th class="products-db-th" data-sort="discount">Discount</th>
+                <!-- <th class="products-db-th" data-sort="updatedAt">Updated At</th> -->
+                <th class="products-db-th" data-sort="status">Status</th>
+                <th class="products-db-th" data-sort="categoryName">Category Name</th>
+                <th class="products-db-th" data-sort="brandName">Brand Name</th>
+                <th class="products-db-th" data-sort="ageGroupName">Age Group</th>
+                <th class="products-db-th">Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="productBody">
+            <?php if (!empty($rows)): ?>
+                <?php foreach ($rows as $index => $row): ?>
+                    <?php $imagePath = 'images/' . htmlspecialchars($row["imageUrl"], ENT_QUOTES, 'UTF-8'); ?>
+                    <tr>
+                        <td class="products-db-td"><?= $index + 1 ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['productName'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['SKU'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['stockQuantity'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><img src='<?= $imagePath ?>' height='50px' width='50px' alt='Product Image'></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['discount'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['categoryName'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['brandName'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td"><?= htmlspecialchars($row['ageGroupName'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="products-db-td">
+                            <button class='action-btn update-btn'><a class='modify-btn' href='addProducts.php?type=update&updateId=<?= $row["productId"] ?>'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
+                            <button class='action-btn delete-btn'><a class='modify-btn' href='addProducts.php?type=delete&deleteId=<?= $row["productId"] ?>' onclick='confirmDelete(event, "Are you sure you want to delete this product?")'> <i class='fa-solid fa-trash'></i></a></button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr><td class="products-db-td" colspan="12">No content available.</td></tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div id="paginationControls" class="pagination-controls"></div>
+
+    <!-- <script src="pagination.js"></script> -->
+
+
+    <script src="sort.js"></script>
+</section>
+
 
 
 
@@ -889,7 +926,7 @@ if ($contactResult->num_rows > 0) {
                                 
                                 echo "<td>1</td><td>{$row["created_at"]}</td><td>{$row["title"]}</td><td class='abt-over-flow-hidden'>{$row["content"]}</    td><td class='abt-over-flow-hidden'>{$row["content1"]}</    td><td><img src='{$imagePath}' alt='img' class='profile-pic' loading='lazy'></td>
                             
-               <td> <button class='action-btn update-btn'><a class='modify-btn' href='updateId={$row["id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
+               <td> <button class='action-btn update-btn'><a class='modify-btn' > <i class='fa-regular fa-pen-to-square'></i> </a></button>
                 <button class='action-btn delete-btn'><a class='modify-btn'  onclick='confirmDelete(event, {$row["id"]})'> <i class='fa-solid fa-trash'></i></a></button></td>";
 
 
@@ -905,31 +942,103 @@ if ($contactResult->num_rows > 0) {
 
 
 
-                
-<section id="section8" class="section customers">
+                <section id="section8" class="section customers">
 
 <?php
 include_once 'db_connect.php';
-// Fetch the About Us content
-$sql = "SELECT
-subcategories.id AS subcategory_id,
-subcategories.name AS subcategory_name,
-categories.name AS category_name
-FROM
-subcategories
-INNER JOIN
-categories
-ON
-subcategories.categoryId = categories.id";
+
+$sql = "
+    SELECT
+        subcategories.id AS subcategory_id,
+        subcategories.name AS subcategory_name,
+        categories.name AS category_name
+    FROM
+        subcategories
+        INNER JOIN categories ON subcategories.categoryId = categories.id
+";
 
 $result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
 ?>
+<style>
+
+    /* Pagination container */
+.pagination.sub-cat-page-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Pagination links */
+.pagination.sub-cat-page-pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid white;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover effect for pagination links */
+.pagination.sub-cat-page-pagination a:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Active page style */
+.pagination.sub-cat-page-pagination a.active {
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    /* border-color: #007bff; */
+}
+
+/* Pagination buttons */
+.pagination-btn.sub-cat-page-prev-btn,
+.pagination-btn.sub-cat-page-next-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+/* Disabled state */
+.pagination-btn.sub-cat-page-prev-btn[disabled],
+.pagination-btn.sub-cat-page-next-btn[disabled] {
+    color: #6c757d;
+    border-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Hover effect for pagination buttons */
+.pagination-btn.sub-cat-page-prev-btn:hover:not([disabled]),
+.pagination-btn.sub-cat-page-next-btn:hover:not([disabled]) {
+    /* background-color: #007bff; */
+    color: white;
+}
+
+/* Previous button */
+.sub-cat-page-prev-btn {
+    font-size: 0.9em;
+}
+
+/* Next button */
+.sub-cat-page-next-btn {
+    font-size: 0.9em;
+}
+
+
+
+</style>
 
     <div class="add-btn-admin">
-
-
         <h1>Customers</h1>
         <button><a href="addSubCategory.php"><i class="fa-solid fa-plus"></i></a></button>
     </div>
@@ -942,33 +1051,108 @@ if ($result->num_rows > 0) {
                 <th>Action</th>
             </tr>
         </thead>
-        <tr>
+        <tbody id="sub-cat-table-body">
             <?php
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $i++;
-
-
-
-echo "<td>{$i}</td><td>{$row["category_name"]}</td><td>{$row["subcategory_name"]}</td>
-<td> <button class='action-btn update-btn'><a class='modify-btn' href='addSubCategory.php?type=update&updateId={$row["subcategory_id"]}'> <i class='fa-regular fa-pen-to-square'></i> </a></button>
-<button class='action-btn delete-btn'><a class='modify-btn'  href='addSubCategory.php?type=delete&deleteId={$row["subcategory_id"]}' onclick='confirmDelete(event, \"Are you sure you want to delete this Sub-Category?\")'> <i class='fa-solid fa-trash'></i></a></button></td>";
-
-
-            ?>
-
-
-
-        </tr>
-<?php
+            if ($result->num_rows > 0) {
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $i++;
+                    echo "<tr>
+                        <td>{$i}</td>
+                        <td>{$row['category_name']}</td>
+                        <td>{$row['subcategory_name']}</td>
+                        <td>
+                            <button class='action-btn update-btn'>
+                                <a class='modify-btn' href='addSubCategory.php?type=update&updateId={$row['subcategory_id']}'>
+                                    <i class='fa-regular fa-pen-to-square'></i>
+                                </a>
+                            </button>
+                            <button class='action-btn delete-btn'>
+                                <a class='modify-btn' href='addSubCategory.php?type=delete&deleteId={$row['subcategory_id']}' onclick='confirmDelete(event, \"Are you sure you want to delete this Sub-Category?\")'>
+                                    <i class='fa-solid fa-trash'></i>
+                                </a>
+                            </button>
+                        </td>
+                    </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No content available.</td></tr>";
             }
-        } else {
-            echo "No content available.";
+            ?>
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination sub-cat-page-pagination">
+        <a href="#" class="pagination-btn sub-cat-page-prev-btn" id="prev-btn">« Previous</a>
+        <span id="page-numbers" class="sub-cat-page-numbers"></span>
+        <a href="#" class="pagination-btn sub-cat-page-next-btn" id="next-btn">Next »</a>
+    </div>
+</section>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rowsPerPage = 5; // Number of rows to display per page
+    const tableBody = document.getElementById('sub-cat-table-body');
+    const rows = tableBody.querySelectorAll('tr');
+    const totalRows = rows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+    let currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
+
+    function showPage(page) {
+        rows.forEach((row, index) => {
+            row.style.display = (index >= (page - 1) * rowsPerPage && index < page * rowsPerPage) ? '' : 'none';
+        });
+    }
+
+    function updatePaginationControls() {
+        const pageNumbers = document.getElementById('page-numbers');
+        pageNumbers.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const pageLink = document.createElement('a');
+            pageLink.href = '#';
+            pageLink.textContent = i;
+            if (i === currentPage) pageLink.classList.add('active');
+            pageLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                currentPage = i;
+                updatePaginationControls();
+                showPage(currentPage);
+                window.history.replaceState(null, '', `?page=${currentPage}`);
+            });
+            pageNumbers.appendChild(pageLink);
         }
 
-?>
-    </table>
-</section>
+        document.getElementById('prev-btn').style.display = (currentPage > 1) ? '' : 'none';
+        document.getElementById('next-btn').style.display = (currentPage < totalPages) ? '' : 'none';
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', function(event) {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePaginationControls();
+            showPage(currentPage);
+            window.history.replaceState(null, '', `?page=${currentPage}`);
+        }
+        event.preventDefault();
+    });
+
+    document.getElementById('next-btn').addEventListener('click', function(event) {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updatePaginationControls();
+            showPage(currentPage);
+            window.history.replaceState(null, '', `?page=${currentPage}`);
+        }
+        event.preventDefault();
+    });
+
+    showPage(currentPage);
+    updatePaginationControls();
+});
+</script>
+
 
             </main>
 

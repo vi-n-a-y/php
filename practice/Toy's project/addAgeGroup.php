@@ -85,17 +85,105 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Age Group</title>
-    <link rel="stylesheet" href="updates.css">
+    <link rel="stylesheet" href="style.css">
+  
         <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+   
+
+  
+
+<style>
+
+
+.cross-btn {
+    display: block;
+    float: right;
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
+
+.cross-a-tag {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+
+    .container-admin-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        /* Full viewport height */
+    }
+
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        /* Ensure full width */
+    }
+
+    .form-container {
+        width: 400px;
+        /* max-width: 600px; */
+        /* Set a max width for the form container */
+        margin: 0 auto;
+        /* Center horizontally */
+        padding: 20px 20px 20px 40px;
+        /* Add some padding */
+        border: 1px solid #ddd;
+        /* Optional: Add border */
+        border-radius: 8px;
+        /* Optional: Add border radius for rounded corners */
+        background-color: #f9f9f9;
+        /* Optional: Add background color */
+        position: relative;
+        /* height: 150px; */
+    }
+
+    /* .form-container button {
+
+        width: 94%;
+    } */
+
+    .form-container h1 {
+        width: 94%;
+        margin: 15px 0;
+    }
+
+    .form-container input[type="text"]{
+        margin-top:10px;
+    }
+</style>
 
 </head>
 
 <body>
-    <div class="form-container">
+<?php include_once 'adminHeader.php';  ?>
+    <div class="container-admin-panel">
+
+
+
+
+
+
+        <main class="content">
+
+            <section id="section6" class="section products-db">
+                
+        <div class="form-container">
         <button class="cross-btn"><a class="cross-a-tag" href="adminHome.php"><i class="fa-solid fa-circle-xmark"></i></a></button>
-        <form class="kids-form" id="signup-form" method="post" enctype="multipart/form-data">
+        <form class="kids-form"  id="signup-form" method="post" enctype="multipart/form-data">
             <h1><?php echo isset($pageHeader) ? $pageHeader : "Add Age Group"; ?></h1>
             <label for="name">Age Group</label>
             <input type="text" name="ageGroup" id="name" class="required" value="<?php echo isset($dbAgeGroup) ? $dbAgeGroup : ""; ?>" placeholder="Enter Age Group">
@@ -104,8 +192,12 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
 
+    </section>
 
+</main>
+</div>
 
+<script src="sideBar.js"></script>
 
 
     <script>

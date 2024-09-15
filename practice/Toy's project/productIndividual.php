@@ -12,6 +12,7 @@ $productQuery = "SELECT
                     p.price,
                     p.SKU,
                     p.imageUrl,
+                     -- Assuming you have a field for multiple images
                     b.name AS brandName,
                     c.name AS categoryName,
                     a.ageGroup AS ageGroup,
@@ -52,8 +53,6 @@ if (!$product) {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        display: flex;
-        flex-direction: column;
         background-color: #f5f5f5;
     }
 
@@ -72,38 +71,94 @@ if (!$product) {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         max-width: 1200px;
         margin: 20px auto;
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .product-detail img {
+    .product-images {
+        display: flex;
+        justify-content: space-between;
         width: 100%;
-        max-width: 600px;
-        height: auto;
-        object-fit: cover;
-        border-radius: 5px;
+        max-width: 1200px;
         margin-bottom: 20px;
     }
 
-    .product-detail h1 {
+    .product-images .main-image {
+        flex: 1;
+        max-width: 600px;
+        margin-right: 20px;
+    }
+
+    .product-images .main-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .product-details {
+        flex: 1;
+        max-width: 600px;
+    }
+
+    .product-details h1 {
         margin: 20px 0;
         font-size: 2rem;
         color: #333;
     }
 
-    .product-detail p {
+    .product-details p {
         margin: 10px 0;
         font-size: 1rem;
         color: #555;
     }
 
-    .product-detail strong {
-        font-weight: bold;
-    }
-
-    .product-detail .price {
+    .product-details .price {
         font-size: 1.5rem;
         color: #333;
         margin: 20px 0;
+    }
+
+    .buttons {
+        margin-top: 20px;
+    }
+
+    .buttons .cart-btn,
+    .buttons .buy-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        margin-right: 10px;
+        text-decoration: none;
+    }
+
+    .buttons .cart-btn {
+        background-color: #007bff;
+    }
+
+    .buttons .buy-btn {
+        background-color: #28a745;
+    }
+
+    .buttons .cart-btn:hover,
+    .buttons .buy-btn:hover {
+        opacity: 0.8;
+    }
+
+    .additional-images {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .additional-images img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        margin: 0 5px;
+        border-radius: 5px;
+        cursor: pointer;
     }
 </style>
 
@@ -112,17 +167,37 @@ if (!$product) {
 
     <div class="main-content">
         <div class="product-detail">
-            <h1><?php echo htmlspecialchars($product['productName']); ?></h1>
-            <img src="<?php echo htmlspecialchars('images/' . $product['imageUrl']); ?>" alt="<?php echo htmlspecialchars($product['productName']); ?>">
-            <p><strong>Brand:</strong> <?php echo htmlspecialchars($product['brandName']); ?></p>
-            <p><strong>Category:</strong> <?php echo htmlspecialchars($product['categoryName']); ?></p>
-            <p><strong>Age Group:</strong> <?php echo htmlspecialchars($product['ageGroup']); ?></p>
-            <p class="price"><strong>Price:</strong> $<?php echo htmlspecialchars($product['price']); ?></p>
-            <p><strong>SKU:</strong> <?php echo htmlspecialchars($product['SKU']); ?></p>
-            <p><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
-            <p><strong>Stock Quantity:</strong> <?php echo htmlspecialchars($product['stockQuantity']); ?></p>
-            <p><strong>Discount:</strong> <?php echo htmlspecialchars($product['discount']); ?>%</p>
-            <p><strong>Status:</strong> <?php echo htmlspecialchars($product['status']); ?></p>
+            <div class="product-images">
+                <div class="main-image">
+                    <img src="<?php echo htmlspecialchars('images/' . $product['imageUrl']); ?>" alt="<?php echo htmlspecialchars($product['productName']); ?>">
+                </div>
+                <div class="product-details">
+                    <h1><?php echo htmlspecialchars($product['productName']); ?></h1>
+                    <p><strong>Brand:</strong> <?php echo htmlspecialchars($product['brandName']); ?></p>
+                    <p><strong>Category:</strong> <?php echo htmlspecialchars($product['categoryName']); ?></p>
+                    <p><strong>Age Group:</strong> <?php echo htmlspecialchars($product['ageGroup']); ?></p>
+                    <p class="price"><strong>Price:</strong> $<?php echo htmlspecialchars($product['price']); ?></p>
+                    
+                    <p><strong>Description:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
+                   
+                    <p><strong>Discount:</strong> <?php echo htmlspecialchars($product['discount']); ?>%</p>
+                   
+                    <div class="buttons">
+                        <a href="cart.php?product_id=<?php echo htmlspecialchars($product['productId']); ?>" class="cart-btn">Add to Cart</a>
+                        <a href="checkout.php?product_id=<?php echo htmlspecialchars($product['productId']); ?>" class="buy-btn">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="additional-images">
+                <!-- <?php 
+                // Assuming `imageUrls` is a comma-separated list of additional images
+                // $additionalImages = explode(',', $product['imageUrls']); 
+                // foreach ($additionalImages as $image): 
+                ?>
+                    <img src="<?php /*  echo htmlspecialchars('images/' . trim($image)) */; ?>" alt="Additional Image">
+                <?php /* endforeach; */ ?> -->
+            </div>
         </div>
     </div>
 

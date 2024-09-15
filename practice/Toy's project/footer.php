@@ -37,6 +37,7 @@
             </div>
 
             <!-- Contact Us Section -->
+             <div>
             <div class="footer-contact">
                 <h3>Contact Us</h3>
                 <p>Email: support@kidstoys.com</p>
@@ -45,15 +46,21 @@
             </div>
 
             <!-- Social Media Section -->
-            <!-- <div class="footer-social">
+            <div class="footer-social">
                 <h3>Follow Us</h3>
                 <div class="social-icons">
-                    <a href="#">Facebook</a>
-                    <a href="#">Instagram</a>
+                   <div>
+                   <a href="#">Facebook</a>
+                   <a href="#">Instagram</a>
+                   </div>
+                    <div class="twi-you">
                     <a href="#">Twitter</a>
                     <a href="#">YouTube</a>
+                    </div>
                 </div>
-            </div> -->
+            </div>
+
+            </div> 
         </div>
 
         <!-- Footer Bottom -->
@@ -155,11 +162,28 @@ footer a:hover {
 }
 
 /* Social media icons styles (Vertically aligned) */
-.footer-social .social-icons {
-    display: flex;
+ .social-icons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     flex-direction: column; /* Makes social icons vertical */
     gap: 10px;
+    margin-top:20px;
+
+    
 }
+
+.social-icons{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+   
+}
+
+
+.twi-you a{
+    margin-top:15px;
+    padding: 8px 35px;
+}
+
 
 .footer-social .social-icons a {
     background-color: #ffdab9; /* Peach background for icons */
@@ -167,12 +191,17 @@ footer a:hover {
     border-radius: 5px;
     color: #333;
     text-align: center;
+    margin:10px;
+    /* width: 50px; */
+    
 }
 
-.footer-social a:hover {
+
+
+/* .footer-social a:hover {
     background-color: #ff4500;
     color: #fff;
-}
+} */
 
 /* Footer Bottom Section */
 .footer-bottom {
@@ -186,6 +215,10 @@ footer a:hover {
     color: #ff69b4;
     font-size: 0.9em;
     padding:5px;
+}
+
+.footer-contact{
+    margin-bottom:15px;
 }
 
 /* Responsive design */

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 12, 2024 at 03:13 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Sep 15, 2024 at 11:56 PM
+-- Server version: 8.0.35
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ecommerce`
+-- Database: `ecommerce1`
 --
 
 -- --------------------------------------------------------
@@ -28,12 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `aboutus` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` longtext NOT NULL,
-  `aboutFile` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `content1` longtext NOT NULL
+  `id` int NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `content` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `aboutFile` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content1` longtext COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -89,9 +89,9 @@ INSERT INTO `aboutus` (`id`, `title`, `content`, `aboutFile`, `created_at`, `con
 --
 
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
-  `adminMail` varchar(255) DEFAULT NULL,
-  `adminPassword` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `adminMail` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `adminPassword` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -108,8 +108,8 @@ INSERT INTO `admin` (`id`, `adminMail`, `adminPassword`) VALUES
 --
 
 CREATE TABLE `agegroup` (
-  `id` int(11) NOT NULL,
-  `ageGroup` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `ageGroup` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -129,8 +129,8 @@ INSERT INTO `agegroup` (`id`, `ageGroup`) VALUES
 --
 
 CREATE TABLE `brands` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -146,12 +146,26 @@ INSERT INTO `brands` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int NOT NULL,
+  `userId` int DEFAULT NULL,
+  `productId` int DEFAULT NULL,
+  `quantity` int DEFAULT '1',
+  `totalPrice` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -171,11 +185,11 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `contactus` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `message` text DEFAULT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `message` text COLLATE utf8mb4_general_ci,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -193,17 +207,17 @@ INSERT INTO `contactus` (`id`, `name`, `email`, `message`, `createdAt`) VALUES
 --
 
 CREATE TABLE `customers` (
-  `id` int(11) NOT NULL,
-  `updateAt` datetime DEFAULT current_timestamp(),
-  `firstName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `number` varchar(20) DEFAULT NULL,
-  `password1` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `profilePic` varchar(255) DEFAULT NULL,
+  `id` int NOT NULL,
+  `updateAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `firstName` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `lastName` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password1` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `profilePic` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `dob` date NOT NULL,
-  `gender` varchar(50) NOT NULL
+  `gender` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -221,20 +235,20 @@ INSERT INTO `customers` (`id`, `updateAt`, `firstName`, `lastName`, `email`, `nu
 --
 
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text COLLATE utf8mb4_general_ci,
   `price` decimal(10,2) NOT NULL,
-  `SKU` varchar(255) DEFAULT NULL,
-  `categoryId` int(11) DEFAULT NULL,
-  `brandId` int(11) DEFAULT NULL,
-  `ageGroupId` int(11) DEFAULT NULL,
-  `stockQuantity` int(11) DEFAULT 0,
-  `imageUrl` varchar(255) DEFAULT NULL,
-  `discount` int(11) DEFAULT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` enum('active','discontinued') DEFAULT 'active'
+  `SKU` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `categoryId` int DEFAULT NULL,
+  `brandId` int DEFAULT NULL,
+  `ageGroupId` int DEFAULT NULL,
+  `stockQuantity` int DEFAULT '0',
+  `imageUrl` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `discount` int DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` enum('active','discontinued') COLLATE utf8mb4_general_ci DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -255,20 +269,20 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `SKU`, `categoryId
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subCategories`
+-- Table structure for table `subcategories`
 --
 
-CREATE TABLE `subCategories` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `categoryId` int(11) DEFAULT NULL
+CREATE TABLE `subcategories` (
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `categoryId` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `subCategories`
+-- Dumping data for table `subcategories`
 --
 
-INSERT INTO `subCategories` (`id`, `name`, `categoryId`) VALUES
+INSERT INTO `subcategories` (`id`, `name`, `categoryId`) VALUES
 (1, 'puzzles', 1),
 (2, 'Action Figures', 1),
 (3, 'Educational Toys', 1),
@@ -311,6 +325,14 @@ ALTER TABLE `brands`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `productId` (`productId`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
@@ -339,9 +361,9 @@ ALTER TABLE `products`
   ADD KEY `ageGroupId` (`ageGroupId`);
 
 --
--- Indexes for table `subCategories`
+-- Indexes for table `subcategories`
 --
-ALTER TABLE `subCategories`
+ALTER TABLE `subcategories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `categoryId` (`categoryId`);
 
@@ -353,59 +375,72 @@ ALTER TABLE `subCategories`
 -- AUTO_INCREMENT for table `aboutus`
 --
 ALTER TABLE `aboutus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `agegroup`
 --
 ALTER TABLE `agegroup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `contactus`
 --
 ALTER TABLE `contactus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT for table `subCategories`
+-- AUTO_INCREMENT for table `subcategories`
 --
-ALTER TABLE `subCategories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE `subcategories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `customers` (`id`),
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `products`
@@ -413,12 +448,12 @@ ALTER TABLE `subCategories`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brandId`) REFERENCES `brands` (`id`),
-  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`ageGroupId`) REFERENCES `ageGroup` (`id`);
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`ageGroupId`) REFERENCES `agegroup` (`id`);
 
 --
--- Constraints for table `subCategories`
+-- Constraints for table `subcategories`
 --
-ALTER TABLE `subCategories`
+ALTER TABLE `subcategories`
   ADD CONSTRAINT `subcategories_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`);
 COMMIT;
 

@@ -222,7 +222,7 @@ print_r($stmt);
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="style.css">
     <style>
         /* styles.css */
 
@@ -250,33 +250,10 @@ print_r($stmt);
             color: #000;
         }
 
-        /* Apply a fun background to the entire page */
-        body {
-            background: url('images/teddy_bear_2.avif') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* Style the form container */
-        .form-container {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-            width: 100%;
-        }
-
+    
 
         .kids-form h1 {
-            color: #ff5722;
+            color: black;
             /* Bright, playful color for the header */
             text-align: center;
             font-size: 2rem;
@@ -288,27 +265,15 @@ print_r($stmt);
             font-size: 1.1rem;
         }
 
-        .kids-form input {
-            width: 94%;
-            padding: 10px;
-            color:black;
-
-            margin-top: 15px;
-            border: 2px solid #ff5722;
-            border-radius: 5px;
-            font-size: 1rem;
-            background-color: whitesmoke;
-            opacity: 0.8;
-            
-        }
+  
 
 
         #gender{
-            width: 100%;
+            width: 94%;
             padding: 10px;
 
             margin-top: 15px;
-            border: 2px solid #ff5722;
+            border: 2px solid black;
             border-radius: 5px;
             font-size: 1rem;
             background-color: whitesmoke;
@@ -316,46 +281,14 @@ print_r($stmt);
         }
 
         .kids-form input::placeholder {
-            color: #ff5722;
+            color: black;
             /* Match the placeholder color with the theme */
         }
 
-        .kids-form button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #ff5722;
-            /* Fun and bright button color */
-            color: white;
-            font-size: 1.2rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+       
 
-        .kids-form button:hover {
-            background-color: #e64a19;
-            /* Slightly darker shade for the hover effect */
-        }
+      
 
-        .input-text-first-last {
-            display: grid;
-            grid-template-columns: 180px 180px;
-            column-gap: 20px;
-        }
-
-        .con-st-region {
-            display: flex;
-            gap: 5px;
-            font-size: 2px;
-
-        }
-
-        .con-st-region input {
-            padding-left: 8px;
-            padding-right: 5px;
-            border: 2px solid #ff5722;
-        }
 
 
         /* .input-group{
@@ -397,169 +330,13 @@ input[type="date"]::-webkit-datetime-edit-year-field {
 
 
 
-        .select-box {
-            position: relative;
 
-            /* width: 26rem; */
-            /* margin: 7rem auto; */
-            /* margin-bottom: 15px; */
+.form-container input[type="text"],
+.form-container input[type="number"]{
+    border: 2px solid black;
+    width: 94%;
+}
 
-        }
-
-
-        input[type="date"]::placeholder {
-            color: #e64a19; /* Change this color to your preferred placeholder color */
-        }
-
-        /* .select-box input {
-    width: 100%;
-    padding: 1rem .6rem;
-    font-size: 1.1rem;
-    
-    border: .1rem solid transparent;
-    outline: none;
-} */
-
-        /* input[type="tel"] {
-    border-radius: 0 .5rem .5rem 0;
-} */
-
-
-        .selected-option input[type="number"] {
-            margin-bottom: 0;
-            border: none;
-            border-radius: 5px;
-            margin-top:1px;
-        }
-
-        /* .select-box input:focus {
-    border: .1rem solid var(--primary);
-} */
-
-        .selected-option {
-            background-color: #eee;
-            border-radius: .5rem;
-            overflow: hidden;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid #ff5722;
-            margin-top:15px;
-        }
-
-        .selected-option div {
-            position: relative;
-
-            width: 6rem;
-            padding: 0 2.8rem 0 .5rem;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .options{
-            position:relative;
-            z-index: 100;
-        }
-
-        .selected-option div::after {
-            position: absolute;
-            content: "";
-            right: .8rem;
-            top: 30%;
-            transform: translateY(-50%) rotate(45deg);
-
-            width: .8rem;
-            height: .8rem;
-          border-right: .12rem solid #ff5722;
-            border-bottom: .12rem solid #ff5722;
-
-            transition: .2s;
-        }
-
-        .selected-option div.active::after {
-            transform: translateY(-50%) rotate(225deg);
-        }
-
-        .select-box .options {
-            position: absolute;
-            top: 3.3rem;
-
-            width: 100%;
-            background-color: #fff;
-            border-radius: .5rem;
-
-            display: none;
-        }
-
-        .select-box .options.active {
-            display: block;
-        }
-
-        .select-box .options::before {
-            position: absolute;
-            content: "";
-            left: 1rem;
-            top: -1.2rem;
-
-            width: 0;
-            height: 0;
-            border: .6rem solid transparent;
-            border-bottom-color: var(--primary);
-        }
-
-        input.search-box {
-            /* background-color: var(--primary); */
-            color: black;
-            /* border-radius: .5rem .5rem 0 0; */
-            padding: 1rem 0.631rem;
-            margin-bottom:0;
-            /* width: 94%; */
-        }
-
-        .select-box ol {
-            margin-top:10px;
-            list-style: none;
-            max-height: 150px;
-            overflow: overlay;
-            position:relative;
-            z-index: 10;
-            /* height: 300px; */
-        }
-
-        .select-box ol::-webkit-scrollbar {
-            width: 0.6rem;
-        }
-
-        .select-box ol::-webkit-scrollbar-thumb {
-            width: 0.4rem;
-            height: 3rem;
-            background-color: #ccc;
-            border-radius: .4rem;
-        }
-
-        .select-box ol li {
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-
-        .select-box ol li.hide {
-            display: none;
-        }
-
-        .select-box ol li:not(:last-child) {
-            border-bottom: .1rem solid #eee;
-        }
-
-        .select-box ol li:hover {
-            background-color: lightcyan;
-        }
-
-        .select-box ol li .country-name {
-            margin-left: .4rem;
-        }
 
 
         input::-webkit-outer-spin-button,
@@ -571,19 +348,19 @@ input::-webkit-inner-spin-button {
 
 
 
-input[type="file"] {
+.form-container input[type="file"] {
             background-color: #fff;
-            border: 2px solid #ff5722;
+            border: 2px solid black;
             border-radius: 5px;
             padding: 10px;
             cursor: pointer;
             width: 94%;
             margin-bottom: 15px;
-            opacity: 0.8;
+            /* opacity: 0.8; */
         }
 
-        input[type="file"]::-webkit-file-upload-button {
-            background: #ff5722;
+        .form-container input[type="file"]::-webkit-file-upload-button {
+            background: black;
             border: none;
             color: white;
             padding: 10px;
@@ -591,15 +368,133 @@ input[type="file"] {
             border-radius: 5px;
         }
         
-        input[type="file"]::placeholder {
-            color: #ff5722;
+     .form-container   input[type="file"]::placeholder {
+            color: black;
         }
+
+
+
+        .cross-btn {
+    display: block;
+    float: right;
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
+
+.cross-a-tag {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+
+    .container-admin-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        /* Full viewport height */
+    }
+
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        /* Ensure full width */
+    }
+
+    .form-container {
+        width: 800px;
+        /* max-width: 600px; */
+        /* Set a max width for the form container */
+        margin: 0 auto;
+        /* Center horizontally */
+        padding: 20px 20px 20px 40px;
+        /* Add some padding */
+        border: 1px solid #ddd;
+        /* Optional: Add border */
+        border-radius: 8px;
+        /* Optional: Add border radius for rounded corners */
+        background-color: #f9f9f9;
+        /* Optional: Add background color */
+        position: absolute;
+        top:25%;
+        left:30%;
+        /* height: 150px; */
+        max-width: 1000px;
+    }
+
+    /* .form-container button {
+
+        width: 94%;
+    } */
+
+    .form-container h1 {
+        width: 94%;
+        margin: 15px 0;
+    }
+
+    .form-container input[type="text"]{
+        margin-top:10px;
+    }
+
+
+    .kids-form input {
+            width: 94%;
+            padding: 10px;
+            color:black;
+
+            margin-top: 15px;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: whitesmoke;
+            opacity: 0.8;
+            
+        }
+
+
+
+  
+    .form-container .submit-btn {
+
+width: 94%;
+
+    }
+    .input-text-first-last {
+        width: 96%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* column-gap: 20px; */
+}
     </style>
 
 
 </head>
 
 <body>
+
+
+
+<?php include_once 'adminHeader.php';  ?>
+    <div class="container-admin-panel">
+
+
+
+
+
+
+        <main class="content">
+
+            <section id="section2" class="section products-db">
 <div class="form-container">
         <form class="kids-form" id="signup-form" method="post" enctype="multipart/form-data">
         <h1><?php echo isset($pageHeader) ? $pageHeader : "Add Customer"; ?></h1>
@@ -652,9 +547,20 @@ input[type="file"] {
             <input type="file" name="profile_pic"  id="file" accept="image/*">
             <span id="fileError" class="error-message"></span>
             
-            <button name="submit" type="submit"><?php echo isset($pageButton) ? $pageButton : "Add"; ?></button>
+            <button class="submit-btn" name="submit" type="submit"><?php echo isset($pageButton) ? $pageButton : "Add"; ?></button>
         </form>
     </div>
+
+
+
+    </section>
+
+</main>
+</div>
+
+<script src="sideBar.js"></script>
+    
+
 </body>
 
 <!-- <script src="geolocation.js"></script> -->

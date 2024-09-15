@@ -18,7 +18,7 @@
             <button class="search-btn-header">Search</button>
             <div class="love-icon-header"><i class="fa-regular fa-heart"></i></div>
             <div class="wishlist-icon-header">
-            <i class="fa-solid fa-cart-plus"></i>
+            <a href="cart.php"><i class="fa-solid fa-cart-plus"></i></a>
             </div>
         </div>
 

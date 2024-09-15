@@ -529,10 +529,18 @@ color:green;
             width: 80%;
             max-width: 600px;
         }
-       .form-container h1 {
+       /* .form-container h1 {
             text-align: center;
             color: #ff5722;
+        } */
+
+
+  .form-container h1 {
+            text-align: center;
+            color: black;
         }
+
+
         .form-container  input[type="text"],
         .form-container input[type="number"],
         .form-container input[type="file"],
@@ -552,8 +560,8 @@ color:green;
             border-color: #00008b; /* Dark Blue */
             outline: none;
         }
-        .form-container  button {
-            background-color: #ff5722;
+        .form-container  .submit-btn {
+            background-color: #151312;
             color: #ffffff;
             border: none;
             padding: 10px 20px;
@@ -564,12 +572,14 @@ color:green;
             display: block;
             width: 97%;
         }
-        .form-container  button:hover {
-            background-color: #e64a19;
+       
+
+        .form-container  .submit-btn:hover {
+            background-color: #242323;
         }
         .form-container input::placeholder,
         .form-container  textarea::placeholder {
-            color: #ff5722; /* Placeholder color */
+            color: #5f2b1b; /* Placeholder color */
         }
 
         .form-container input[type="file"]::-webkit-file-upload-button {
@@ -592,6 +602,11 @@ color:green;
     align-items: center;
     justify-content: center;
 }
+
+
+
+
+
 
 
 
