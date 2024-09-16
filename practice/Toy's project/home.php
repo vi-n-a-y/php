@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const productId = button.getAttribute('data-product-id');
             const cartIcon = button.querySelector('.cart');
+            alert('Item add Successfully!');
 
             if (cartIcon.classList.contains('added')) {
                 // If the button is already in the 'added' state, remove it
