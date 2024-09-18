@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.text())
             .catch(error => {
                 console.error('Error:', error);
-                alert('Something went wrong!');
+                alert('Error in the code!');
             });
         });
     });
