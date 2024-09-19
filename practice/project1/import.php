@@ -105,12 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
             // echo "File successfully uploaded and data inserted into the database.";
         } else {
-            echo "Error opening the file.";
+            echo "Error in while opening the file.";
         }
 
         $conn->close();
     } else {
-        echo "Error: " . $_FILES['csvFile']['error'];
+        echo "Error message: " . $_FILES['csvFile']['error'];
     }
 }
 ?>
