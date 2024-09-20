@@ -31,8 +31,8 @@
                 <h3>Newsletter</h3>
                 <p>Subscribe to our newsletter for the latest toys and special offers!</p>
                 <form>
-                    <input type="email" placeholder="Enter your email" required>
-                    <button type="submit">Subscribe</button>
+                    <input name="email" type="email" placeholder="Enter your email" required>
+                    <button name="submit" type="submit">Subscribe</button>
                 </form>
             </div>
 
