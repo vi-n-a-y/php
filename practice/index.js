@@ -33,6 +33,7 @@ function red(a){
 
    if(a[i]>greatestNumber){
         greatestNumber=a[i];
+       console.log(greatestNumber);
     }
 }
     return greatestNumber;
