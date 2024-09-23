@@ -9,6 +9,7 @@ class Car{
    }
 
    public function drive(){ 
+       echo "using object";
        return "Drivinga a $this->color $this->model";
     }
     
