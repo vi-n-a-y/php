@@ -24,6 +24,7 @@ const output3=arr1.filter((y)=>y>=6);
 console.log(output1);
 console.log(output3);
 
+console.log(arr1);
 //maximum number in the array
 
 function red(a){
