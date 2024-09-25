@@ -19,12 +19,11 @@
     </form>
     <br>
     <?php
-
-    echo "MY name is ",$_POST["name"];
-    echo "<br> my age is ",$_POST["age"];
-
-
-
+if(isset($_POST["name"])){
+    
+        echo "MY name is ",$_POST["name"];
+        echo "<br> my age is ",$_POST["age"];
+}
 
 ?>
 </body>
