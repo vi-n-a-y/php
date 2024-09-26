@@ -25,19 +25,19 @@ $myCar=new Car("red","toyota");
 //     public $year;
 
 
-//     public function __construct($color,$year){
-//         $this->color=$color;
-//         $this->year=$year;
-//     }
-//     public function user(){
-//         return "I'm driving a car that color $this->color $this->year";
+    public function __construct($color,$year){
+        $this->color=$color;
+        $this->year=$year;
+    }
+    public function user(){
+        return "I'm driving a car that color $this->color $this->year";
         
-//     }
-// }
+    }
+}
 
 
-// $myCar=new Car("red",2024);
-// echo $myCar->user();
+$myCar1=new Car("red",2024);
+echo $myCar1->user();
 
 
 
