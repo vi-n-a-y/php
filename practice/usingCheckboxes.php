@@ -22,9 +22,13 @@
 
 <?php
 
+if(isset($_POST["fruits"])){
+
 $arr=$_POST["fruits"];
 print_r($arr);
 print_r($arr[0]);
+
+}
 
 ?>
     
