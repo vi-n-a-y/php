@@ -14,11 +14,13 @@ First Number :<input type="number" step="0.001" name="num1">
 OP : <input type="text" name="op" >
 <br>
 Second Number : <input type="number" name="num2">
-<input type="submit" value="submit">
+<input type="submit" name="submit" value="submit">
 </form>
 
 <?php
-$num1=$_POST["num1"];
+if(isset($_POST['submit'])){
+
+    $num1=$_POST["num1"];
 $num2=$_POST["num2"];
 $op=$_POST["op"];
 
@@ -33,6 +35,7 @@ if($op=="+"){
     echo $num1/$num2;
 }else{
     echo "Invalid Operator";
+}
 }
 ?>
     
