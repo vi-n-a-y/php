@@ -19,32 +19,32 @@
         <br>
 
         <!-- <input type="submit" value="submit" name="login> -->
-        <input type="submit" value="submit" name="login">
+        <input type="submit" value="submit" name="submit">
     </form>
 
     <?php
-    if (isset($_POST["login"])) {
-        // $name=$_POST['userName'];
+    if (isset($_POST["submit"])) {
+        $name=$_POST['userName'];
 
-        //    if(filter_var($name)){
-        //     echo "valid UserName <br>";
-        //    }else{
-        //     echo "not a valid UserName <br>";
-        //    }
+           if(filter_var($name)){
+            echo "valid UserName <br>";
+           }else{
+            echo "not a valid UserName <br>";
+           }
 
-        //     $age=$_POST['age'];
-        //     if(filter_var($age,FILTER_VALIDATE_INT)){
-        //         echo "valid Age <br>";
-        //     }else{
-        //         echo "Please enter a valid age <br>";
-        //     }
+            $age=$_POST['age'];
+            if(filter_var($age,FILTER_VALIDATE_INT)){
+                echo "valid Age <br>";
+            }else{
+                echo "Please enter a valid age <br>";
+            }
 
-        // $mail=$_POST['email'];
-        // if(filter_var($mail,FILTER_VALIDATE_EMAIL)){
-        //     echo "valid email address! <br>";
-        // }else{
-        //     echo "Invalid email address! <br>";
-        // }
+        $mail=$_POST['email'];
+        if(filter_var($mail,FILTER_VALIDATE_EMAIL)){
+            echo "valid email address! <br>";
+        }else{
+            echo "Invalid email address! <br>";
+        }
 
 
         //     $name=$_POST['userName'];
