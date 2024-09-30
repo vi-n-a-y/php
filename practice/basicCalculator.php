@@ -14,13 +14,16 @@
 <label for="input2">Number 2</label>
 <input type="number" name="input2" id="input2">
 <br>
-<input type="submit" value="Submit">
+<input type="submit" name="submit" value="Submit">
 </form>
 
     <?php 
+if(isset($_POST['submit'])){
+
     $inp1=isset($_POST["input1"])? (float)$_POST["input1"]:0.0;
     $inp2=isset($_POST["input2"])? (float)$_POST["input2"]:0.0;
     echo "Answer is ",$inp1+$inp2;
+}
     
     ?>
 </body>
