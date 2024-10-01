@@ -17,12 +17,12 @@
     <br>
 
 
-    <input type="submit" value="submit">
+    <input type="submit" name="submit" value="submit">
 </form>
 
 <?php
 
-if(isset($_POST["fruits"])){
+if(isset($_POST["submit"])){
 
 $arr=$_POST["fruits"];
 print_r($arr);
