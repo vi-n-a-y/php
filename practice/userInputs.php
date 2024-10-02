@@ -15,11 +15,11 @@
         <br>
         <label for="age">age</label>
         <input type="number" name="age" id="age">
-        <input type="submit" value="submit">
+        <input type="submit" name="submit" value="submit">
     </form>
     <br>
     <?php
-if(isset($_POST["name"])){
+if(isset($_POST["submit"])){
     
         echo "MY name is ",$_POST["name"];
         echo "<br> my age is ",$_POST["age"];
