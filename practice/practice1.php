@@ -29,6 +29,9 @@
     // //$arr=range(1,5);
     // print_r($arr);
 
+$arr12=range(1,4);
+     print_r($arr12);
+
 
     // echo "fruits<br>";
     // $array1=["a"=>"apple","b"=>"banana"];
