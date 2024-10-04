@@ -15,6 +15,9 @@
     <br>
     Pears:<input type="checkbox" name="fruits[]" value="pears">
     <br>
+    Banana:<input type="checkbox" name="fruits[]" value="banana">
+    <br>
+    
 
 
     <input type="submit" name="submit" value="submit">
