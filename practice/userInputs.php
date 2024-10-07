@@ -17,6 +17,8 @@
         <input type="number" name="age" id="age">
           <label for="number">Number</label>
         <input type="number" name="number" id="number">
+            <label for="address">Address</label>
+        <input type="text" name="address" id="address">
         <input type="submit" name="submit" value="submit">
     </form>
     <br>
@@ -26,6 +28,7 @@ if(isset($_POST["submit"])){
         echo "MY name is ",$_POST["name"];
         echo "<br> my age is ",$_POST["age"];
          echo "<br> my number is ",$_POST["number"];
+         echo "<br> my address is ",$_POST["address"];
 }
 
 ?>
