@@ -1,7 +1,7 @@
 <div class="prayer-contact-form">
     <label for="your-name">Name</label>
     <span class="input-with-icon">
-        [text* your-name class:form-control autocomplete:name]
+        [text your-name class:form-control autocomplete:name]
         <i class="fa fa-user"></i> <!-- Font Awesome icon -->
     </span>
 
