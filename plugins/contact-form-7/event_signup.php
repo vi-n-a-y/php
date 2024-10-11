@@ -21,7 +21,7 @@
     <div class="row">
         <div class="column">
 <label for="city">City</label>
-            [text city id:city-class]
+            [text your-city id:city-class]
         </div>
         <div class="column">
             <label for="state">State</label>
