@@ -1,13 +1,13 @@
-<div class="signup-form-1">
+ok<div class="signup-form-1">
     <label for="email">Email</label>
     <div class="input-with-icon">
         [email email id:email-class class:input-with-icon-text]
         <i class="fa fa-envelope"></i>
     </div>
 
-    <label for="phone">Phone Number (optional)</label>
+    <label for="phone">Phone Number</label>
     <div class="input-with-icon">
-        [tel your-phone id:phone-class class:input-with-icon-text]
+        [tel* your-phone id:phone-class class:input-with-icon-text]
         <i class="fa fa-phone"></i>
     </div>
 
