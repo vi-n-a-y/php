@@ -33,7 +33,7 @@ ok<div class="signup-form-1">
         </div>
 <div class="column">
            <label for="country">Country</label>
-    [select country id:country-class default:USA "USA" "Canada" "UK" "India" "China" "Japan" "Brazil" "Mexico" "South Africa" "Russia" "Italy" "Spain" "New Zealand" "Netherlands" "South Korea" "Other"] 
+    [select country id:country-class default:USA "USA" "Canada" "UK" "India" "China" "Japan" "Brazil" "South Africa" "Russia" "New Zealand" "Other"] 
         </div>
     </div>
 
