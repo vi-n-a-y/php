@@ -29,7 +29,7 @@ ok<div class="signup-form-1">
         </div>
         <div class="column1">
             <label for="zip-code">Zip Code</label>
-            [text zip-code id:zip-class]
+            [text* zip-code id:zip-class]
         </div>
 <div class="column">
            <label for="country">Country</label>
