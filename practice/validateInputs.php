@@ -17,6 +17,8 @@
         <br>
         email : <input type="text" name="email" id="email">
         <br>
+        Number : <input type="number" name="number" id="number">
+        <br>
 
         <!-- <input type="submit" value="submit" name="login> -->
         <input type="submit" value="submit" name="submit">
