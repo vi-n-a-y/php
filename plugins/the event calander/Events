@@ -1,0 +1,87 @@
+function display_events_shortcode($atts) {
+    // Set default attributes and merge with user-defined attributes
+    $atts = shortcode_atts(
+        array(
+            'posts_per_page' => 3, // Default to 3 events if not provided
+        ),
+        $atts,
+        'display_events'
+    );
+
+    // Determine the number of events to display
+    $posts_per_page = is_front_page() ? intval($atts['posts_per_page']) : -1; // Use value from attributes
+
+    // WP_Query arguments
+    $args = array(
+        'post_type'      => 'tribe_events',
+        'posts_per_page' => $posts_per_page,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    );
+
+    // The Query
+    $events_query = new WP_Query($args);
+
+    // Check if we have events
+    if ($events_query->have_posts()) {
+        $output = '<div class="events-container">'; // Start output
+
+        // Loop through events
+        while ($events_query->have_posts()) {
+            $events_query->the_post();
+            $output .= '<div class="event-item">';
+
+            // Get and display the featured image
+            if (has_post_thumbnail()) {
+                $output .= '<a href="' . get_permalink() . '">';
+                $output .= '<div class="featured-image">' . get_the_post_thumbnail(get_the_ID(), 'large') . '</div>'; // Use a fixed size
+                
+                // Get event start date for the circle
+                $event_start_date = tribe_get_start_date(get_the_ID(), false, 'M j');
+                $output .= '<div class="circle"><time datetime="' . esc_attr($event_start_date) . '">' . esc_html($event_start_date) . '</time></div>';
+                $output .= '</a>';
+            }
+
+            $event_start = tribe_get_start_date(get_the_ID(), false, 'M j, Y'); // Format: Oct 8, 2024
+            $event_end = tribe_get_end_date(get_the_ID(), false, 'M j, Y'); // Format: Oct 10, 2024
+
+            // Get the ISO format for the datetime attribute
+            $event_start_iso = tribe_get_start_date(get_the_ID(), false, 'c'); // ISO 8601 format
+            $event_end_iso = tribe_get_end_date(get_the_ID(), false, 'c'); // ISO 8601 format
+
+            // Display event title without character limit
+            $event_title = get_the_title();
+            $output .= '<h3 class="event-title">' . esc_html($event_title) . '</h3>';
+
+            // Check if event start date and end date are the same
+            if ($event_start === $event_end) {
+                // If they are the same, display only the start date
+                $output .= '<p class="event-date">';
+                $output .= '<time datetime="' . esc_attr($event_start_iso) . '">' . esc_html($event_start) . '</time>'; // Display start date only
+                $output .= '</p>';
+            } else {
+                // If they are different, display both dates
+                $output .= '<p class="event-date">';
+                $output .= '<time datetime="' . esc_attr($event_start_iso) . '">' . esc_html($event_start) . '</time> - ';
+                $output .= '<time datetime="' . esc_attr($event_end_iso) . '">' . esc_html($event_end) . '</time>'; // Display event date range
+                $output .= '</p>';
+            }
+
+            $output .= '<a href="' . get_permalink() . '" class="event-details-button">Explore More</a>'; // Button for more details
+
+            $output .= '</div>'; // Close event item
+        }
+
+        $output .= '</div>'; // End output
+    } else {
+        $output = '<p>No events found.</p>'; // Message if no events are found
+    }
+
+    // Restore original Post Data
+    wp_reset_postdata();
+
+    return $output; // Return the output
+}
+
+// Register the shortcode
+add_shortcode('display_events', 'display_events_shortcode');
