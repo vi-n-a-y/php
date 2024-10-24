@@ -1,0 +1,25 @@
+/* for mail purpose how the client see the message */
+Dear [client_name],
+/* change the client name after */
+
+<p>You have received a new contact request through the website. Below are the details:</p>
+
+<ul>
+  <li><strong>Name:</strong> [your-name]</li>
+  <li><strong>Email:</strong> [your-email]</li>
+  <li><strong>Subject:</strong> [your-subject]</li>
+</ul>
+
+<p><strong>Message:</strong></p>
+<blockquote>
+  "[your-message]"
+</blockquote>
+
+<p>Please review this request and respond accordingly.</p>
+
+<p>Best regards,<br />
+[your-name]</p>
+
+<hr />
+
+<p><small>This is a notification that a contact form was submitted on your website (<a href="[_site_url]">[_site_title]</a>).</small></p>
