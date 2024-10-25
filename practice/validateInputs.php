@@ -47,6 +47,12 @@
         }else{
             echo "Invalid email address! <br>";
         }
+        $number=$_POST['number'];
+            if(filter_var($number,FILTER_VALIDATE_INT)){
+                echo "valid number <br>";
+            }else{
+                echo "Please enter a valid number <br>";
+            }
 
 
         //     $name=$_POST['userName'];
