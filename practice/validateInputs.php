@@ -102,6 +102,14 @@
         } else {
             echo "Invalid email address! <br>";
         }
+           $number = $_POST['number'];
+        if (preg_match("/^[0-9]*$/", $number)) {
+            echo "valid Number <br>";
+        } else {
+            echo "Please enter a valid Number <br>";
+        }
+
+        
     }
     ?>
 </body>
