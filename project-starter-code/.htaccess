@@ -1,0 +1,15 @@
+# Increase PHP memory limit to 256MB
+php_value memory_limit 256M
+
+# Increase maximum file upload size to 64MB
+php_value upload_max_filesize 64M
+
+# Increase maximum post size to 64MB (important for form submissions)
+php_value post_max_size 64M
+
+# Increase maximum execution time to 300 seconds (5 minutes)
+php_value max_execution_time 300
+
+# Increase maximum input time to 300 seconds (5 minutes)
+php_value max_input_time 300
+ 
