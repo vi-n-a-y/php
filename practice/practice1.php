@@ -47,6 +47,7 @@ $arr=array("kevin","vinay","oscar","jim");
 
 echo $arr[2];
 echo $arr[1];
+echo $arr[0];
 
 
     ?>
