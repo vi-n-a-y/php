@@ -51,6 +51,9 @@ echo $arr[0];
 $fruits=array("cherry","mango","apple","pineapple");
 echo $fruits[2];
 echo $fruits[3];
+$val="1";
+$val1=$val+5;
+echo $val1;
 
 
 
