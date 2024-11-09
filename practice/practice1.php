@@ -54,7 +54,7 @@ echo $fruits[3];
 $val="1";
 $val1=$val+5;
 echo $val1;
-
+echo $val;
 
 
     ?>
