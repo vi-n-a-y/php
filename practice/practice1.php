@@ -57,6 +57,11 @@ $val1=$val+5;
 echo $val1;
 echo $val;
 
+$strVal="John";
+$strVal2=" Micheal";
+
+echo $strval + $strval2;
+
 
     ?>
 
