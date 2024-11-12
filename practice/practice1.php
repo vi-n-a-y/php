@@ -61,6 +61,7 @@ $strVal="John";
 $strVal2=" Micheal";
 
 echo $strval + $strval2;
+echo $strval2 + $strval;
 
 
     ?>
