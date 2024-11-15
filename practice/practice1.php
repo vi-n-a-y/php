@@ -66,6 +66,7 @@ $mul1=5;
 $mul2=2;
 echo $mul1*$mul2;
 echo $mul1/$mul2;
+echo $mul1-$mul2;
 
 
     ?>
