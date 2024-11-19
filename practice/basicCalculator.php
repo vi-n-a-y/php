@@ -24,7 +24,8 @@ if(isset($_POST['submit'])){
     echo $inp1;
     $inp2=isset($_POST["input2"])? (float)$_POST["input2"]:0.0;
     echo $inp2;
-    echo "Answer is ",$inp1+$inp2;
+    echo "Addition is ",$inp1+$inp2;
+    echo "Subtraction is ",$inp1-$inp2;
 }
     
     ?>
