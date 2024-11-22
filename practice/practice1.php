@@ -48,6 +48,7 @@ $arr=array("kevin","vinay","oscar","jim");
 echo $arr[2];
 echo $arr[1];
 echo $arr[0];
+echo $arr[3];
 $fruits=array("cherry","mango","apple","pineapple");
 echo $fruits[2];
 echo $fruits[3];
