@@ -75,6 +75,7 @@ echo $mul1**$mul2;
 echo $mul2/$mul1;
 echo $mul2%$mul1;
 echo $mul2-$mul1;
+echo $mul1+$val;
 
 
     ?>
