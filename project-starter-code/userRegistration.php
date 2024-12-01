@@ -148,7 +148,7 @@ function cf7_custom_page_html() {
     echo '<input type="text" name="city" id="city" placeholder="City">';
     echo '<input type="text" name="state" id="state" placeholder="State">';
     echo '<input type="text" name="zip" id="zip" placeholder="Zip">';
-    echo '<button type="submit" class="add-up-btn" style="background-color:blue;" name="save_user" id="submit-button">Add User</button>';
+    echo '<button type="submit" class="add-up-btn" style="background-color:blue; color:white; border:none; padding:10px 15px;" name="save_user" id="submit-button">Add User</button>';
     echo '</form>';
 
     echo '<h2>Existing Submissions</h2>';
