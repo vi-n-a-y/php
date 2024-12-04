@@ -152,6 +152,8 @@ function cf7_custom_page_html() {
     echo '</form>';
 
     echo '<h2 style="text-align:center;">Existing Submissions</h2>';
+    echo '<input type="text" name="search" id="search" placeholder="search">';
+    echo '<button  name="search-btn" id="search-btn">Search</button>';
     echo '<table class="widefat fixed" cellspacing="0">';
     echo '<thead><tr>';
     echo '<th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone</th><th>City</th><th>State</th><th>Zip</th><th>Actions</th>';
