@@ -128,33 +128,79 @@ function cf7_custom_page_html() {
     $items_per_page = 10;
     $offset = ($current_page - 1) * $items_per_page;
 
-    $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+  // Handle Search Query
+
+    $search_query = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
+
+    $where_clause = !empty($search_query) 
+
+        ? $wpdb->prepare("WHERE first_name LIKE %s OR last_name LIKE %s OR email LIKE %s", "%$search_query%", "%$search_query%", "%$search_query%") 
+
+        : '';
+
+    $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table_name $where_clause");
+
     $submissions = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table_name ORDER BY submitted_at DESC LIMIT %d OFFSET %d",
+
+        "SELECT * FROM $table_name $where_clause ORDER BY submitted_at DESC LIMIT %d OFFSET %d",
         $items_per_page,
         $offset
     ));
 
     echo '<div class="wrap">';
     echo '<h1>User Registration</h1>';
+	
+	echo '<form id="cf7-custom-form" method="POST" enctype="multipart/form-data">';
+wp_nonce_field('cf7_custom_action');
+echo '<table>';
+echo '<tr>';
+	echo '<input type="hidden" name="user_id" id="user_id">';
+echo '<th><label for="first_name">First Name:</label></th>';
+echo '<td><input type="text" name="first_name" id="first_name" required></td>';
+echo '</tr>';
+echo '<tr>';
+echo '<th><label for="last_name">Last Name:</label></th>';
+echo '<td><input type="text" name="last_name" id="last_name" required></td>';
+echo '</tr>';
+echo '<tr>';
+echo '<th><label for="email">Email:</label></th>';
+echo '<td><input type="email" name="email" id="email" required></td>';
+echo '</tr>';
+echo '<tr>';
+echo '<th><label for="phone">Phone:</label></th>';
+echo '<td><input type="text" name="phone" id="phone"></td>';
+echo '</tr>';
+echo '<tr>';
+echo '<th><label for="city">City:</label></th>';
+echo '<td><input type="text" name="city" id="city"></td>';
+echo '</tr>';
+echo '<tr>';
+echo '<th><label for="state">State:</label></th>';
+echo '<td><input type="text" name="state" id="state"></td>';
+echo '</tr>';
+echo '<tr>';
+echo '<th><label for="zip">Zip:</label></th>';
+echo '<td><input type="text" name="zip" id="zip"></td>';
+echo '</tr>';
+echo '</table>';
+echo '<button type="submit" class="custom-reg-add-up-btn" style="background-color:#2271b1; color:white; padding:10px 20px; border:none; border-radius:5px;  margin:5px 0 0 80px;"  name="save_user"  id="submit-button" >Add User</button>';
+echo '</form>';
 
-    echo '<form id="cf7-custom-form" method="POST">';
-    wp_nonce_field('cf7_custom_action');
-    echo '<input type="hidden" name="user_id" id="user_id">';
-    echo '<input type="text" name="first_name" id="first_name" placeholder="First Name" required>';
-    echo '<input type="text" name="last_name" id="last_name" placeholder="Last Name" required>';
-    echo '<input type="email" name="email" id="email" placeholder="Email" required>';
-    echo '<input type="text" name="phone" id="phone" placeholder="Phone">';
-    echo '<input type="text" name="city" id="city" placeholder="City">';
-    echo '<input type="text" name="state" id="state" placeholder="State">';
-    echo '<input type="text" name="zip" id="zip" placeholder="Zip">';
-    echo '<button type="submit" class="add-up-btn"  style="background-color:blue; margin-left:50px; color:white;  border:none; padding:10px 15px;" name="save_user" id="submit-button">Add User</button>';
+	echo '<h2 style="text-align:center;" >Existing Submissions</h2>';
+	    // Search Form
+
+    echo '<form method="GET" action="">';
+
+    echo '<input type="hidden" name="page" value="cf7-custom-submissions" />';
+
+    echo '<input type="text" name="s" value="' . esc_attr($search_query) . '" placeholder="Search by name or email" />';
+
+    echo '<button class="custom-reg-search-btn" style="background-color:#2271b1; color:white; padding:7px 20px; border:none; border-radius:5px; margin-left:5px;" type="submit">Search</button>';
+
     echo '</form>';
 
-    echo '<h2 style="text-align:center;">Existing Submissions</h2>';
-    echo '<input type="text" name="search" id="search" placeholder="search">';
-    echo '<button  name="search-btn" id="search-btn">Search</button>';
-    echo '<table class="widefat fixed" cellspacing="0">';
+    
+    echo '<table style="margin-top:10px;" class="widefat fixed" cellspacing="0">';
     echo '<thead><tr>';
     echo '<th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone</th><th>City</th><th>State</th><th>Zip</th><th>Actions</th>';
     echo '</tr></thead><tbody>';
@@ -170,13 +216,20 @@ function cf7_custom_page_html() {
         echo '<td>' . esc_html($submission->state) . '</td>';
         echo '<td>' . esc_html($submission->zip) . '</td>';
         echo '<td>';
-        echo '<button type="button" class="edit-button" data-id="' . esc_attr($submission->id) . '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" style="fill: blue;">
+//         echo '<button type="button" class="edit-button" data-id="' . esc_attr($submission->id) . '">Edit</button>';
+echo '<button type="button" class="edit-button" data-id="' . esc_attr($submission->id) . '" style="border: none; background: transparent;  cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" style="fill: blue;">
             <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
-        </svg></button>';
-        echo '<button type="button" class="delete-button" data-id="' . esc_attr($submission->id) . '" style="margin-left: 8px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="16" height="16" style="fill: red;">
+        </svg>
+      </button>';
+		
+echo '<button type="button" class="delete-button" data-id="' . esc_attr($submission->id) . '" style="margin-left: 8px; border: none; background: transparent; padding: 10px; cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="16" height="16" style="fill: red;">
             <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-        </svg></button>';
-        echo '<form method="POST" style="display:inline;" class="delete-form" action="' . admin_url('admin.php?page=cf7-custom-submissions') . '">';
+        </svg>
+      </button>';
+
+                echo '<form method="POST" style="display:inline;" class="delete-form" action="' . admin_url('admin.php?page=cf7-custom-submissions') . '">';
         wp_nonce_field('cf7_custom_action');
         echo '<input type="hidden" name="user_id" value="' . esc_attr($submission->id) . '">';
         echo '<input type="hidden" name="delete_user" value="1">';
